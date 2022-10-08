@@ -15,10 +15,9 @@ class ImagesListCell: UITableViewCell {
     let dateLabel: UILabel = {
         let label = UILabel()
 
-        label.font = .systemFont(ofSize: 20)
+        let font = UIFont(name: "YSDisplay-Medium", size: 13)
+        label.font = font
         label.textColor = .white
-
-        label.text = "test"
 
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
