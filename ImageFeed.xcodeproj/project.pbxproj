@@ -18,6 +18,7 @@
 		38C8E1BE28F1E6960078FD78 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38C8E1BD28F1E6960078FD78 /* GradientView.swift */; };
 		38C8E1C228F1F0850078FD78 /* YSDisplay-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 38C8E1C028F1F0850078FD78 /* YSDisplay-Bold.ttf */; };
 		38C8E1C728F1F8040078FD78 /* YSDisplay-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 38C8E1C628F1F8040078FD78 /* YSDisplay-Medium.ttf */; };
+		38C8E1C928F1FA800078FD78 /* Picture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38C8E1C828F1FA800078FD78 /* Picture.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +36,7 @@
 		38C8E1BD28F1E6960078FD78 /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		38C8E1C028F1F0850078FD78 /* YSDisplay-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "YSDisplay-Bold.ttf"; sourceTree = "<group>"; };
 		38C8E1C628F1F8040078FD78 /* YSDisplay-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "YSDisplay-Medium.ttf"; sourceTree = "<group>"; };
+		38C8E1C828F1FA800078FD78 /* Picture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Picture.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,6 +78,7 @@
 				38C8E1B928F1A0A80078FD78 /* ImagesListCell.swift */,
 				38C8E1BB28F1D5020078FD78 /* ImageViewModel.swift */,
 				38C8E1BD28F1E6960078FD78 /* GradientView.swift */,
+				38C8E1C828F1FA800078FD78 /* Picture.swift */,
 			);
 			path = ImageFeed;
 			sourceTree = "<group>";
@@ -176,6 +179,7 @@
 				389FE84228DCCDE800560E49 /* ImagesListViewController.swift in Sources */,
 				389FE83E28DCCDE800560E49 /* AppDelegate.swift in Sources */,
 				389FE84028DCCDE800560E49 /* SceneDelegate.swift in Sources */,
+				38C8E1C928F1FA800078FD78 /* Picture.swift in Sources */,
 				38C8E1BE28F1E6960078FD78 /* GradientView.swift in Sources */,
 				38C8E1BA28F1A0A80078FD78 /* ImagesListCell.swift in Sources */,
 				38C8E1B828F19B780078FD78 /* UIColor+Extensions.swift in Sources */,

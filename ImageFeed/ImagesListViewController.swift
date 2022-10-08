@@ -8,7 +8,18 @@ class ImagesListViewController: UIViewController {
         super.viewDidLoad()
         setupView()
         setupTable()
+        tableView.scrollToRow(at: .init(row: 0, section: 0), at: .top, animated: true)
     }
+
+    let mockData: [Picture] = {
+        (0...20).map { num in
+            Picture(
+                path: "\(num).png",
+                date: Date(),
+                isFavorite: .random()
+            )
+        }
+    }()
 
     override var preferredStatusBarStyle: UIStatusBarStyle { .lightContent }
 
@@ -23,7 +34,8 @@ class ImagesListViewController: UIViewController {
         tableView.separatorStyle = .none
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 100
-
+        tableView.contentInset = .init(top: 16, left: 0, bottom: 0, right: 0)
+        
         tableView.register(
             ImagesListCell.self,
             forCellReuseIdentifier: "\(ImagesListCell.self)")
@@ -56,7 +68,7 @@ extension ImagesListViewController: UITableViewDataSource {
     func tableView(
         _ tableView: UITableView, numberOfRowsInSection section: Int
     ) -> Int {
-        2
+        mockData.count
     }
 
     func tableView(
@@ -71,10 +83,23 @@ extension ImagesListViewController: UITableViewDataSource {
         }
 
         configCell(for: imagesListCell)
-        let viewModel = ImageViewModel(image: UIImage(named: "0.png")!, dateString: "27 августа 2022", isFavorite: false)
+        let viewModel = convert(model: mockData[indexPath.row])
         imagesListCell.configure(with: viewModel)
 
         return imagesListCell
+    }
+
+
+    private func convert(model: Picture) -> ImageViewModel {
+        let image = UIImage(named: model.path) ?? .remove
+
+        let formatter = DateFormatter()
+        formatter.dateStyle = .long
+        let dateString = formatter.string(from: model.date)
+
+        return ImageViewModel(
+            image: image, dateString: dateString, isFavorite: model.isFavorite
+        )
     }
 
     private func configCell(for cell: ImagesListCell) { }
