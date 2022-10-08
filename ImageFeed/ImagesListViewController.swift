@@ -21,6 +21,8 @@ class ImagesListViewController: UIViewController {
 
         tableView.backgroundColor = .clear
         tableView.separatorStyle = .none
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 100
 
         tableView.register(
             ImagesListCell.self,
@@ -54,7 +56,7 @@ extension ImagesListViewController: UITableViewDataSource {
     func tableView(
         _ tableView: UITableView, numberOfRowsInSection section: Int
     ) -> Int {
-        1
+        2
     }
 
     func tableView(
@@ -69,6 +71,9 @@ extension ImagesListViewController: UITableViewDataSource {
         }
 
         configCell(for: imagesListCell)
+        let viewModel = ImageViewModel(image: UIImage(named: "0.png")!, date: Date(), isFavorite: true)
+        imagesListCell.configure(with: viewModel)
+
         return imagesListCell
     }
 
