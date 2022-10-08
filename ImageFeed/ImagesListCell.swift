@@ -27,14 +27,6 @@ class ImagesListCell: UITableViewCell {
     let isFavoriteView: UIImageView = {
         let imageView = UIImageView()
 
-        let configuration = UIImage.SymbolConfiguration(
-            font: .systemFont(ofSize: 20))
-
-        imageView.image = UIImage(
-            systemName: "heart.fill", withConfiguration: configuration)
-
-        imageView.tintColor = .white.withAlphaComponent(0.1)
-
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -44,7 +36,7 @@ class ImagesListCell: UITableViewCell {
 
         let colors = [
             UIColor.clear.cgColor,
-            UIColor.black.withAlphaComponent(0.2).cgColor
+            UIColor(colorAsset: .background).withAlphaComponent(0.2).cgColor
         ]
 
         let start = CGPointMake(0, 0)
@@ -96,9 +88,11 @@ class ImagesListCell: UITableViewCell {
         contentView.addSubview(isFavoriteView)
         NSLayoutConstraint.activate([
             isFavoriteView.trailingAnchor.constraint(
-                equalTo: mainImageView.trailingAnchor, constant: -10.5),
+                equalTo: mainImageView.trailingAnchor),
             isFavoriteView.topAnchor.constraint(
-                equalTo: mainImageView.topAnchor, constant: 12)
+                equalTo: mainImageView.topAnchor),
+            isFavoriteView.heightAnchor.constraint(equalToConstant: 42),
+            isFavoriteView.widthAnchor.constraint(equalToConstant: 42)
         ])
     }
 
@@ -110,8 +104,8 @@ class ImagesListCell: UITableViewCell {
         mainImageView.image = viewModel.image
         dateLabel.text = viewModel.date.description
 
-        let onColor = UIColor.systemPink
-        let offColor = UIColor.white.withAlphaComponent(0.1)
-        isFavoriteView.tintColor = viewModel.isFavorite ? onColor : offColor
+        let isFavorite = UIImage(named: "isFavorite")
+        let isNotFavorite = UIImage(named: "isNotFavorite")
+        isFavoriteView.image = viewModel.isFavorite ? isFavorite : isNotFavorite
     }
 }
