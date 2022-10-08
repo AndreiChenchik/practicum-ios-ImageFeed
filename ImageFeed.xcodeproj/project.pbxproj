@@ -16,8 +16,8 @@
 		38C8E1BA28F1A0A80078FD78 /* ImagesListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38C8E1B928F1A0A80078FD78 /* ImagesListCell.swift */; };
 		38C8E1BC28F1D5020078FD78 /* ImageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38C8E1BB28F1D5020078FD78 /* ImageViewModel.swift */; };
 		38C8E1BE28F1E6960078FD78 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38C8E1BD28F1E6960078FD78 /* GradientView.swift */; };
-		38C8E1C228F1F0850078FD78 /* YS Display-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 38C8E1C028F1F0850078FD78 /* YS Display-Bold.ttf */; };
-		38C8E1C328F1F0850078FD78 /* YS Display-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 38C8E1C128F1F0850078FD78 /* YS Display-Medium.ttf */; };
+		38C8E1C228F1F0850078FD78 /* YSDisplay-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 38C8E1C028F1F0850078FD78 /* YSDisplay-Bold.ttf */; };
+		38C8E1C728F1F8040078FD78 /* YSDisplay-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 38C8E1C628F1F8040078FD78 /* YSDisplay-Medium.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,8 +33,8 @@
 		38C8E1B928F1A0A80078FD78 /* ImagesListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListCell.swift; sourceTree = "<group>"; };
 		38C8E1BB28F1D5020078FD78 /* ImageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewModel.swift; sourceTree = "<group>"; };
 		38C8E1BD28F1E6960078FD78 /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
-		38C8E1C028F1F0850078FD78 /* YS Display-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "YS Display-Bold.ttf"; sourceTree = "<group>"; };
-		38C8E1C128F1F0850078FD78 /* YS Display-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "YS Display-Medium.ttf"; sourceTree = "<group>"; };
+		38C8E1C028F1F0850078FD78 /* YSDisplay-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "YSDisplay-Bold.ttf"; sourceTree = "<group>"; };
+		38C8E1C628F1F8040078FD78 /* YSDisplay-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "YSDisplay-Medium.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,8 +94,8 @@
 				389FE84628DCCDE900560E49 /* Assets.xcassets */,
 				389FE84828DCCDE900560E49 /* LaunchScreen.storyboard */,
 				389FE84B28DCCDE900560E49 /* Info.plist */,
-				38C8E1C028F1F0850078FD78 /* YS Display-Bold.ttf */,
-				38C8E1C128F1F0850078FD78 /* YS Display-Medium.ttf */,
+				38C8E1C028F1F0850078FD78 /* YSDisplay-Bold.ttf */,
+				38C8E1C628F1F8040078FD78 /* YSDisplay-Medium.ttf */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -159,9 +159,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				389FE84A28DCCDE900560E49 /* LaunchScreen.storyboard in Resources */,
-				38C8E1C328F1F0850078FD78 /* YS Display-Medium.ttf in Resources */,
-				38C8E1C228F1F0850078FD78 /* YS Display-Bold.ttf in Resources */,
+				38C8E1C228F1F0850078FD78 /* YSDisplay-Bold.ttf in Resources */,
 				389FE84728DCCDE900560E49 /* Assets.xcassets in Resources */,
+				38C8E1C728F1F8040078FD78 /* YSDisplay-Medium.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -319,7 +319,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = UM3QPHF8E3;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = ImageFeed/Info.plist;
+				INFOPLIST_FILE = ImageFeed/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
@@ -351,7 +351,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = UM3QPHF8E3;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = ImageFeed/Info.plist;
+				INFOPLIST_FILE = ImageFeed/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
