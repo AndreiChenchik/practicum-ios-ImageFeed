@@ -3,6 +3,7 @@ import UIKit
 extension UIColor {
     enum CustomColorAsset: String, CaseIterable {
         case background = "background"
+        case white = "white"
     }
 
     convenience init(colorAsset: CustomColorAsset) {
