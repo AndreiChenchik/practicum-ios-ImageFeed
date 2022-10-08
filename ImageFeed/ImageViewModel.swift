@@ -2,6 +2,6 @@ import UIKit
 
 struct ImageViewModel {
     let image: UIImage
-    let date: Date
+    let dateString: String
     let isFavorite: Bool
 }

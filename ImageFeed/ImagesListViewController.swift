@@ -71,7 +71,7 @@ extension ImagesListViewController: UITableViewDataSource {
         }
 
         configCell(for: imagesListCell)
-        let viewModel = ImageViewModel(image: UIImage(named: "0.png")!, date: Date(), isFavorite: true)
+        let viewModel = ImageViewModel(image: UIImage(named: "0.png")!, dateString: "27 августа 2022", isFavorite: false)
         imagesListCell.configure(with: viewModel)
 
         return imagesListCell

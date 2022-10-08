@@ -101,7 +101,7 @@ class ImagesListCell: UITableViewCell {
 
     func configure(with viewModel: ImageViewModel) {
         mainImageView.image = viewModel.image
-        dateLabel.text = viewModel.date.description
+        dateLabel.text = viewModel.dateString
 
         let isFavorite = UIImage(named: "isFavorite")
         let isNotFavorite = UIImage(named: "isNotFavorite")
