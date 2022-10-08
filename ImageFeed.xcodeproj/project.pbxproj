@@ -64,15 +64,13 @@
 		389FE83C28DCCDE800560E49 /* ImageFeed */ = {
 			isa = PBXGroup;
 			children = (
+				38C8E1BF28F1F04A0078FD78 /* Resources */,
 				38C8E1B628F19B650078FD78 /* Helpers */,
 				389FE83D28DCCDE800560E49 /* AppDelegate.swift */,
 				389FE83F28DCCDE800560E49 /* SceneDelegate.swift */,
 				389FE84128DCCDE800560E49 /* ImagesListViewController.swift */,
 				38C8E1B928F1A0A80078FD78 /* ImagesListCell.swift */,
 				38C8E1BB28F1D5020078FD78 /* ImageViewModel.swift */,
-				389FE84628DCCDE900560E49 /* Assets.xcassets */,
-				389FE84828DCCDE900560E49 /* LaunchScreen.storyboard */,
-				389FE84B28DCCDE900560E49 /* Info.plist */,
 				38C8E1BD28F1E6960078FD78 /* GradientView.swift */,
 			);
 			path = ImageFeed;
@@ -84,6 +82,16 @@
 				38C8E1B728F19B780078FD78 /* UIColor+Extensions.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		38C8E1BF28F1F04A0078FD78 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				389FE84628DCCDE900560E49 /* Assets.xcassets */,
+				389FE84828DCCDE900560E49 /* LaunchScreen.storyboard */,
+				389FE84B28DCCDE900560E49 /* Info.plist */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
