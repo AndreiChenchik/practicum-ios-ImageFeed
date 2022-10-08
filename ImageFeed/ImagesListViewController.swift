@@ -60,12 +60,17 @@ extension ImagesListViewController: UITableViewDataSource {
     func tableView(
         _ tableView: UITableView, cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(
-            withIdentifier: "\(ImagesListCell.self)", for: indexPath
-        ) as? ImagesListCell else {
+        let cell = tableView.dequeueReusableCell(
+            withIdentifier: "\(ImagesListCell.self)", for: indexPath)
+
+
+        guard let imagesListCell = cell as? ImagesListCell else {
             fatalError("Can't get cell for ImagesList")
         }
 
-        return cell
+        configCell(for: imagesListCell)
+        return imagesListCell
     }
+
+    private func configCell(for cell: ImagesListCell) { }
 }
