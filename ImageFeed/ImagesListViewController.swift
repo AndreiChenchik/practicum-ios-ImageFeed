@@ -22,6 +22,10 @@ class ImagesListViewController: UIViewController {
         tableView.backgroundColor = .clear
         tableView.separatorStyle = .none
 
+        tableView.register(
+            ImagesListCell.self,
+            forCellReuseIdentifier: "\(ImagesListCell.self)")
+
         tableView.delegate = self
         tableView.dataSource = self
 
@@ -56,6 +60,12 @@ extension ImagesListViewController: UITableViewDataSource {
     func tableView(
         _ tableView: UITableView, cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
-        UITableViewCell()
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: "\(ImagesListCell.self)", for: indexPath
+        ) as? ImagesListCell else {
+            fatalError("Can't get cell for ImagesList")
+        }
+
+        return cell
     }
 }
