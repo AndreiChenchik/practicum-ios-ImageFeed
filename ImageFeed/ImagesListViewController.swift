@@ -68,17 +68,28 @@ extension ImagesListViewController {
             tableView.bottomAnchor.constraint(
                 equalTo: view.bottomAnchor)
         ])
-
-        tableView.estimatedRowHeight = 80
-        tableView.rowHeight = UITableView.automaticDimension
     }
 }
 
 // MARK: - UITableViewDelegate
 
 extension ImagesListViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(
+        _ tableView: UITableView, didSelectRowAt indexPath: IndexPath
+    ) {
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+
+    func tableView(
+        _ tableView: UITableView, heightForRowAt indexPath: IndexPath
+    ) -> CGFloat {
+        let imageSize = convert(model: mockData[indexPath.row]).image.size
+        let aspectRatio = imageSize.height / imageSize.width
+
+        let cellWidth = view.frame.width - 32
+        let cellHeight = cellWidth * aspectRatio + 8
+
+        return cellHeight
     }
 }
 

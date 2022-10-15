@@ -64,7 +64,7 @@ extension ImagesListCell {
 
         let colors = [
             UIColor.clear.cgColor,
-            UIColor(colorAsset: .background).withAlphaComponent(0.9).cgColor
+            UIColor(colorAsset: .background).withAlphaComponent(0.2).cgColor
         ]
 
         let start = CGPoint(x: 0, y: 0)
@@ -94,8 +94,8 @@ extension ImagesListCell {
                 equalTo: contentView.topAnchor, constant: 4),
             mainImageView.leadingAnchor.constraint(
                 equalTo: contentView.leadingAnchor, constant: 16),
-//            mainImageView.trailingAnchor.constraint(
-//                equalTo: contentView.trailingAnchor, constant: -16),
+            mainImageView.trailingAnchor.constraint(
+                equalTo: contentView.trailingAnchor, constant: -16),
             mainImageView.bottomAnchor.constraint(
                 equalTo: contentView.bottomAnchor, constant: -4)
         ])
