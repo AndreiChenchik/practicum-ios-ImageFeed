@@ -4,7 +4,7 @@ class ImagesListCell: UITableViewCell {
     private let mainImageView: UIImageView
     private let dateLabel: UILabel
     private let isFavoriteView: UIImageView
-    
+
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         mainImageView = Self.getImageView()
         dateLabel = Self.getDateLabel()
@@ -67,8 +67,8 @@ extension ImagesListCell {
             UIColor(colorAsset: .background).withAlphaComponent(0.9).cgColor
         ]
 
-        let start = CGPointMake(0, 0)
-        let end = CGPointMake(0, 0.5393)
+        let start = CGPoint(x: 0, y: 0)
+        let end = CGPoint(x: 0, y: 0.5393)
 
         view.configure(colors: colors, start: start, end: end)
         return view
