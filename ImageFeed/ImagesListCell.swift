@@ -38,7 +38,7 @@ class ImagesListCell: UITableViewCell {
         let view = GradientView()
 
         let colors = [
-            UIColor.clear.cgColor,
+            UIColor(colorAsset: .background).withAlphaComponent(0).cgColor,
             UIColor(colorAsset: .background).withAlphaComponent(0.2).cgColor
         ]
 
