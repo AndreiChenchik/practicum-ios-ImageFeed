@@ -83,13 +83,13 @@ extension ImagesListCell {
 
         NSLayoutConstraint.activate([
             mainImageView.topAnchor.constraint(
-                equalTo: contentView.topAnchor, constant: 4),
+                equalTo: contentView.topAnchor),
             mainImageView.leadingAnchor.constraint(
                 equalTo: contentView.leadingAnchor, constant: 16),
             mainImageView.trailingAnchor.constraint(
                 equalTo: contentView.trailingAnchor, constant: -16),
             mainImageView.bottomAnchor.constraint(
-                equalTo: contentView.bottomAnchor, constant: -4)
+                equalTo: contentView.bottomAnchor, constant: -8)
         ])
     }
 
