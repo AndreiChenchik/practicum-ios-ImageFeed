@@ -1,7 +1,7 @@
 import UIKit
 
 class ImagesListViewController: UIViewController {
-    let mockData: [Picture] = {
+    private let mockData: [Picture] = {
         (0...20).map { num in
             Picture(
                 path: "\(num).png",
@@ -9,6 +9,13 @@ class ImagesListViewController: UIViewController {
                 isFavorite: num % 2 == 1
             )
         }
+    }()
+
+    private lazy var dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .long
+        formatter.timeStyle = .none
+        return formatter
     }()
 
     private let tableView = UITableView()
@@ -121,9 +128,7 @@ extension ImagesListViewController: UITableViewDataSource {
     private func convert(model: Picture) -> ImageViewModel {
         let image = UIImage(named: model.path) ?? .remove
 
-        let formatter = DateFormatter()
-        formatter.dateStyle = .long
-        let dateString = formatter.string(from: model.date)
+        let dateString = dateFormatter.string(from: model.date)
 
         return ImageViewModel(
             image: image, dateString: dateString, isFavorite: model.isFavorite
