@@ -1,15 +1,7 @@
 import UIKit
 
 class ImagesListCell: UITableViewCell {
-    private let mainImageView: UIImageView
-    private let dateLabel: UILabel
-    private let isFavoriteView: UIImageView
-
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        mainImageView = Self.getImageView()
-        dateLabel = Self.getDateLabel()
-        isFavoriteView = UIImageView()
-
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
         backgroundColor = .clear
@@ -19,6 +11,45 @@ class ImagesListCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    // MARK: Cell components
+
+    private let mainImageView: UIImageView = {
+        let imageView = UIImageView()
+
+        imageView.layer.cornerRadius = 16
+        imageView.clipsToBounds = true
+        imageView.contentMode = .scaleAspectFit
+
+        return imageView
+    }()
+
+    private let dateLabel: UILabel = {
+        let label = UILabel()
+
+        let font = UIFont(name: "YSDisplay-Medium", size: 13)
+        label.font = font
+        label.textColor = .white
+
+        return label
+    }()
+
+    private let gradientView: GradientView = {
+        let view = GradientView()
+
+        let colors = [
+            UIColor.clear.cgColor,
+            UIColor(colorAsset: .background).withAlphaComponent(0.2).cgColor
+        ]
+
+        let start = CGPoint(x: 0, y: 0)
+        let end = CGPoint(x: 0, y: 0.5393)
+
+        view.configure(colors: colors, start: start, end: end)
+        return view
+    }()
+
+    private let isFavoriteView = UIImageView()
 }
 
 // MARK: - Cell configuration
@@ -33,45 +64,6 @@ extension ImagesListCell {
         isFavoriteView.image = viewModel.isFavorite ? isFavorite : isNotFavorite
 
         layoutIfNeeded()
-    }
-}
-
-// MARK: - Cell components
-
-extension ImagesListCell {
-    private static func getImageView() -> UIImageView {
-        let imageView = UIImageView()
-
-        imageView.layer.cornerRadius = 16
-        imageView.clipsToBounds = true
-        imageView.contentMode = .scaleAspectFit
-
-        return imageView
-    }
-
-    private static func getDateLabel() -> UILabel {
-        let label = UILabel()
-
-        let font = UIFont(name: "YSDisplay-Medium", size: 13)
-        label.font = font
-        label.textColor = .white
-
-        return label
-    }
-
-    private func getGradient() -> GradientView {
-        let view = GradientView()
-
-        let colors = [
-            UIColor.clear.cgColor,
-            UIColor(colorAsset: .background).withAlphaComponent(0.2).cgColor
-        ]
-
-        let start = CGPoint(x: 0, y: 0)
-        let end = CGPoint(x: 0, y: 0.5393)
-
-        view.configure(colors: colors, start: start, end: end)
-        return view
     }
 }
 
@@ -102,10 +94,9 @@ extension ImagesListCell {
     }
 
     private func setupGradient() {
-        let gradientView = getGradient()
         gradientView.translatesAutoresizingMaskIntoConstraints = false
-
         mainImageView.addSubview(gradientView)
+
         NSLayoutConstraint.activate([
             gradientView.leadingAnchor.constraint(
                 equalTo: mainImageView.leadingAnchor),
