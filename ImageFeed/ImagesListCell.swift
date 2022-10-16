@@ -19,7 +19,7 @@ class ImagesListCell: UITableViewCell {
 
         imageView.layer.cornerRadius = 16
         imageView.clipsToBounds = true
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleAspectFill
 
         return imageView
     }()
