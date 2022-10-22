@@ -29,6 +29,7 @@ class ImagesListCell: UITableViewCell {
 
         label.textColor = .white
         label.font = .asset(.ysDisplayRegular, size: 13)
+        label.textColor = .asset(.ypWhite)
 
         return label
     }()
