@@ -12,15 +12,6 @@ final class ImagesListViewController: UIViewController {
         }
     }()
 
-    private lazy var dateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .long
-        formatter.timeStyle = .none
-        return formatter
-    }()
-
-    private let tableView = UITableView()
-
     override func viewDidLoad() {
         super.viewDidLoad()
         configureView()
@@ -33,6 +24,25 @@ final class ImagesListViewController: UIViewController {
         super.viewWillAppear(animated)
         setupNavigation()
     }
+
+    // MARK: Components
+
+    private let tableView = UITableView()
+
+    private lazy var singleImageView: SingleImageViewController = {
+        let controller = SingleImageViewController()
+
+        controller.hidesBottomBarWhenPushed = true
+
+        return controller
+    }()
+
+    private lazy var dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .long
+        formatter.timeStyle = .none
+        return formatter
+    }()
 }
 
 // MARK: - Styling
@@ -93,11 +103,12 @@ extension ImagesListViewController: UITableViewDelegate {
         _ tableView: UITableView, didSelectRowAt indexPath: IndexPath
     ) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let singleImageController = SingleImageViewController()
-        singleImageController.hidesBottomBarWhenPushed = true
+
+        let imagePath = mockData[indexPath.row].path
+        singleImageView.image = UIImage(named: imagePath)
 
         navigationController?.pushViewController(
-            singleImageController, animated: true)
+            singleImageView, animated: true)
     }
 
     #warning("Move that calculation to ImageListCell somehow")

@@ -2,14 +2,7 @@ import UIKit
 
 final class SingleImageViewController: UITabBarController {
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        setupView()
-        setupImageView()
-
-        imageView.image = UIImage(named: "11")
-    }
+    var image: UIImage?
 
     private let imageView: UIImageView = {
         let imageView = UIImageView()
@@ -19,6 +12,23 @@ final class SingleImageViewController: UITabBarController {
 
         return imageView
     }()
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        setupView()
+        setupImageView()
+
+        imageView.image = UIImage(named: "11")
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        setupNavigation()
+
+        imageView.image = image
+    }
 }
 
 // MARK: - Layout
@@ -49,8 +59,7 @@ extension SingleImageViewController {
         view.backgroundColor = .asset(.ypBlack)
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+    private func setupNavigation() {
         navigationController?.setNavigationBarHidden(false, animated: true)
     }
 }
