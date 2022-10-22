@@ -11,6 +11,7 @@ final class SingleImageViewController: UITabBarController {
 
         setupScrollView()
         setupBackButton()
+        setupShareButton()
 
         layoutImageView()
     }
@@ -41,6 +42,14 @@ final class SingleImageViewController: UITabBarController {
         return button
     }()
 
+    private let shareButton: UIButton = {
+        let button = UIButton()
+
+        button.setImage(.asset(.shareIcon), for: .normal)
+
+        return button
+    }()
+
     private let scrollView: UIScrollView = {
         let scroll = UIScrollView()
 
@@ -55,6 +64,12 @@ extension SingleImageViewController {
         layoutBackButton()
         backButton.addTarget(
             self, action: #selector(backPressed), for: .touchUpInside)
+    }
+
+    private func setupShareButton() {
+        layoutShareButton()
+        shareButton.addTarget(
+            self, action: #selector(sharePressed), for: .touchUpInside)
     }
 
     private func setupScrollView() {
@@ -77,6 +92,15 @@ extension SingleImageViewController {
 
     @objc private func backPressed() {
         dismiss(animated: true)
+    }
+
+    @objc private func sharePressed() {
+        if let image {
+            let activity = UIActivityViewController(
+                activityItems: [image], applicationActivities: nil)
+
+            present(activity, animated: true)
+        }
     }
 }
 
@@ -131,6 +155,21 @@ extension SingleImageViewController {
                 equalTo: safeArea.topAnchor, constant: 9),
             backButton.leadingAnchor.constraint(
                 equalTo: safeArea.leadingAnchor, constant: 9)
+        ])
+    }
+
+    private func layoutShareButton() {
+        shareButton.translatesAutoresizingMaskIntoConstraints = false
+
+        view.addSubview(shareButton)
+
+        let safeArea = view.safeAreaLayoutGuide
+
+        NSLayoutConstraint.activate([
+            shareButton.centerXAnchor.constraint(
+                equalTo: safeArea.centerXAnchor),
+            shareButton.bottomAnchor.constraint(
+                equalTo: safeArea.bottomAnchor, constant: -16)
         ])
     }
 }
