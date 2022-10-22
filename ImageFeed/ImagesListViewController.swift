@@ -2,7 +2,7 @@ import UIKit
 
 class ImagesListViewController: UIViewController {
     private let mockData: [Picture] = {
-        (0...20).map { num in
+        (0...21).map { num in
             Picture(
                 path: "\(num).png",
                 date: Date(),
@@ -87,6 +87,7 @@ extension ImagesListViewController: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
     }
 
+    #warning("Move that calculation to ImageListCell somehow")
     func tableView(
         _ tableView: UITableView, heightForRowAt indexPath: IndexPath
     ) -> CGFloat {
