@@ -6,6 +6,7 @@
 	<array>
 		<string>YSDisplay-Bold.ttf</string>
 		<string>YSDisplay-Medium.ttf</string>
+		<string>YSDisplay-Regular.ttf</string>
 	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>

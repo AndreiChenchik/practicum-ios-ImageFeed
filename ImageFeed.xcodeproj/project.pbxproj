@@ -88,6 +88,16 @@
 			path = ImageFeed;
 			sourceTree = "<group>";
 		};
+		38B9CAAC29043C46009EBD63 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				38C8E1C028F1F0850078FD78 /* YSDisplay-Bold.ttf */,
+				38C8E1C628F1F8040078FD78 /* YSDisplay-Medium.ttf */,
+				38B9CAAA29043C42009EBD63 /* YSDisplay-Regular.ttf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
 		38C8E1B628F19B650078FD78 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
@@ -99,11 +109,10 @@
 		38C8E1BF28F1F04A0078FD78 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				38B9CAAC29043C46009EBD63 /* Fonts */,
 				389FE84628DCCDE900560E49 /* Assets.xcassets */,
 				389FE84828DCCDE900560E49 /* LaunchScreen.storyboard */,
 				389FE84B28DCCDE900560E49 /* Info.plist */,
-				38C8E1C028F1F0850078FD78 /* YSDisplay-Bold.ttf */,
-				38C8E1C628F1F8040078FD78 /* YSDisplay-Medium.ttf */,
 				38B9CAA4290437ED009EBD63 /* CustomColorAsset.swift */,
 			);
 			path = Resources;
@@ -170,6 +179,7 @@
 			files = (
 				389FE84A28DCCDE900560E49 /* LaunchScreen.storyboard in Resources */,
 				38C8E1C228F1F0850078FD78 /* YSDisplay-Bold.ttf in Resources */,
+				38B9CAAB29043C42009EBD63 /* YSDisplay-Regular.ttf in Resources */,
 				389FE84728DCCDE900560E49 /* Assets.xcassets in Resources */,
 				38C8E1C728F1F8040078FD78 /* YSDisplay-Medium.ttf in Resources */,
 			);
