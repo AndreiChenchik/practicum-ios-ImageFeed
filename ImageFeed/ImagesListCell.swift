@@ -1,0 +1,135 @@
+import UIKit
+
+class ImagesListCell: UITableViewCell {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+
+        backgroundColor = .clear
+        setupComponents()
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    // MARK: Cell components
+
+    private let mainImageView: UIImageView = {
+        let imageView = UIImageView()
+
+        imageView.layer.cornerRadius = 16
+        imageView.clipsToBounds = true
+        imageView.contentMode = .scaleAspectFill
+
+        return imageView
+    }()
+
+    private let dateLabel: UILabel = {
+        let label = UILabel()
+
+        let font = UIFont(name: "YSDisplay-Medium", size: 13)
+        label.font = font
+        label.textColor = .white
+
+        return label
+    }()
+
+    private let gradientView: GradientView = {
+        let view = GradientView()
+
+        let colors = [
+            UIColor(colorAsset: .background).withAlphaComponent(0).cgColor,
+            UIColor(colorAsset: .background).withAlphaComponent(0.2).cgColor
+        ]
+
+        let locations: [NSNumber] = [0, 0.5393]
+
+        view.configure(colors: colors, locations: locations)
+        return view
+    }()
+
+    private let isFavoriteView = UIImageView()
+}
+
+// MARK: - Cell configuration
+
+extension ImagesListCell {
+    func configure(with viewModel: ImageViewModel) {
+        mainImageView.image = viewModel.image
+        dateLabel.text = viewModel.dateString
+
+        let isFavorite = UIImage(named: "isFavorite")
+        let isNotFavorite = UIImage(named: "isNotFavorite")
+        isFavoriteView.image = viewModel.isFavorite ? isFavorite : isNotFavorite
+
+        layoutIfNeeded()
+    }
+}
+
+// MARK: - Cell layout
+
+extension ImagesListCell {
+    private func setupComponents() {
+        setupImageView()
+        setupGradient()
+        setupDataLabel()
+        setupFavoriteView()
+    }
+
+    private func setupImageView() {
+        mainImageView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(mainImageView)
+
+        NSLayoutConstraint.activate([
+            mainImageView.topAnchor.constraint(
+                equalTo: contentView.topAnchor),
+            mainImageView.leadingAnchor.constraint(
+                equalTo: contentView.leadingAnchor, constant: 16),
+            mainImageView.trailingAnchor.constraint(
+                equalTo: contentView.trailingAnchor, constant: -16),
+            mainImageView.bottomAnchor.constraint(
+                equalTo: contentView.bottomAnchor, constant: -8)
+        ])
+    }
+
+    private func setupGradient() {
+        gradientView.translatesAutoresizingMaskIntoConstraints = false
+        mainImageView.addSubview(gradientView)
+
+        NSLayoutConstraint.activate([
+            gradientView.leadingAnchor.constraint(
+                equalTo: mainImageView.leadingAnchor),
+            gradientView.trailingAnchor.constraint(
+                equalTo: mainImageView.trailingAnchor),
+            gradientView.bottomAnchor.constraint(
+                equalTo: mainImageView.bottomAnchor),
+            gradientView.heightAnchor.constraint(equalToConstant: 30)
+        ])
+    }
+
+    private func setupDataLabel() {
+        dateLabel.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(dateLabel)
+
+        NSLayoutConstraint.activate([
+            dateLabel.leadingAnchor.constraint(
+                equalTo: mainImageView.leadingAnchor, constant: 8),
+            dateLabel.bottomAnchor.constraint(
+                equalTo: mainImageView.bottomAnchor, constant: -8)
+        ])
+    }
+
+    private func setupFavoriteView() {
+        isFavoriteView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(isFavoriteView)
+
+        NSLayoutConstraint.activate([
+            isFavoriteView.trailingAnchor.constraint(
+                equalTo: mainImageView.trailingAnchor),
+            isFavoriteView.topAnchor.constraint(
+                equalTo: mainImageView.topAnchor),
+            isFavoriteView.heightAnchor.constraint(equalToConstant: 42),
+            isFavoriteView.widthAnchor.constraint(equalToConstant: 42)
+        ])
+    }
+}
