@@ -42,10 +42,9 @@ class ImagesListCell: UITableViewCell {
             UIColor(colorAsset: .background).withAlphaComponent(0.2).cgColor
         ]
 
-        let start = CGPoint(x: 0, y: 0)
-        let end = CGPoint(x: 0, y: 0.5393)
+        let locations: [NSNumber] = [0, 0.5393]
 
-        view.configure(colors: colors, start: start, end: end)
+        view.configure(colors: colors, locations: locations)
         return view
     }()
 
