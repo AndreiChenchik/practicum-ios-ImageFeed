@@ -14,6 +14,8 @@
 		389FE84A28DCCDE900560E49 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 389FE84828DCCDE900560E49 /* LaunchScreen.storyboard */; };
 		38B9CAA1290434E9009EBD63 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38B9CAA0290434E9009EBD63 /* ProfileViewController.swift */; };
 		38B9CAA5290437ED009EBD63 /* CustomColorAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38B9CAA4290437ED009EBD63 /* CustomColorAsset.swift */; };
+		38B9CAA929043956009EBD63 /* UIFont+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38B9CAA829043956009EBD63 /* UIFont+Extensions.swift */; };
+		38B9CAAB29043C42009EBD63 /* YSDisplay-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 38B9CAAA29043C42009EBD63 /* YSDisplay-Regular.ttf */; };
 		38C8E1B828F19B780078FD78 /* UIColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38C8E1B728F19B780078FD78 /* UIColor+Extensions.swift */; };
 		38C8E1BA28F1A0A80078FD78 /* ImagesListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38C8E1B928F1A0A80078FD78 /* ImagesListCell.swift */; };
 		38C8E1BC28F1D5020078FD78 /* ImageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38C8E1BB28F1D5020078FD78 /* ImageViewModel.swift */; };
@@ -34,6 +36,8 @@
 		389FE85128DCD17500560E49 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		38B9CAA0290434E9009EBD63 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		38B9CAA4290437ED009EBD63 /* CustomColorAsset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomColorAsset.swift; sourceTree = "<group>"; };
+		38B9CAA829043956009EBD63 /* UIFont+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extensions.swift"; sourceTree = "<group>"; };
+		38B9CAAA29043C42009EBD63 /* YSDisplay-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "YSDisplay-Regular.ttf"; sourceTree = "<group>"; };
 		38C8E1B728F19B780078FD78 /* UIColor+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extensions.swift"; sourceTree = "<group>"; };
 		38C8E1B928F1A0A80078FD78 /* ImagesListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListCell.swift; sourceTree = "<group>"; };
 		38C8E1BB28F1D5020078FD78 /* ImageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewModel.swift; sourceTree = "<group>"; };
@@ -102,6 +106,7 @@
 			isa = PBXGroup;
 			children = (
 				38C8E1B728F19B780078FD78 /* UIColor+Extensions.swift */,
+				38B9CAA829043956009EBD63 /* UIFont+Extensions.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -114,6 +119,7 @@
 				389FE84828DCCDE900560E49 /* LaunchScreen.storyboard */,
 				389FE84B28DCCDE900560E49 /* Info.plist */,
 				38B9CAA4290437ED009EBD63 /* CustomColorAsset.swift */,
+				38B9CAA629043906009EBD63 /* FontAsset.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -224,6 +230,8 @@
 				38B9CAA1290434E9009EBD63 /* ProfileViewController.swift in Sources */,
 				38C8E1BA28F1A0A80078FD78 /* ImagesListCell.swift in Sources */,
 				38C8E1B828F19B780078FD78 /* UIColor+Extensions.swift in Sources */,
+				38B9CAA929043956009EBD63 /* UIFont+Extensions.swift in Sources */,
+				38B9CAA729043906009EBD63 /* FontAsset.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

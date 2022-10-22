@@ -27,9 +27,8 @@ class ImagesListCell: UITableViewCell {
     private let dateLabel: UILabel = {
         let label = UILabel()
 
-        let font = UIFont(name: "YSDisplay-Medium", size: 13)
-        label.font = font
         label.textColor = .white
+        label.font = .asset(.ysDisplayRegular, size: 13)
 
         return label
     }()
