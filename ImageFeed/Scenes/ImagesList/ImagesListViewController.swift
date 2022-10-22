@@ -22,7 +22,6 @@ final class ImagesListViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        setupNavigation()
     }
 
     // MARK: Components
@@ -33,6 +32,7 @@ final class ImagesListViewController: UIViewController {
         let controller = SingleImageViewController()
 
         controller.hidesBottomBarWhenPushed = true
+        controller.modalPresentationStyle = .fullScreen
 
         return controller
     }()
@@ -59,10 +59,6 @@ extension ImagesListViewController {
 
     private func configureView() {
         view.backgroundColor = .asset(.ypBlack)
-    }
-
-    private func setupNavigation() {
-        navigationController?.setNavigationBarHidden(true, animated: true)
     }
 }
 
@@ -107,8 +103,7 @@ extension ImagesListViewController: UITableViewDelegate {
         let imagePath = mockData[indexPath.row].path
         singleImageView.image = UIImage(named: imagePath)
 
-        navigationController?.pushViewController(
-            singleImageView, animated: true)
+        present(singleImageView, animated: true)
     }
 
     #warning("Move that calculation to ImageListCell somehow")
