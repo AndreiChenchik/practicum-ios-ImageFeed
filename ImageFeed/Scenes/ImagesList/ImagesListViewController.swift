@@ -43,6 +43,7 @@ extension ImagesListViewController {
 
     private func configureView() {
         view.backgroundColor = .asset(.ypBlack)
+        navigationController?.setNavigationBarHidden(true, animated: false)
     }
 }
 

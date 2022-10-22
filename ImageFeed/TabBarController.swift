@@ -10,7 +10,7 @@ class TabBarController: UITabBarController {
 
     private func setupTabs() {
         viewControllers = [
-            ImagesListViewController(),
+            getImagesNavigationController(),
             ProfileViewController()
         ]
 
@@ -29,5 +29,19 @@ class TabBarController: UITabBarController {
         tabBar.standardAppearance = appearance
 
         tabBar.tintColor = .asset(.ypWhite)
+    }
+
+    private func getImagesNavigationController() -> UINavigationController {
+        let controller = UINavigationController(
+            rootViewController: ImagesListViewController()
+        )
+
+        let appearance = UINavigationBarAppearance()
+        appearance.backgroundColor = .asset(.ypBlack)
+        controller.navigationBar.standardAppearance = appearance
+
+        controller.navigationBar.tintColor = .asset(.ypWhite)
+
+        return controller
     }
 }
