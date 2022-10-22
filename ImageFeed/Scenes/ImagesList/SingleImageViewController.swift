@@ -4,6 +4,26 @@ final class SingleImageViewController: UITabBarController {
 
     var image: UIImage?
 
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        setupView()
+        setupImageView()
+        setupBackButton()
+
+        activateBackButton()
+
+        imageView.image = UIImage(named: "11")
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        imageView.image = image
+    }
+
+    // MARK: Components
+
     private let imageView: UIImageView = {
         let imageView = UIImageView()
 
@@ -13,21 +33,26 @@ final class SingleImageViewController: UITabBarController {
         return imageView
     }()
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    private let backButton: UIButton = {
+        let button = UIButton()
 
-        setupView()
-        setupImageView()
+        button.setImage(.asset(.backIcon), for: .normal)
+        button.tintColor = .white
 
-        imageView.image = UIImage(named: "11")
+        return button
+    }()
+}
+
+// MARK: - Styling
+
+extension SingleImageViewController {
+    private func activateBackButton() {
+        backButton.addTarget(
+            self, action: #selector(backPressed), for: .touchUpInside)
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-
-        setupNavigation()
-
-        imageView.image = image
+    @objc private func backPressed() {
+        dismiss(animated: true)
     }
 }
 
@@ -50,6 +75,21 @@ extension SingleImageViewController {
                 equalTo: view.bottomAnchor)
         ])
     }
+
+    private func setupBackButton() {
+        backButton.translatesAutoresizingMaskIntoConstraints = false
+
+        view.addSubview(backButton)
+
+        let safeArea = view.safeAreaLayoutGuide
+
+        NSLayoutConstraint.activate([
+            backButton.topAnchor.constraint(
+                equalTo: safeArea.topAnchor, constant: 9),
+            backButton.leadingAnchor.constraint(
+                equalTo: safeArea.leadingAnchor, constant: 9)
+        ])
+    }
 }
 
 // MARK: - Styling
@@ -57,9 +97,5 @@ extension SingleImageViewController {
 extension SingleImageViewController {
     private func setupView() {
         view.backgroundColor = .asset(.ypBlack)
-    }
-
-    private func setupNavigation() {
-        navigationController?.setNavigationBarHidden(false, animated: true)
     }
 }
