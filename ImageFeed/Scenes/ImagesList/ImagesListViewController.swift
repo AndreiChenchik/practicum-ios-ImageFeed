@@ -1,6 +1,7 @@
 import UIKit
 
 final class ImagesListViewController: UIViewController {
+
     private let mockData: [Picture] = {
         (0...21).map { num in
             Picture(

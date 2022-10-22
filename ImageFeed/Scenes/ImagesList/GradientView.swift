@@ -1,6 +1,7 @@
 import UIKit
 
 class GradientView: UIView {
+
     private let gradient = CAGradientLayer()
 
     override init(frame: CGRect) {
