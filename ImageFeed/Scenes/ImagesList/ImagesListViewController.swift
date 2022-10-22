@@ -32,8 +32,6 @@ final class ImagesListViewController: UIViewController {
 // MARK: - Styling
 
 extension ImagesListViewController {
-    override var preferredStatusBarStyle: UIStatusBarStyle { .lightContent }
-
     private func updateInsets() {
         tableView.contentInset =  UIEdgeInsets(
             top: 16, left: 0, bottom: 0, right: 0
