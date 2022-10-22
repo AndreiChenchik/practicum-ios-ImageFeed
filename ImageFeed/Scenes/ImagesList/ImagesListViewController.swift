@@ -27,6 +27,11 @@ final class ImagesListViewController: UIViewController {
 
         updateInsets() // Imitate scroll position showed in design
     }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setupNavigation()
+    }
 }
 
 // MARK: - Styling
@@ -43,7 +48,10 @@ extension ImagesListViewController {
 
     private func configureView() {
         view.backgroundColor = .asset(.ypBlack)
-        navigationController?.setNavigationBarHidden(true, animated: false)
+    }
+
+    private func setupNavigation() {
+        navigationController?.setNavigationBarHidden(true, animated: true)
     }
 }
 
@@ -84,6 +92,11 @@ extension ImagesListViewController: UITableViewDelegate {
         _ tableView: UITableView, didSelectRowAt indexPath: IndexPath
     ) {
         tableView.deselectRow(at: indexPath, animated: true)
+        let singleImageController = SingleImageViewController()
+        singleImageController.hidesBottomBarWhenPushed = true
+
+        navigationController?.pushViewController(
+            singleImageController, animated: true)
     }
 
     #warning("Move that calculation to ImageListCell somehow")
