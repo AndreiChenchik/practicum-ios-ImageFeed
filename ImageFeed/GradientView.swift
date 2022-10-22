@@ -13,10 +13,9 @@ class GradientView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func configure(colors: [CGColor], start: CGPoint, end: CGPoint) {
+    func configure(colors: [CGColor], locations: [NSNumber]?) {
         gradient.colors = colors
-        gradient.startPoint = start
-        gradient.endPoint = end
+        gradient.locations = locations
     }
 
     override func layoutSublayers(of layer: CALayer) {
