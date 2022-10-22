@@ -54,11 +54,12 @@ final class ProfileViewController: UIViewController {
         return label
     }()
 
-    private let userLogoutButton: UIButton = {
+    private let logoutButton: UIButton = {
         let button = UIButton()
 
         button.setImage(.asset(.exitIcon), for: .normal)
-
+        button.tintColor = .asset(.ypRed)
+        
         return button
     }()
 
@@ -93,7 +94,7 @@ extension ProfileViewController {
 
         hStack.addArrangedSubview(userPicView)
         hStack.addArrangedSubview(UIView())
-        hStack.addArrangedSubview(userLogoutButton)
+        hStack.addArrangedSubview(logoutButton)
 
         vStack.addArrangedSubview(hStack)
         vStack.addArrangedSubview(userNameLabel)
