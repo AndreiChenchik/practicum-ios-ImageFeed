@@ -27,7 +27,6 @@ class ImagesListCell: UITableViewCell {
     private let dateLabel: UILabel = {
         let label = UILabel()
 
-        label.textColor = .white
         label.font = .asset(.ysDisplayRegular, size: 13)
         label.textColor = .asset(.ypWhite)
 
@@ -58,9 +57,9 @@ extension ImagesListCell {
         mainImageView.image = viewModel.image
         dateLabel.text = viewModel.dateString
 
-        let isFavorite = UIImage(named: "isFavorite")
-        let isNotFavorite = UIImage(named: "isNotFavorite")
-        isFavoriteView.image = viewModel.isFavorite ? isFavorite : isNotFavorite
+        isFavoriteView.image = viewModel.isFavorite
+            ? .asset(.isFavorite)
+            : .asset(.isNotFavorite)
 
         layoutIfNeeded()
     }
