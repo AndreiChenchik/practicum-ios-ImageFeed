@@ -59,7 +59,7 @@ final class ProfileViewController: UIViewController {
 
         button.setImage(.asset(.exitIcon), for: .normal)
         button.tintColor = .asset(.ypRed)
-        
+
         return button
     }()
 
