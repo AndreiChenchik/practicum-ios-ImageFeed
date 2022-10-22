@@ -44,7 +44,7 @@ extension ImagesListViewController {
     }
 
     private func configureView() {
-        view.backgroundColor = UIColor(colorAsset: .background)
+        view.backgroundColor = .asset(.ypBlack)
     }
 }
 

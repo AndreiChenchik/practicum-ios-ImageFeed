@@ -37,9 +37,9 @@ class ImagesListCell: UITableViewCell {
     private let gradientView: GradientView = {
         let view = GradientView()
 
-        let colors = [
-            UIColor(colorAsset: .background).withAlphaComponent(0).cgColor,
-            UIColor(colorAsset: .background).withAlphaComponent(0.2).cgColor
+        let colors: [CGColor] = [
+            UIColor.asset(.ypBlack).withAlphaComponent(0).cgColor,
+            UIColor.asset(.ypBlack).withAlphaComponent(0.2).cgColor
         ]
 
         let locations: [NSNumber] = [0, 0.5393]
