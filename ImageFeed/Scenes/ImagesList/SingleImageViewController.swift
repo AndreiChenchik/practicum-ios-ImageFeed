@@ -1,6 +1,6 @@
 import UIKit
 
-class SingleImageViewController: UITabBarController {
+final class SingleImageViewController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
