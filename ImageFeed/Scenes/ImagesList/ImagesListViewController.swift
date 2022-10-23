@@ -106,7 +106,7 @@ extension ImagesListViewController: UITableViewDelegate {
         present(singleImageView, animated: true)
     }
 
-    #warning("Move that calculation to ImageListCell somehow")
+    #warning("To improve after Practicum Authors Team clarifies the assignment")
     func tableView(
         _ tableView: UITableView, heightForRowAt indexPath: IndexPath
     ) -> CGFloat {
