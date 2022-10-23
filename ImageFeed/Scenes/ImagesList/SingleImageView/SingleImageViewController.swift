@@ -199,10 +199,7 @@ extension SingleImageViewController: UIScrollViewDelegate {
         let hScale = containerSize.width / imageSize.width
         let vScale = containerSize.height / imageSize.height
 
-        let scale = min(maxZoomScale,
-                        max(
-                            minZoomScale,
-                            max(hScale, vScale)))
+        let scale = min(maxZoomScale, max(minZoomScale, max(hScale, vScale)))
 
         scrollView.setZoomScale(scale, animated: false)
         scrollView.layoutIfNeeded()
