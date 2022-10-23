@@ -13,7 +13,7 @@ final class ProfileViewController: UIViewController {
         super.viewDidLoad()
 
         setupView()
-        setupLayout()
+        layoutComponents()
         renderMockData()
     }
 
@@ -58,40 +58,35 @@ final class ProfileViewController: UIViewController {
     private let logoutButton: UIButton = {
         let button = UIButton()
 
-        button.setImage(.asset(.exitIcon), for: .normal)
+        button.setImage(.asset(.logoutIcon), for: .normal)
         button.tintColor = .asset(.ypRed)
 
         return button
-    }()
-
-    private let vStack = {
-        let stack = UIStackView()
-
-        stack.axis = .vertical
-        stack.spacing = 8
-        stack.alignment = .leading
-
-        return stack
-    }()
-
-    private let hStack = {
-        let stack = UIStackView()
-
-        stack.axis = .horizontal
-        stack.distribution = .fill
-        stack.alignment = .center
-
-        return stack
     }()
 }
 
 // MARK: - Layout
 
 extension ProfileViewController {
-    private func setupLayout() {
+    private func layoutComponents() {
+        let vStack = UIStackView()
+
+        vStack.axis = .vertical
+        vStack.spacing = 8
+        vStack.alignment = .leading
         vStack.translatesAutoresizingMaskIntoConstraints = false
 
         view.addSubview(vStack)
+
+        let hStack = UIStackView()
+        let hStackMargins = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 8)
+
+        hStack.layoutMargins = hStackMargins
+        hStack.isLayoutMarginsRelativeArrangement = true
+        hStack.axis = .horizontal
+        hStack.distribution = .fill
+        hStack.alignment = .center
+        hStack.translatesAutoresizingMaskIntoConstraints = false
 
         hStack.addArrangedSubview(userPicView)
         hStack.addArrangedSubview(UIView())
