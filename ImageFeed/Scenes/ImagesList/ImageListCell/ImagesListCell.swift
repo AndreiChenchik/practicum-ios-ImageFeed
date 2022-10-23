@@ -59,8 +59,8 @@ extension ImagesListCell {
         dateLabel.text = viewModel.dateString
 
         isFavoriteView.image = viewModel.isFavorite
-            ? .asset(.isFavorite)
-            : .asset(.isNotFavorite)
+            ? .asset(.isFavoriteIcon)
+            : .asset(.isNotFavoriteIcon)
 
         layoutIfNeeded()
     }
