@@ -1,10 +1,13 @@
 import UIKit
 
 class ImagesListCell: UITableViewCell {
+
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
         backgroundColor = .clear
+        selectionStyle = .none
+
         setupComponents()
     }
 
@@ -27,9 +30,8 @@ class ImagesListCell: UITableViewCell {
     private let dateLabel: UILabel = {
         let label = UILabel()
 
-        let font = UIFont(name: "YSDisplay-Medium", size: 13)
-        label.font = font
-        label.textColor = .white
+        label.font = .asset(.ysDisplayRegular, size: 13)
+        label.textColor = .asset(.ypWhite)
 
         return label
     }()
@@ -37,9 +39,9 @@ class ImagesListCell: UITableViewCell {
     private let gradientView: GradientView = {
         let view = GradientView()
 
-        let colors = [
-            UIColor(colorAsset: .background).withAlphaComponent(0).cgColor,
-            UIColor(colorAsset: .background).withAlphaComponent(0.2).cgColor
+        let colors: [CGColor] = [
+            UIColor.asset(.ypBlack).withAlphaComponent(0).cgColor,
+            UIColor.asset(.ypBlack).withAlphaComponent(0.2).cgColor
         ]
 
         let locations: [NSNumber] = [0, 0.5393]
@@ -58,9 +60,9 @@ extension ImagesListCell {
         mainImageView.image = viewModel.image
         dateLabel.text = viewModel.dateString
 
-        let isFavorite = UIImage(named: "isFavorite")
-        let isNotFavorite = UIImage(named: "isNotFavorite")
-        isFavoriteView.image = viewModel.isFavorite ? isFavorite : isNotFavorite
+        isFavoriteView.image = viewModel.isFavorite
+            ? .asset(.isFavoriteIcon)
+            : .asset(.isNotFavoriteIcon)
 
         layoutIfNeeded()
     }

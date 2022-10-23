@@ -1,6 +1,7 @@
 import UIKit
 
-class ImagesListViewController: UIViewController {
+final class ImagesListViewController: UIViewController {
+
     private let mockData: [Picture] = {
         (0...21).map { num in
             Picture(
@@ -11,15 +12,6 @@ class ImagesListViewController: UIViewController {
         }
     }()
 
-    private lazy var dateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .long
-        formatter.timeStyle = .none
-        return formatter
-    }()
-
-    private let tableView = UITableView()
-
     override func viewDidLoad() {
         super.viewDidLoad()
         configureView()
@@ -27,13 +19,35 @@ class ImagesListViewController: UIViewController {
 
         updateInsets() // Imitate scroll position showed in design
     }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    }
+
+    // MARK: Components
+
+    private let tableView = UITableView()
+
+    private lazy var singleImageView: SingleImageViewController = {
+        let controller = SingleImageViewController()
+
+        controller.hidesBottomBarWhenPushed = true
+        controller.modalPresentationStyle = .fullScreen
+
+        return controller
+    }()
+
+    private lazy var dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .long
+        formatter.timeStyle = .none
+        return formatter
+    }()
 }
 
 // MARK: - Styling
 
 extension ImagesListViewController {
-    override var preferredStatusBarStyle: UIStatusBarStyle { .lightContent }
-
     private func updateInsets() {
         tableView.contentInset =  UIEdgeInsets(
             top: 16, left: 0, bottom: 0, right: 0
@@ -44,7 +58,7 @@ extension ImagesListViewController {
     }
 
     private func configureView() {
-        view.backgroundColor = UIColor(colorAsset: .background)
+        view.backgroundColor = .asset(.ypBlack)
     }
 }
 
@@ -85,9 +99,14 @@ extension ImagesListViewController: UITableViewDelegate {
         _ tableView: UITableView, didSelectRowAt indexPath: IndexPath
     ) {
         tableView.deselectRow(at: indexPath, animated: true)
+
+        let imagePath = mockData[indexPath.row].path
+        singleImageView.image = UIImage(named: imagePath)
+
+        present(singleImageView, animated: true)
     }
 
-    #warning("Move that calculation to ImageListCell somehow")
+    #warning("To improve after Practicum Authors Team clarifies the assignment")
     func tableView(
         _ tableView: UITableView, heightForRowAt indexPath: IndexPath
     ) -> CGFloat {
