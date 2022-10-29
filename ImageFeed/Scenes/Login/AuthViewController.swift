@@ -7,6 +7,8 @@ class AuthViewController: UIViewController {
 
         setupView()
         layoutComponents()
+
+        setupLoginButton()
     }
 
     // MARK: View components
@@ -72,3 +74,18 @@ extension AuthViewController {
     }
 }
 
+// MARK: - Actions
+
+extension AuthViewController {
+    private func setupLoginButton() {
+        loginButton.addTarget(
+            self, action: #selector(loginPressed), for: .touchUpInside)
+    }
+
+    @objc private func loginPressed() {
+        let loginWebViewVC = WebViewViewController()
+        loginWebViewVC.modalPresentationStyle = .fullScreen
+
+        present(loginWebViewVC, animated: true)
+    }
+}
