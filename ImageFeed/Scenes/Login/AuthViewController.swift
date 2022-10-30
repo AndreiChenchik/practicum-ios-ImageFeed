@@ -1,6 +1,21 @@
 import UIKit
 
 final class AuthViewController: UIViewController {
+    let oauth2TokenExtractor: OAuth2TokenExtractor
+    var oauthTokenStorage: OAuth2TokenStoring
+
+    init(
+        oauth2TokenExtractor: OAuth2TokenExtractor,
+        oauthTokenStorage: OAuth2TokenStoring
+    ) {
+        self.oauth2TokenExtractor = oauth2TokenExtractor
+        self.oauthTokenStorage = oauthTokenStorage
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -104,7 +119,18 @@ extension AuthViewController: OAuthCodeViewControllerDelegate {
         didAuthenticateWithCode code: String
     ) {
         oauthCodeVC.dismiss(animated: true)
-        print(code)
+        oauth2TokenExtractor.fetchAuthToken(
+            authCode: code
+        ) { [weak self] result in
+            guard let self else { return }
+
+            switch result {
+            case let .success(token):
+                self.oauthTokenStorage.token = token
+            case let .failure(error):
+                print(error.localizedDescription)
+            }
+        }
     }
 
     func oauthCodeViewControllerDidCancel(

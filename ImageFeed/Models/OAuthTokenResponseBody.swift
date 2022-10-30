@@ -14,7 +14,7 @@ struct OAuthTokenResponseBody: Codable {
     let createdTime: Date
 
     enum TokenType: String, Codable {
-        case bearer
+        case bearer = "Bearer"
     }
 
     enum CodingKeys: String, CodingKey {
