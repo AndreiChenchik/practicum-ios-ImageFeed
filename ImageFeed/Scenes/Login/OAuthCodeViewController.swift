@@ -1,7 +1,7 @@
 import UIKit
 import WebKit
 
-class WebViewViewController: UIViewController {
+class OAuthCodeViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,7 +28,7 @@ class WebViewViewController: UIViewController {
 
 // MARK: - WebView
 
-extension WebViewViewController {
+extension OAuthCodeViewController {
     private func setupWebView() {
         webView.navigationDelegate = self
 
@@ -49,15 +49,13 @@ extension WebViewViewController {
 
         let request = URLRequest(url: url)
 
-        DispatchQueue.main.async {
-            self.webView.load(request)
-        }
+        webView.load(request)
     }
 }
 
 // MARK: - WKNavigationDelegate
 
-extension WebViewViewController: WKNavigationDelegate {
+extension OAuthCodeViewController: WKNavigationDelegate {
 //    func webView(
 //        _ webView: WKWebView,
 //        decidePolicyFor navigationAction: WKNavigationAction,
@@ -69,7 +67,7 @@ extension WebViewViewController: WKNavigationDelegate {
 
 // MARK: - Styling
 
-extension WebViewViewController {
+extension OAuthCodeViewController {
     private func setupView() {
         view.backgroundColor = .asset(.ypWhite)
     }
@@ -77,7 +75,7 @@ extension WebViewViewController {
 
 // MARK: - Layout
 
-extension WebViewViewController {
+extension OAuthCodeViewController {
     private func layoutComponents() {
         layoutWebView()
         layoutBackButton()
@@ -118,7 +116,7 @@ extension WebViewViewController {
 
 // MARK: - Actions
 
-extension WebViewViewController {
+extension OAuthCodeViewController {
     private func setupBackButton() {
         backButton.addTarget(
             self, action: #selector(backPressed), for: .touchUpInside)

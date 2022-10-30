@@ -83,7 +83,7 @@ extension AuthViewController {
     }
 
     @objc private func loginPressed() {
-        let loginWebViewVC = WebViewViewController()
+        let loginWebViewVC = OAuthCodeViewController()
         loginWebViewVC.modalPresentationStyle = .overFullScreen
 
         present(loginWebViewVC, animated: true)
