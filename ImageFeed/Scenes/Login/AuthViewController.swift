@@ -124,11 +124,16 @@ extension AuthViewController: OAuthCodeViewControllerDelegate {
         ) { [weak self] result in
             guard let self else { return }
 
-            switch result {
-            case let .success(token):
-                self.oauthTokenStorage.token = token
-            case let .failure(error):
-                print(error.localizedDescription)
+            DispatchQueue.main.async {
+                switch result {
+                case let .success(token):
+                    self.oauthTokenStorage.token = token
+                    self.dismiss(animated: true)
+                case let .failure(error):
+                    print(
+                        "Can't load user token: \(error.localizedDescription)"
+                    )
+                }
             }
         }
     }
