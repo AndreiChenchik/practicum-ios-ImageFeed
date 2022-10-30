@@ -8,4 +8,5 @@ enum Constant: String {
     case defaultBaseURL = "https://api.unsplash.com"
     case authorizeURL = "https://unsplash.com/oauth/authorize"
     case authCodePath = "/oauth/authorize/native"
+    case authTokenURL = "https://unsplash.com/oauth/token"
 }

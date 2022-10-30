@@ -9,6 +9,7 @@ import Foundation
 
 protocol NetworkRouting {
     func fetch(url: URL, handler: @escaping (Result<Data, Error>) -> Void)
+    func fetch(request: URLRequest, handler: @escaping (Result<Data, Error>) -> Void)
 }
 
 struct NetworkClient: NetworkRouting {
@@ -24,7 +25,10 @@ struct NetworkClient: NetworkRouting {
 
     func fetch(url: URL, handler: @escaping (Result<Data, Error>) -> Void) {
         let request = URLRequest(url: url)
+        fetch(request: request, handler: handler)
+    }
 
+    func fetch(request: URLRequest, handler: @escaping (Result<Data, Error>) -> Void) {
         let task = urlSession.dataTask(
             with: request
         ) { data, response, error in
