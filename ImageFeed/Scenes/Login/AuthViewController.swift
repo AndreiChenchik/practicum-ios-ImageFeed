@@ -1,6 +1,6 @@
 import UIKit
 
-class AuthViewController: UIViewController {
+final class AuthViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

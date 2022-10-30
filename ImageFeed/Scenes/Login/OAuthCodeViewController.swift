@@ -1,7 +1,7 @@
 import UIKit
 import WebKit
 
-class OAuthCodeViewController: UIViewController {
+final class OAuthCodeViewController: UIViewController {
 
     var delegate: OAuthCodeViewControllerDelegate?
     var observations: [NSKeyValueObservation] = []
@@ -14,8 +14,18 @@ class OAuthCodeViewController: UIViewController {
 
         setupBackButton()
         setupWebView()
+    }
 
-        observeProgress()
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        startObservingProgress()
+    }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+
+        stopObservingProgress()
     }
 
     // MARK: View components
@@ -45,12 +55,16 @@ class OAuthCodeViewController: UIViewController {
 // MARK: - Observe Progress
 
 extension OAuthCodeViewController {
-    private func observeProgress() {
+    private func startObservingProgress() {
         observations.append(
             webView.observe(\.estimatedProgress) { [weak self] _, _ in
                 self?.updateProgress()
             }
         )
+    }
+
+    private func stopObservingProgress() {
+        observations = []
     }
 }
 
