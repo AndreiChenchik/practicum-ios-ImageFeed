@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		381B7B81290EECCC00F8EF06 /* OAuthTokenResponseBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 381B7B80290EECCC00F8EF06 /* OAuthTokenResponseBody.swift */; };
 		3837F3DE290E9B5E0069F905 /* OAuthCodeViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3837F3DD290E9B5E0069F905 /* OAuthCodeViewControllerDelegate.swift */; };
 		3891790D290D251F00B7C7B0 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3891790C290D251F00B7C7B0 /* Constant.swift */; };
 		3891790F290D25B500B7C7B0 /* URL+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3891790E290D25B500B7C7B0 /* URL+Extensions.swift */; };
@@ -37,6 +38,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		381B7B80290EECCC00F8EF06 /* OAuthTokenResponseBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthTokenResponseBody.swift; sourceTree = "<group>"; };
 		3837F3DD290E9B5E0069F905 /* OAuthCodeViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthCodeViewControllerDelegate.swift; sourceTree = "<group>"; };
 		3891790C290D251F00B7C7B0 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		3891790E290D25B500B7C7B0 /* URL+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Extensions.swift"; sourceTree = "<group>"; };
@@ -163,6 +165,7 @@
 			isa = PBXGroup;
 			children = (
 				38C8E1C828F1FA800078FD78 /* Picture.swift */,
+				381B7B80290EECCC00F8EF06 /* OAuthTokenResponseBody.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -316,6 +319,7 @@
 				389FE83E28DCCDE800560E49 /* AppDelegate.swift in Sources */,
 				38B9CAB029044097009EBD63 /* UIImage+Extensions.swift in Sources */,
 				38B9CAA5290437ED009EBD63 /* ColorAsset.swift in Sources */,
+				381B7B81290EECCC00F8EF06 /* OAuthTokenResponseBody.swift in Sources */,
 				38917916290D579900B7C7B0 /* OAuthCodeViewController.swift in Sources */,
 				38B9CAAE29043FEA009EBD63 /* ImageAsset.swift in Sources */,
 				389FE84028DCCDE800560E49 /* SceneDelegate.swift in Sources */,
