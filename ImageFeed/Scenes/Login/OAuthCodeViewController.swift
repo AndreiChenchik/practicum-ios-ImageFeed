@@ -18,13 +18,25 @@ class OAuthCodeViewController: UIViewController {
     // MARK: View components
     private let webView = WKWebView()
 
-    private let backButton: UIButton = {
-        let button = UIButton()
+    private lazy var barBackButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(
+           image: .asset(.backIcon).withTintColor(.asset(.ypBlack)),
+           style: .plain,
+           target: self,
+           action: #selector(backPressed))
 
-        button.setImage(.asset(.backIcon), for: .normal)
         button.tintColor = .asset(.ypBlack)
 
         return button
+    }()
+
+    private var progressView: UIProgressView = {
+        let progressView = UIProgressView(progressViewStyle: .bar)
+
+        progressView.tintColor = .asset(.ypBlack)
+        progressView.progress = 0.5
+
+        return progressView
     }()
 }
 
@@ -101,7 +113,7 @@ extension OAuthCodeViewController {
 extension OAuthCodeViewController {
     private func layoutComponents() {
         layoutWebView()
-        layoutBackButton()
+        layoutProgressView()
     }
 
     private func layoutWebView() {
@@ -121,18 +133,20 @@ extension OAuthCodeViewController {
         ])
     }
 
-    private func layoutBackButton() {
-        backButton.translatesAutoresizingMaskIntoConstraints = false
+    private func layoutProgressView() {
+        progressView.translatesAutoresizingMaskIntoConstraints = false
 
-        view.addSubview(backButton)
+        view.addSubview(progressView)
 
         let safeArea = view.safeAreaLayoutGuide
 
         NSLayoutConstraint.activate([
-            backButton.topAnchor.constraint(
-                equalTo: safeArea.topAnchor, constant: 15),
-            backButton.leadingAnchor.constraint(
-                equalTo: safeArea.leadingAnchor, constant: 16)
+            progressView.topAnchor.constraint(
+                equalTo: safeArea.topAnchor),
+            progressView.leadingAnchor.constraint(
+                equalTo: view.leadingAnchor),
+            progressView.trailingAnchor.constraint(
+                equalTo: view.trailingAnchor)
         ])
     }
 }
@@ -141,8 +155,7 @@ extension OAuthCodeViewController {
 
 extension OAuthCodeViewController {
     private func setupBackButton() {
-        backButton.addTarget(
-            self, action: #selector(backPressed), for: .touchUpInside)
+        navigationItem.leftBarButtonItem = barBackButton
     }
 
     @objc private func backPressed() {

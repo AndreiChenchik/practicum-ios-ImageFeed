@@ -86,11 +86,13 @@ extension AuthViewController {
 
     @objc private func loginPressed() {
         let oauthCodeVC = OAuthCodeViewController()
-
-        oauthCodeVC.modalPresentationStyle = .fullScreen
         oauthCodeVC.delegate = self
 
-        present(oauthCodeVC, animated: true)
+        let navigationController = UINavigationController(
+            rootViewController: oauthCodeVC)
+        navigationController.modalPresentationStyle = .fullScreen
+
+        present(navigationController, animated: true)
     }
 }
 
