@@ -12,6 +12,8 @@
 		381B7B86290EF02A00F8EF06 /* OAuth2Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 381B7B85290EF02A00F8EF06 /* OAuth2Service.swift */; };
 		381B7B8A290EF84500F8EF06 /* OAuth2TokenStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 381B7B89290EF84500F8EF06 /* OAuth2TokenStorage.swift */; };
 		381B7B8C290EFD6000F8EF06 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 381B7B8B290EFD6000F8EF06 /* SplashViewController.swift */; };
+		381B7B8E290F027B00F8EF06 /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 381B7B8D290F027B00F8EF06 /* UserProfile.swift */; };
+		381B7B90290F07CB00F8EF06 /* UserProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 381B7B8F290F07CB00F8EF06 /* UserProfileService.swift */; };
 		3837F3DE290E9B5E0069F905 /* OAuthCodeViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3837F3DD290E9B5E0069F905 /* OAuthCodeViewControllerDelegate.swift */; };
 		3891790D290D251F00B7C7B0 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3891790C290D251F00B7C7B0 /* Constant.swift */; };
 		3891790F290D25B500B7C7B0 /* URL+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3891790E290D25B500B7C7B0 /* URL+Extensions.swift */; };
@@ -47,6 +49,8 @@
 		381B7B85290EF02A00F8EF06 /* OAuth2Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuth2Service.swift; sourceTree = "<group>"; };
 		381B7B89290EF84500F8EF06 /* OAuth2TokenStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuth2TokenStorage.swift; sourceTree = "<group>"; };
 		381B7B8B290EFD6000F8EF06 /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
+		381B7B8D290F027B00F8EF06 /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
+		381B7B8F290F07CB00F8EF06 /* UserProfileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileService.swift; sourceTree = "<group>"; };
 		3837F3DD290E9B5E0069F905 /* OAuthCodeViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthCodeViewControllerDelegate.swift; sourceTree = "<group>"; };
 		3891790C290D251F00B7C7B0 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		3891790E290D25B500B7C7B0 /* URL+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Extensions.swift"; sourceTree = "<group>"; };
@@ -96,6 +100,7 @@
 				381B7B83290EEF9000F8EF06 /* NetworkClient.swift */,
 				381B7B85290EF02A00F8EF06 /* OAuth2Service.swift */,
 				381B7B89290EF84500F8EF06 /* OAuth2TokenStorage.swift */,
+				381B7B8F290F07CB00F8EF06 /* UserProfileService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -186,6 +191,7 @@
 			children = (
 				38C8E1C828F1FA800078FD78 /* Picture.swift */,
 				381B7B80290EECCC00F8EF06 /* OAuthTokenResponseBody.swift */,
+				381B7B8D290F027B00F8EF06 /* UserProfile.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -347,6 +353,7 @@
 				389FE84028DCCDE800560E49 /* SceneDelegate.swift in Sources */,
 				38C8E1C928F1FA800078FD78 /* Picture.swift in Sources */,
 				38C8E1BE28F1E6960078FD78 /* GradientView.swift in Sources */,
+				381B7B8E290F027B00F8EF06 /* UserProfile.swift in Sources */,
 				38B9CAA1290434E9009EBD63 /* ProfileViewController.swift in Sources */,
 				38917914290D577100B7C7B0 /* AuthViewController.swift in Sources */,
 				38C8E1BA28F1A0A80078FD78 /* ImagesListCell.swift in Sources */,
@@ -358,6 +365,7 @@
 				38B9CAA729043906009EBD63 /* FontAsset.swift in Sources */,
 				381B7B8A290EF84500F8EF06 /* OAuth2TokenStorage.swift in Sources */,
 				381B7B84290EEF9000F8EF06 /* NetworkClient.swift in Sources */,
+				381B7B90290F07CB00F8EF06 /* UserProfileService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
