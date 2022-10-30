@@ -108,6 +108,8 @@ extension ProfileViewController {
 // MARK: - Styling
 
 extension ProfileViewController {
+    override var preferredStatusBarStyle: UIStatusBarStyle { .lightContent }
+
     private func setupView() {
         view.backgroundColor = .asset(.ypBlack)
     }

@@ -69,6 +69,8 @@ extension AuthViewController {
 // MARK: - Styling
 
 extension AuthViewController {
+    override var preferredStatusBarStyle: UIStatusBarStyle { .lightContent }
+
     private func setupView() {
         view.backgroundColor = .asset(.ypBlack)
     }

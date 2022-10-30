@@ -177,6 +177,8 @@ extension SingleImageViewController {
 // MARK: - Styling
 
 extension SingleImageViewController {
+    override var preferredStatusBarStyle: UIStatusBarStyle { .lightContent }
+
     private func setupView() {
         view.backgroundColor = .asset(.ypBlack)
     }
