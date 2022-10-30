@@ -83,9 +83,29 @@ extension AuthViewController {
     }
 
     @objc private func loginPressed() {
-        let loginWebViewVC = OAuthCodeViewController()
-        loginWebViewVC.modalPresentationStyle = .overFullScreen
+        let oauthCodeVC = OAuthCodeViewController()
 
-        present(loginWebViewVC, animated: true)
+        oauthCodeVC.modalPresentationStyle = .fullScreen
+        oauthCodeVC.delegate = self
+
+        present(oauthCodeVC, animated: true)
+    }
+}
+
+// MARK: - OAuthCodeViewControllerDelegate
+
+extension AuthViewController: OAuthCodeViewControllerDelegate {
+    func oauthCodeViewController(
+        _ oauthCodeVC: OAuthCodeViewController,
+        didAuthenticateWithCode code: String
+    ) {
+        oauthCodeVC.dismiss(animated: true)
+        print(code)
+    }
+
+    func oauthCodeViewControllerDidCancel(
+        _ oauthCodeVC: OAuthCodeViewController
+    ) {
+        oauthCodeVC.dismiss(animated: true)
     }
 }
