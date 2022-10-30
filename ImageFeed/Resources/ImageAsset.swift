@@ -1,7 +1,7 @@
 import Foundation
 
 enum ImageAsset: String, CaseIterable {
-    case unsplashLogo
+    case practicumLogo, unsplashLogo
     case isFavoriteIcon, isNotFavoriteIcon, listTabIcon
     case shareIcon, backIcon
     case mockUserPic, logoutIcon, profileTabIcon

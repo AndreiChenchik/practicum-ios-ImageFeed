@@ -31,9 +31,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let userDefaults = UserDefaults.standard
         let oauthTokenStorage = OAuth2TokenStorage(userDefaults: userDefaults)
 
-        return AuthViewController(
-            oauth2TokenExtractor: oauth2Service,
-            oauthTokenStorage: oauthTokenStorage)
+//        return AuthViewController(
+//            oauth2TokenExtractor: oauth2Service,
+//            oauthTokenStorage: oauthTokenStorage)
+        return SplashViewController()
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
