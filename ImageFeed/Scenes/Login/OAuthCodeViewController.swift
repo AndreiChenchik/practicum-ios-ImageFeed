@@ -4,6 +4,7 @@ import WebKit
 class OAuthCodeViewController: UIViewController {
 
     var delegate: OAuthCodeViewControllerDelegate?
+    var observations: [NSKeyValueObservation] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -13,6 +14,8 @@ class OAuthCodeViewController: UIViewController {
 
         setupBackButton()
         setupWebView()
+
+        observeProgress()
     }
 
     // MARK: View components
@@ -34,10 +37,21 @@ class OAuthCodeViewController: UIViewController {
         let progressView = UIProgressView(progressViewStyle: .bar)
 
         progressView.tintColor = .asset(.ypBlack)
-        progressView.progress = 0.5
 
         return progressView
     }()
+}
+
+// MARK: - Observe Progress
+
+extension OAuthCodeViewController {
+    private func observeProgress() {
+        observations.append(
+            webView.observe(\.estimatedProgress) { [weak self] _, _ in
+                self?.updateProgress()
+            }
+        )
+    }
 }
 
 // MARK: - WebView
@@ -64,6 +78,24 @@ extension OAuthCodeViewController {
         let request = URLRequest(url: url)
 
         webView.load(request)
+    }
+
+    private func updateProgress() {
+        progressView.setProgress(
+            Float(webView.estimatedProgress),
+            animated: true)
+
+        if !progressView.isHidden && webView.estimatedProgress >= 0.999 {
+            UIView.animate(withDuration: 0.4) {
+                self.progressView.alpha = 0
+            }
+        }
+
+        if progressView.isHidden && webView.estimatedProgress < 0.999 {
+            UIView.animate(withDuration: 0.4) {
+                self.progressView.alpha = 1
+            }
+        }
     }
 }
 
