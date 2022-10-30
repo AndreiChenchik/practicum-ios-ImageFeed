@@ -1,10 +1,3 @@
-//
-//  OAuthTokenResponseBody.swift
-//  ImageFeed
-//
-//  Created by Andrei Chenchik on 30/10/22.
-//
-
 import Foundation
 
 struct OAuthTokenResponseBody: Codable {

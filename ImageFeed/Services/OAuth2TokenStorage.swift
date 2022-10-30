@@ -1,10 +1,3 @@
-//
-//  OAuth2TokenStorage.swift
-//  ImageFeed
-//
-//  Created by Andrei Chenchik on 30/10/22.
-//
-
 import Foundation
 
 protocol OAuth2TokenStoring {
