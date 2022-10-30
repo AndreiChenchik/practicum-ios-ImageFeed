@@ -7,4 +7,5 @@ enum Constant: String {
     case accessScope = "public+read_user+write_likes"
     case defaultBaseURL = "https://api.unsplash.com"
     case authorizeURL = "https://unsplash.com/oauth/authorize"
+    case authCodePath = "/oauth/authorize/native"
 }

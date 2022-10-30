@@ -3,6 +3,8 @@ import WebKit
 
 class OAuthCodeViewController: UIViewController {
 
+    var delegate: OAuthCodeViewControllerDelegate?
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -56,18 +58,39 @@ extension OAuthCodeViewController {
 // MARK: - WKNavigationDelegate
 
 extension OAuthCodeViewController: WKNavigationDelegate {
-//    func webView(
-//        _ webView: WKWebView,
-//        decidePolicyFor navigationAction: WKNavigationAction,
-//        decisionHandler: @escaping (WKNavigationActionPolicy
-//        ) -> Void) {
-//        //
-//    }
+    func webView(
+        _ webView: WKWebView,
+        decidePolicyFor navigationAction: WKNavigationAction,
+        decisionHandler: @escaping (WKNavigationActionPolicy
+        ) -> Void) {
+        if let code = getCode(from: navigationAction) {
+            delegate?.oauthCodeViewController(
+                self, didAuthenticateWithCode: code)
+            decisionHandler(.cancel)
+        } else {
+            decisionHandler(.allow)
+        }
+    }
+
+    private func getCode(from navigationAction: WKNavigationAction) -> String? {
+        guard
+            let url = navigationAction.request.url,
+            let urlComponents = URLComponents(string: url.absoluteString),
+            urlComponents.path == .k(.authCodePath),
+            let items = urlComponents.queryItems,
+            let codeItem = items.first(where: { $0.name == "code" }),
+            let code = codeItem.value
+        else { return nil }
+
+        return code
+    }
 }
 
 // MARK: - Styling
 
 extension OAuthCodeViewController {
+    override var preferredStatusBarStyle: UIStatusBarStyle { .darkContent }
+
     private func setupView() {
         view.backgroundColor = .asset(.ypWhite)
     }
@@ -123,6 +146,6 @@ extension OAuthCodeViewController {
     }
 
     @objc private func backPressed() {
-        dismiss(animated: true)
+        delegate?.oauthCodeViewControllerDidCancel(self)
     }
 }
