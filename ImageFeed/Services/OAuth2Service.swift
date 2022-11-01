@@ -23,9 +23,9 @@ struct OAuth2Service: OAuth2TokenExtractor {
         else { fatalError("Something went terribly wrong!") }
 
         components.queryItems = [
-            URLQueryItem(name: "client_id", value: .k(.accessKey)),
-            URLQueryItem(name: "client_secret", value: .k(.secretKey)),
-            URLQueryItem(name: "redirect_uri", value: .k(.redirectURI)),
+            URLQueryItem(name: "client_id", value: .key(.accessKey)),
+            URLQueryItem(name: "client_secret", value: .key(.secretKey)),
+            URLQueryItem(name: "redirect_uri", value: .key(.redirectURI)),
             URLQueryItem(name: "code", value: authCode),
             URLQueryItem(name: "grant_type", value: "authorization_code")
         ]

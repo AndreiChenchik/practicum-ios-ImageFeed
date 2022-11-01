@@ -11,3 +11,7 @@ enum Constant: String {
     case authTokenURL = "https://unsplash.com/oauth/token"
     case tokenDefaultsKey = "bearerToken"
 }
+
+extension String {
+    static func key(_ constant: Constant) -> Self { constant.rawValue }
+}

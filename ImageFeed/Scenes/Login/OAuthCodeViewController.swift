@@ -74,15 +74,15 @@ extension OAuthCodeViewController {
     private func setupWebView() {
         webView.navigationDelegate = self
 
-        guard var components = URLComponents(string: .k(.authorizeURL)) else {
+        guard var components = URLComponents(string: .key(.authorizeURL)) else {
             fatalError("Can't construct URLComponents for authorizeURL")
         }
 
         components.queryItems = [
-            URLQueryItem(name: "client_id", value: .k(.accessKey)),
-            URLQueryItem(name: "redirect_uri", value: .k(.redirectURI)),
+            URLQueryItem(name: "client_id", value: .key(.accessKey)),
+            URLQueryItem(name: "redirect_uri", value: .key(.redirectURI)),
             URLQueryItem(name: "response_type", value: "code"),
-            URLQueryItem(name: "scope", value: .k(.accessScope))
+            URLQueryItem(name: "scope", value: .key(.accessScope))
         ]
 
         guard let url = components.url else {
@@ -134,7 +134,7 @@ extension OAuthCodeViewController: WKNavigationDelegate {
         guard
             let url = navigationAction.request.url,
             let urlComponents = URLComponents(string: url.absoluteString),
-            urlComponents.path == .k(.authCodePath),
+            urlComponents.path == .key(.authCodePath),
             let items = urlComponents.queryItems,
             let codeItem = items.first(where: { $0.name == "code" }),
             let code = codeItem.value

@@ -9,11 +9,11 @@ struct OAuth2TokenStorage: OAuth2TokenStoring {
 
     var token: String? {
         get {
-            userDefaults.string(forKey: .k(.tokenDefaultsKey))
+            userDefaults.string(forKey: .key(.tokenDefaultsKey))
         }
 
         set {
-            userDefaults.set(newValue, forKey: .k(.tokenDefaultsKey))
+            userDefaults.set(newValue, forKey: .key(.tokenDefaultsKey))
         }
     }
 }
