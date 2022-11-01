@@ -1,6 +1,17 @@
 import UIKit
 
 class TabBarController: UITabBarController {
+    let userProfile: UserProfile
+
+    init(userProfile: UserProfile) {
+        self.userProfile = userProfile
+
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -12,7 +23,7 @@ class TabBarController: UITabBarController {
     private func setupTabs() {
         viewControllers = [
             ImagesListViewController(),
-            ProfileViewController()
+            ProfileViewController(userProfile: userProfile)
         ]
 
         if let listItem = tabBar.items?[0] {

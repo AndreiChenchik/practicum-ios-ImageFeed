@@ -1,20 +1,25 @@
-//
-//  ProfileViewController.swift
-//  ImageFeed
-//
-//  Created by Andrei Chenchik on 22/10/22.
-//
-
 import UIKit
 
 final class ProfileViewController: UIViewController {
+    let userProfile: UserProfile
+
+    init(userProfile: UserProfile) {
+        self.userProfile = userProfile
+
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         setupView()
         layoutComponents()
-        renderMockData()
+
+        displayUserData()
     }
 
     // MARK: View components
@@ -24,6 +29,7 @@ final class ProfileViewController: UIViewController {
         imageView.layer.cornerRadius = 35
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFill
+        imageView.tintColor = .cyan
 
         return imageView
     }()
@@ -107,7 +113,11 @@ extension ProfileViewController {
             vStack.trailingAnchor.constraint(
                 equalTo: safeArea.trailingAnchor, constant: -16),
             hStack.widthAnchor.constraint(
-                equalTo: vStack.widthAnchor)
+                equalTo: vStack.widthAnchor),
+            userPicView.widthAnchor.constraint(
+                equalToConstant: 70),
+            userPicView.heightAnchor.constraint(
+                equalTo: userPicView.widthAnchor)
         ])
     }
 }
@@ -115,6 +125,8 @@ extension ProfileViewController {
 // MARK: - Styling
 
 extension ProfileViewController {
+    override var preferredStatusBarStyle: UIStatusBarStyle { .lightContent }
+
     private func setupView() {
         view.backgroundColor = .asset(.ypBlack)
     }
@@ -123,10 +135,27 @@ extension ProfileViewController {
 // MARK: - Data
 
 extension ProfileViewController {
-    private func renderMockData() {
-        userPicView.image = .asset(.mockUserPic)
-        userNameLabel.text = "Екатерина Новикова"
-        userHandlerLabel.text = "@ekaterina_nov"
-        userDescriptionLabel.text = "Hello, world!"
+    private func displayUserData() {
+        userNameLabel.text = userProfile.fullName
+        userHandlerLabel.text = userProfile.handler
+        userDescriptionLabel.text = "Hello, Unsplash!"
+
+        DispatchQueue.global().async { [weak self] in
+            guard
+                let self,
+                let pictureURL = self.userProfile.profilePictureURL,
+                let data = try? Data(contentsOf: pictureURL) else { return }
+
+            DispatchQueue.main.async { [weak self] in
+                guard let self else { return }
+
+                UIView.transition(
+                    with: self.userPicView,
+                    duration: 0.5,
+                    options: .transitionCrossDissolve) {
+                        self.userPicView.image = UIImage(data: data)
+                    }
+            }
+        }
     }
 }

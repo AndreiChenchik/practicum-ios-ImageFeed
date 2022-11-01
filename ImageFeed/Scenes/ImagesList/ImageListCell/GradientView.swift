@@ -1,6 +1,6 @@
 import UIKit
 
-class GradientView: UIView {
+final class GradientView: UIView {
 
     private let gradient = CAGradientLayer()
 

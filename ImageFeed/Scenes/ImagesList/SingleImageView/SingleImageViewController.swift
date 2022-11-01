@@ -152,9 +152,9 @@ extension SingleImageViewController {
 
         NSLayoutConstraint.activate([
             backButton.topAnchor.constraint(
-                equalTo: safeArea.topAnchor, constant: 9),
+                equalTo: safeArea.topAnchor, constant: 15),
             backButton.leadingAnchor.constraint(
-                equalTo: safeArea.leadingAnchor, constant: 9)
+                equalTo: safeArea.leadingAnchor, constant: 16)
         ])
     }
 
@@ -177,6 +177,8 @@ extension SingleImageViewController {
 // MARK: - Styling
 
 extension SingleImageViewController {
+    override var preferredStatusBarStyle: UIStatusBarStyle { .lightContent }
+
     private func setupView() {
         view.backgroundColor = .asset(.ypBlack)
     }

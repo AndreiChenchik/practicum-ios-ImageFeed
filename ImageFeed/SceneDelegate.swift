@@ -17,10 +17,27 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
 
         let window = UIWindow(windowScene: windowScene)
-        window.rootViewController = TabBarController()
+        window.rootViewController = makeRootVC()
 
         self.window = window
         window.makeKeyAndVisible()
+    }
+
+    private func makeRootVC() -> UIViewController {
+        let urlSession = URLSession.shared
+        let networkClient = NetworkClient(urlSession: urlSession)
+        let oauth2Service = OAuth2Service(networkClient: networkClient)
+
+        let userDefaults = UserDefaults.standard
+        let oauthTokenStorage = OAuth2TokenStorage(userDefaults: userDefaults)
+
+        let userProfileService = UserProfileService(
+            networkClient: networkClient)
+
+        return SplashViewController(
+            oauth2TokenExtractor: oauth2Service,
+            oauthTokenStorage: oauthTokenStorage,
+            userProfileService: userProfileService)
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
