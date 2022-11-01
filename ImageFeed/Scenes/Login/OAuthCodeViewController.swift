@@ -119,8 +119,8 @@ extension OAuthCodeViewController: WKNavigationDelegate {
     func webView(
         _ webView: WKWebView,
         decidePolicyFor navigationAction: WKNavigationAction,
-        decisionHandler: @escaping (WKNavigationActionPolicy
-        ) -> Void) {
+        decisionHandler: @escaping (WKNavigationActionPolicy) -> Void
+    ) {
         if let code = getCode(from: navigationAction) {
             delegate?.oauthCodeViewController(
                 self, didAuthenticateWithCode: code)
