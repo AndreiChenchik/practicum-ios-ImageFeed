@@ -1,5 +1,6 @@
 import UIKit
 import Kingfisher
+import SwiftKeychainWrapper
 
 final class ProfileViewController: UIViewController {
     let userProfile: UserProfile
@@ -19,6 +20,7 @@ final class ProfileViewController: UIViewController {
 
         setupView()
         layoutComponents()
+        setupActions()
 
         displayUserData()
     }
@@ -70,6 +72,20 @@ final class ProfileViewController: UIViewController {
 
         return button
     }()
+}
+
+// MARK: - Actions
+extension ProfileViewController {
+    private func setupActions() {
+        logoutButton.addTarget(
+            self, action: #selector(logoutPressed), for: .touchUpInside)
+    }
+
+    @objc private func logoutPressed() {
+        // Temporary function to help with login testing
+        KeychainWrapper.standard.removeObject(forKey: .key(.tokenDefaultsKey))
+        tabBarController?.dismiss(animated: true)
+    }
 }
 
 // MARK: - Layout
