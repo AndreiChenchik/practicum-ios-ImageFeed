@@ -1,4 +1,5 @@
 import UIKit
+import SwiftKeychainWrapper
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -28,8 +29,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let networkClient = NetworkClient(urlSession: urlSession)
         let oauth2Service = OAuth2Service(networkClient: networkClient)
 
-        let userDefaults = UserDefaults.standard
-        let oauthTokenStorage = OAuth2TokenStorage(userDefaults: userDefaults)
+        let keychainWrapper = KeychainWrapper.standard
+        let oauthTokenStorage = OAuth2TokenStorage(
+            keychainWrapper: keychainWrapper)
 
         let userProfileService = UserProfileService(
             networkClient: networkClient)
