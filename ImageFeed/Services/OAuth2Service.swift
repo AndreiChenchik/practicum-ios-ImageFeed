@@ -21,10 +21,7 @@ final class OAuth2Service: OAuth2TokenExtractor {
         completion: @escaping (Result<String, Error>) -> Void
     ) {
         guard lastAuthCode != authCode else { return }
-
-        if let task, lastAuthCode == authCode {
-            task.cancel()
-        }
+        task?.cancel()
 
         guard var components = URLComponents(
             url: .unsplashAuthTokenURL,
