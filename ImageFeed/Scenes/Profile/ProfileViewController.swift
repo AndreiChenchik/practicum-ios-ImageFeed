@@ -1,4 +1,5 @@
 import UIKit
+import Kingfisher
 
 final class ProfileViewController: UIViewController {
     let userProfile: UserProfile
@@ -139,23 +140,9 @@ extension ProfileViewController {
         userNameLabel.text = userProfile.fullName
         userHandlerLabel.text = userProfile.handler
         userDescriptionLabel.text = "Hello, Unsplash!"
-
-        DispatchQueue.global().async { [weak self] in
-            guard
-                let self,
-                let pictureURL = self.userProfile.profilePictureURL,
-                let data = try? Data(contentsOf: pictureURL) else { return }
-
-            DispatchQueue.main.async { [weak self] in
-                guard let self else { return }
-
-                UIView.transition(
-                    with: self.userPicView,
-                    duration: 0.5,
-                    options: .transitionCrossDissolve) {
-                        self.userPicView.image = UIImage(data: data)
-                    }
-            }
-        }
+        userPicView.kf.setImage(
+            with: userProfile.profilePictureURL,
+            placeholder: UIImage.asset(.placeholderUserPic)
+        )
     }
 }
