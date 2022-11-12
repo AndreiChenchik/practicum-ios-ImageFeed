@@ -56,12 +56,16 @@ extension SplashViewController {
             return
         }
 
+        UIBlockingProgressHUD.show()
+
         userProfileService.fetchUserProfile(
             token: token
         ) { [weak self] result in
             guard let self else { return }
 
             DispatchQueue.main.async {
+                defer { UIBlockingProgressHUD.dismiss() }
+
                 switch result {
 
                 case let .success(userProfile):
