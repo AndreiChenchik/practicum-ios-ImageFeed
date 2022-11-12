@@ -6,8 +6,11 @@ protocol OAuth2TokenExtractor {
         completion: @escaping (Result<String, Error>) -> Void)
 }
 
-struct OAuth2Service: OAuth2TokenExtractor {
+final class OAuth2Service: OAuth2TokenExtractor {
     private let networkClient: NetworkRouting
+
+    private var task: URLSessionTask?
+    private var lastAuthCode: String?
 
     init(networkClient: NetworkRouting) {
         self.networkClient = networkClient
@@ -17,6 +20,12 @@ struct OAuth2Service: OAuth2TokenExtractor {
         authCode: String,
         completion: @escaping (Result<String, Error>) -> Void
     ) {
+        guard lastAuthCode != authCode else { return }
+
+        if let task, lastAuthCode == authCode {
+            task.cancel()
+        }
+
         guard var components = URLComponents(
             url: .unsplashAuthTokenURL,
             resolvingAgainstBaseURL: false)
@@ -36,7 +45,10 @@ struct OAuth2Service: OAuth2TokenExtractor {
         request.httpMethod = "POST"
         request.httpBody = Data(query.utf8)
 
-        networkClient.fetch(request: request) { result in
+        lastAuthCode = authCode
+        task = networkClient.fetch(request: request) { [weak self] result in
+            defer { self?.task = nil }
+
             switch result {
             case .success(let data):
                 do {
@@ -45,6 +57,8 @@ struct OAuth2Service: OAuth2TokenExtractor {
                     )
 
                     completion(.success(oauthResponse.accessToken))
+
+                    self?.lastAuthCode = nil
                 } catch {
                     completion(.failure(error))
                 }
