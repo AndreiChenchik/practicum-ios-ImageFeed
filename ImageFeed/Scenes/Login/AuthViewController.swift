@@ -1,4 +1,5 @@
 import UIKit
+import ProgressHUD
 
 final class AuthViewController: UIViewController {
     let oauth2TokenExtractor: OAuth2TokenExtractor
@@ -118,6 +119,8 @@ extension AuthViewController: OAuthCodeViewControllerDelegate {
         _ oauthCodeVC: OAuthCodeViewController,
         didAuthenticateWithCode code: String
     ) {
+        ProgressHUD.show()
+
         oauthCodeVC.dismiss(animated: true)
         oauth2TokenExtractor.fetchAuthToken(
             authCode: code
@@ -125,6 +128,8 @@ extension AuthViewController: OAuthCodeViewControllerDelegate {
             guard let self else { return }
 
             DispatchQueue.main.async {
+                ProgressHUD.dismiss()
+
                 switch result {
                 case let .success(token):
                     self.oauthTokenStorage.token = token
