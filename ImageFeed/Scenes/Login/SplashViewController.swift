@@ -4,16 +4,16 @@ final class SplashViewController: UIViewController {
 
     let oauth2TokenExtractor: OAuth2TokenExtractor
     let oauthTokenStorage: OAuth2TokenStoring
-    let userProfileService: UserProfileLoading
+    let objectService: ObjectLoading
 
     init(
         oauth2TokenExtractor: OAuth2TokenExtractor,
         oauthTokenStorage: OAuth2TokenStoring,
-        userProfileService: UserProfileLoading
+        objectService: ObjectLoading
     ) {
         self.oauth2TokenExtractor = oauth2TokenExtractor
         self.oauthTokenStorage = oauthTokenStorage
-        self.userProfileService = userProfileService
+        self.objectService = objectService
 
         super.init(nibName: nil, bundle: nil)
     }
@@ -58,9 +58,13 @@ extension SplashViewController {
 
         UIBlockingProgressHUD.show()
 
-        userProfileService.fetchUserProfile(
-            token: token
-        ) { [weak self] result in
+        var url = URL.unsplashBaseURL
+        url.appendPathComponent("/me")
+
+        objectService.fetch(
+            url: url,
+            bearerToken: token
+        ) { [weak self] (result: Result<UserProfile, Error>) in
             guard let self else { return }
 
             DispatchQueue.main.async {

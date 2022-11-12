@@ -27,19 +27,19 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     private func makeRootVC() -> UIViewController {
         let urlSession = URLSession.shared
         let networkClient = NetworkClient(urlSession: urlSession)
-        let oauth2Service = OAuth2Service(networkClient: networkClient)
 
         let keychainWrapper = KeychainWrapper.standard
         let oauthTokenStorage = OAuth2TokenStorage(
             keychainWrapper: keychainWrapper)
 
-        let userProfileService = UserProfileService(
-            networkClient: networkClient)
+        let objectService = ObjectService(networkClient: networkClient)
+        let oauth2Service = OAuth2Service(objectService: objectService)
 
         return SplashViewController(
             oauth2TokenExtractor: oauth2Service,
             oauthTokenStorage: oauthTokenStorage,
-            userProfileService: userProfileService)
+            objectService: objectService
+        )
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

@@ -7,13 +7,13 @@ protocol OAuth2TokenExtractor {
 }
 
 final class OAuth2Service: OAuth2TokenExtractor {
-    private let networkClient: NetworkRouting
+    private let objectService: ObjectLoading
 
     private var task: URLSessionTask?
     private var lastAuthCode: String?
 
-    init(networkClient: NetworkRouting) {
-        self.networkClient = networkClient
+    init(objectService: ObjectLoading) {
+        self.objectService = objectService
     }
 
     func fetchAuthToken(
@@ -43,22 +43,15 @@ final class OAuth2Service: OAuth2TokenExtractor {
         request.httpBody = Data(query.utf8)
 
         lastAuthCode = authCode
-        task = networkClient.fetch(request: request) { [weak self] result in
+        task = objectService.fetch(
+            request: request
+        ) { [weak self] (result: Result<OAuthTokenResponseBody, Error>) in
             defer { self?.task = nil }
 
             switch result {
-            case .success(let data):
-                do {
-                    let oauthResponse = try JSONDecoder().decode(
-                        OAuthTokenResponseBody.self, from: data
-                    )
-
-                    completion(.success(oauthResponse.accessToken))
-
-                    self?.lastAuthCode = nil
-                } catch {
-                    completion(.failure(error))
-                }
+            case let .success(body):
+                completion(.success(body.accessToken))
+                self?.lastAuthCode = nil
             case .failure(let error):
                 completion(.failure(error))
             }
