@@ -13,6 +13,15 @@ protocol ObjectLoading {
     ) -> URLSessionTask
 }
 
+extension ObjectLoading {
+    @discardableResult func fetch<Object: Decodable>(
+        url: URL,
+        handler: @escaping (Result<Object, Error>) -> Void
+    ) -> URLSessionTask {
+        fetch(url: url, bearerToken: nil, handler: handler)
+    }
+}
+
 struct ObjectService: ObjectLoading {
     private let networkClient: NetworkRouting
 

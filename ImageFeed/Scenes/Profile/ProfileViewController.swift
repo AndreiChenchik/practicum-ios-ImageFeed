@@ -3,11 +3,19 @@ import Kingfisher
 import SwiftKeychainWrapper
 
 final class ProfileViewController: UIViewController {
+    struct Dependencies {
+        let notificationCenter: NotificationCenter
+        let profileImageLoader: ProfileImageLoader
+    }
+
     let userProfile: UserProfile
+    let dep: Dependencies
 
-    init(userProfile: UserProfile) {
+    private var profileAvatarObserver: NSObjectProtocol?
+
+    init(userProfile: UserProfile, dep: Dependencies) {
         self.userProfile = userProfile
-
+        self.dep = dep
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -22,6 +30,7 @@ final class ProfileViewController: UIViewController {
         layoutComponents()
         setupActions()
 
+        observeAvatarChanges()
         displayUserData()
     }
 
@@ -33,6 +42,8 @@ final class ProfileViewController: UIViewController {
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFill
         imageView.tintColor = .cyan
+
+        imageView.image = .asset(.placeholderUserPic)
 
         return imageView
     }()
@@ -75,6 +86,7 @@ final class ProfileViewController: UIViewController {
 }
 
 // MARK: - Actions
+
 extension ProfileViewController {
     private func setupActions() {
         logoutButton.addTarget(
@@ -88,6 +100,20 @@ extension ProfileViewController {
         // Temporary function to help with login testing
         KeychainWrapper.standard.removeObject(forKey: .key(.tokenDefaultsKey))
         tabBarController?.dismiss(animated: true)
+    }
+}
+
+// MARK: - Observe AvatarChanges
+
+extension ProfileViewController {
+    private func observeAvatarChanges() {
+        profileAvatarObserver = dep.notificationCenter.addObserver(
+            forName: dep.profileImageLoader.didChangeNotification,
+            object: nil,
+            queue: .main
+        ) { [weak self] _ in
+            self?.updateAvatar()
+        }
     }
 }
 
@@ -155,13 +181,22 @@ extension ProfileViewController {
 // MARK: - Data
 
 extension ProfileViewController {
+    private func updateAvatar() {
+        guard
+            let avatarURLString = dep.profileImageLoader.avatarURLString,
+            let avatarURL = URL(string: avatarURLString)
+        else { return }
+
+        userPicView.kf.setImage(
+            with: avatarURL,
+            placeholder: UIImage.asset(.placeholderUserPic)
+        )
+    }
+
     private func displayUserData() {
         userNameLabel.text = userProfile.fullName
         userHandlerLabel.text = userProfile.handler
         userDescriptionLabel.text = "Hello, Unsplash!"
-        userPicView.kf.setImage(
-            with: userProfile.profilePictureURL,
-            placeholder: UIImage.asset(.placeholderUserPic)
-        )
+        updateAvatar()
     }
 }

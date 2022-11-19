@@ -10,6 +10,8 @@ enum Constant: String {
     case authCodePath = "/oauth/authorize/native"
     case authTokenURL = "https://unsplash.com/oauth/token"
     case tokenDefaultsKey = "bearerToken"
+
+    case profileImageChanged = "ProfileImageProviderDidChange"
 }
 
 extension String {

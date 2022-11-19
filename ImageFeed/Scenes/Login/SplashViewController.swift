@@ -1,22 +1,21 @@
 import UIKit
 
 final class SplashViewController: UIViewController {
+    struct Dependencies {
+        let oauth2TokenExtractor: OAuth2TokenExtractor
+        let oauthTokenStorage: OAuth2TokenStoring
+        let profileLoader: ProfileLoader
+        let profileImageLoader: ProfileImageLoader
+        let errorPresenter: ErrorPresenting
 
-    private let oauth2TokenExtractor: OAuth2TokenExtractor
-    private let oauthTokenStorage: OAuth2TokenStoring
-    private let profileLoader: ProfileLoader
-    private let errorPresenter: ErrorPresenting
+        let tabBarDep: TabBarController.Dependencies
+        let authVCDep: AuthViewController.Dependencies
+    }
 
-    init(
-        oauth2TokenExtractor: OAuth2TokenExtractor,
-        oauthTokenStorage: OAuth2TokenStoring,
-        profileLoader: ProfileLoader,
-        errorPresenter: ErrorPresenting
-    ) {
-        self.oauth2TokenExtractor = oauth2TokenExtractor
-        self.oauthTokenStorage = oauthTokenStorage
-        self.profileLoader = profileLoader
-        self.errorPresenter = errorPresenter
+    private let dep: Dependencies
+
+    init(dep: Dependencies) {
+        self.dep = dep
 
         super.init(nibName: nil, bundle: nil)
     }
@@ -35,7 +34,7 @@ final class SplashViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        if let userToken = oauthTokenStorage.token {
+        if let userToken = dep.oauthTokenStorage.token {
             loadApp(with: userToken)
         } else {
             startAuthentification()
@@ -60,7 +59,9 @@ extension SplashViewController {
     private func loadApp(with token: String) {
         UIBlockingProgressHUD.show()
 
-        profileLoader.fetchProfile(bearerToken: token) { [weak self] result in
+        dep.profileLoader.fetchProfile(
+            bearerToken: token
+        ) { [weak self] result in
             guard let self else { return }
 
             DispatchQueue.main.async {
@@ -69,6 +70,13 @@ extension SplashViewController {
                 switch result {
                 case let .success(userProfile):
                     self.navigateToApp(userProfile: userProfile)
+
+                    DispatchQueue.global(qos: .userInteractive).async {
+                        self.dep.profileImageLoader.fetchProfileImageURL(
+                            username: userProfile.username,
+                            bearerToken: token
+                        ) { _ in }
+                    }
                 case let .failure(error):
                     self.displayLoadError(error: error)
                 }
@@ -79,7 +87,7 @@ extension SplashViewController {
     private func displayLoadError(error: Error) {
         let errorMessage = error.localizedDescription
 
-        errorPresenter.displayAlert(
+        dep.errorPresenter.displayAlert(
             over: self,
             title: "Error!!",
             message: "Something went wrong: \(errorMessage)",
@@ -94,17 +102,16 @@ extension SplashViewController {
 
 extension SplashViewController {
     private func startAuthentification() {
-        let authVC = AuthViewController(
-            oauth2TokenExtractor: oauth2TokenExtractor,
-            oauthTokenStorage: oauthTokenStorage)
-
+        let authVC = AuthViewController(dep: dep.authVCDep)
         authVC.modalPresentationStyle = .fullScreen
-
         present(authVC, animated: true)
     }
 
     private func navigateToApp(userProfile: UserProfile) {
-        let appVC = TabBarController(userProfile: userProfile)
+        let appVC = TabBarController(
+            userProfile: userProfile,
+            dep: dep.tabBarDep
+        )
 
         appVC.modalPresentationStyle = .fullScreen
 

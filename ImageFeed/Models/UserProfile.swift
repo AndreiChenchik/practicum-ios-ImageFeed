@@ -4,19 +4,11 @@ struct UserProfile: Codable {
     let firstName: String?
     let lastName: String?
 
-    let username: String?
+    let username: String
     let twitterUsername: String?
     let instagramUsername: String?
 
     let profileImage: ProfileImage?
-
-    struct ProfileImage: Codable {
-        let small: String?
-        let medium: String?
-        let large: String?
-
-        var best: String? { large ?? medium ?? small }
-    }
 
     enum CodingKeys: String, CodingKey {
         case firstName = "first_name"
@@ -36,7 +28,7 @@ struct UserProfile: Codable {
     }
 
     var handler: String {
-        "@" + (twitterUsername ?? instagramUsername ?? username ?? "username")
+        "@" + (twitterUsername ?? instagramUsername ?? username)
     }
 
     var profilePictureURL: URL? {
