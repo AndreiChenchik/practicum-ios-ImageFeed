@@ -5,15 +5,18 @@ final class SplashViewController: UIViewController {
     private let oauth2TokenExtractor: OAuth2TokenExtractor
     private let oauthTokenStorage: OAuth2TokenStoring
     private let profileLoader: ProfileLoader
+    private let errorPresenter: ErrorPresenting
 
     init(
         oauth2TokenExtractor: OAuth2TokenExtractor,
         oauthTokenStorage: OAuth2TokenStoring,
-        profileLoader: ProfileLoader
+        profileLoader: ProfileLoader,
+        errorPresenter: ErrorPresenting
     ) {
         self.oauth2TokenExtractor = oauth2TokenExtractor
         self.oauthTokenStorage = oauthTokenStorage
         self.profileLoader = profileLoader
+        self.errorPresenter = errorPresenter
 
         super.init(nibName: nil, bundle: nil)
     }
@@ -64,17 +67,25 @@ extension SplashViewController {
                 defer { UIBlockingProgressHUD.dismiss() }
 
                 switch result {
-
                 case let .success(userProfile):
                     self.navigateToApp(userProfile: userProfile)
                 case let .failure(error):
-                    print(
-                        "Can't load user profile: \(error.localizedDescription)"
-                    )
-
-                    self.startAuthentification()
+                    self.displayLoadError(error: error)
                 }
             }
+        }
+    }
+
+    private func displayLoadError(error: Error) {
+        let errorMessage = error.localizedDescription
+
+        errorPresenter.displayAlert(
+            over: self,
+            title: "Error!!",
+            message: "Something went wrong: \(errorMessage)",
+            actionTitle: "OK"
+        ) { [weak self] in
+            self?.startAuthentification()
         }
     }
 }

@@ -29,6 +29,7 @@
 		389FE84728DCCDE900560E49 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 389FE84628DCCDE900560E49 /* Assets.xcassets */; };
 		389FE84A28DCCDE900560E49 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 389FE84828DCCDE900560E49 /* LaunchScreen.storyboard */; };
 		38A32842292939FF002A122A /* ProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38A32841292939FF002A122A /* ProfileService.swift */; };
+		38A3284429293EED002A122A /* ErrorPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38A3284329293EED002A122A /* ErrorPresenter.swift */; };
 		38B9CAA1290434E9009EBD63 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38B9CAA0290434E9009EBD63 /* ProfileViewController.swift */; };
 		38B9CAA5290437ED009EBD63 /* ColorAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38B9CAA4290437ED009EBD63 /* ColorAsset.swift */; };
 		38B9CAA729043906009EBD63 /* FontAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38B9CAA629043906009EBD63 /* FontAsset.swift */; };
@@ -70,6 +71,7 @@
 		389FE84B28DCCDE900560E49 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		389FE85128DCD17500560E49 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		38A32841292939FF002A122A /* ProfileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileService.swift; sourceTree = "<group>"; };
+		38A3284329293EED002A122A /* ErrorPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorPresenter.swift; sourceTree = "<group>"; };
 		38B9CAA0290434E9009EBD63 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		38B9CAA4290437ED009EBD63 /* ColorAsset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorAsset.swift; sourceTree = "<group>"; };
 		38B9CAA629043906009EBD63 /* FontAsset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontAsset.swift; sourceTree = "<group>"; };
@@ -161,6 +163,7 @@
 			children = (
 				381B7B83290EEF9000F8EF06 /* NetworkClient.swift */,
 				382AFB50291FB45600ACC49D /* ObjectService.swift */,
+				38A3284329293EED002A122A /* ErrorPresenter.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -375,6 +378,7 @@
 				389FE83E28DCCDE800560E49 /* AppDelegate.swift in Sources */,
 				38B9CAB029044097009EBD63 /* UIImage+Extensions.swift in Sources */,
 				38B9CAA5290437ED009EBD63 /* ColorAsset.swift in Sources */,
+				38A3284429293EED002A122A /* ErrorPresenter.swift in Sources */,
 				381B7B81290EECCC00F8EF06 /* OAuthTokenResponseBody.swift in Sources */,
 				38917916290D579900B7C7B0 /* OAuthCodeViewController.swift in Sources */,
 				38B9CAAE29043FEA009EBD63 /* ImageAsset.swift in Sources */,
