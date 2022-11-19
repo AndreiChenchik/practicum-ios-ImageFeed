@@ -78,7 +78,10 @@ final class ProfileViewController: UIViewController {
 extension ProfileViewController {
     private func setupActions() {
         logoutButton.addTarget(
-            self, action: #selector(logoutPressed), for: .touchUpInside)
+            self,
+            action: #selector(logoutPressed),
+            for: .touchUpInside
+        )
     }
 
     @objc private func logoutPressed() {

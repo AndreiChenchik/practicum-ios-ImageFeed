@@ -8,7 +8,8 @@ protocol ObjectLoading {
     ) -> URLSessionTask
 
     @discardableResult func fetch<Object: Decodable>(
-        request: URLRequest, handler: @escaping (Result<Object, Error>) -> Void
+        request: URLRequest,
+        handler: @escaping (Result<Object, Error>) -> Void
     ) -> URLSessionTask
 }
 
@@ -30,7 +31,9 @@ struct ObjectService: ObjectLoading {
         var request = URLRequest(url: url)
         if let bearerToken {
             request.setValue(
-                "Bearer \(bearerToken)", forHTTPHeaderField: "Authorization")
+                "Bearer \(bearerToken)",
+                forHTTPHeaderField: "Authorization"
+            )
         }
 
         return fetch(request: request, handler: handler)
@@ -44,9 +47,8 @@ struct ObjectService: ObjectLoading {
             switch result {
             case .success(let data):
                 do {
-                    let object = try JSONDecoder().decode(
-                        Object.self, from: data
-                    )
+                    let decoder = JSONDecoder()
+                    let object = try decoder.decode(Object.self, from: data)
 
                     handler(.success(object))
                 } catch {

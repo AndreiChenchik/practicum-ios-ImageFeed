@@ -2,11 +2,13 @@ import Foundation
 
 protocol NetworkRouting {
     @discardableResult func fetch(
-        url: URL, handler: @escaping (Result<Data, Error>) -> Void
+        url: URL,
+        handler: @escaping (Result<Data, Error>) -> Void
     ) -> URLSessionTask
 
     @discardableResult func fetch(
-        request: URLRequest, handler: @escaping (Result<Data, Error>) -> Void
+        request: URLRequest,
+        handler: @escaping (Result<Data, Error>) -> Void
     ) -> URLSessionTask
 }
 
@@ -22,14 +24,16 @@ struct NetworkClient: NetworkRouting {
     }
 
     @discardableResult func fetch(
-        url: URL, handler: @escaping (Result<Data, Error>) -> Void
+        url: URL,
+        handler: @escaping (Result<Data, Error>) -> Void
     ) -> URLSessionTask {
         let request = URLRequest(url: url)
         return fetch(request: request, handler: handler)
     }
 
     @discardableResult func fetch(
-        request: URLRequest, handler: @escaping (Result<Data, Error>) -> Void
+        request: URLRequest,
+        handler: @escaping (Result<Data, Error>) -> Void
     ) -> URLSessionTask {
         let task = urlSession.dataTask(
             with: request
@@ -40,7 +44,7 @@ struct NetworkClient: NetworkRouting {
             }
 
             if let response = response as? HTTPURLResponse,
-                response.statusCode < 200 || response.statusCode >= 300 {
+               response.statusCode < 200 || response.statusCode >= 300 {
                 handler(.failure(NetworkError.codeError))
                 return
             }
