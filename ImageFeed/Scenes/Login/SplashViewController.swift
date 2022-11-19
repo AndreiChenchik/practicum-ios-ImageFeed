@@ -2,18 +2,18 @@ import UIKit
 
 final class SplashViewController: UIViewController {
 
-    let oauth2TokenExtractor: OAuth2TokenExtractor
-    let oauthTokenStorage: OAuth2TokenStoring
-    let objectService: ObjectLoading
+    private let oauth2TokenExtractor: OAuth2TokenExtractor
+    private let oauthTokenStorage: OAuth2TokenStoring
+    private let profileLoader: ProfileLoader
 
     init(
         oauth2TokenExtractor: OAuth2TokenExtractor,
         oauthTokenStorage: OAuth2TokenStoring,
-        objectService: ObjectLoading
+        profileLoader: ProfileLoader
     ) {
         self.oauth2TokenExtractor = oauth2TokenExtractor
         self.oauthTokenStorage = oauthTokenStorage
-        self.objectService = objectService
+        self.profileLoader = profileLoader
 
         super.init(nibName: nil, bundle: nil)
     }
@@ -32,7 +32,11 @@ final class SplashViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        navigateUser()
+        if let userToken = oauthTokenStorage.token {
+            loadApp(with: userToken)
+        } else {
+            startAuthentification()
+        }
     }
 
     // MARK: View components
@@ -50,21 +54,10 @@ final class SplashViewController: UIViewController {
 // MARK: - User Info
 
 extension SplashViewController {
-    private func navigateUser() {
-        guard let token = oauthTokenStorage.token else {
-            navigateToAuth()
-            return
-        }
-
+    private func loadApp(with token: String) {
         UIBlockingProgressHUD.show()
 
-        var url = URL.unsplashBaseURL
-        url.appendPathComponent("/me")
-
-        objectService.fetch(
-            url: url,
-            bearerToken: token
-        ) { [weak self] (result: Result<UserProfile, Error>) in
+        profileLoader.fetchProfile(bearerToken: token) { [weak self] result in
             guard let self else { return }
 
             DispatchQueue.main.async {
@@ -79,7 +72,7 @@ extension SplashViewController {
                         "Can't load user profile: \(error.localizedDescription)"
                     )
 
-                    self.navigateToAuth()
+                    self.startAuthentification()
                 }
             }
         }
@@ -89,7 +82,7 @@ extension SplashViewController {
 // MARK: - Navigation
 
 extension SplashViewController {
-    private func navigateToAuth() {
+    private func startAuthentification() {
         let authVC = AuthViewController(
             oauth2TokenExtractor: oauth2TokenExtractor,
             oauthTokenStorage: oauthTokenStorage)

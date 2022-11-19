@@ -3,7 +3,8 @@ import Foundation
 protocol OAuth2TokenExtractor {
     func fetchAuthToken(
         authCode: String,
-        completion: @escaping (Result<String, Error>) -> Void)
+        completion: @escaping (Result<String, Error>) -> Void
+    )
 }
 
 final class OAuth2Service: OAuth2TokenExtractor {

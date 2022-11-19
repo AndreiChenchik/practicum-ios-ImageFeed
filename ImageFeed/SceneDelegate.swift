@@ -34,11 +34,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         let objectService = ObjectService(networkClient: networkClient)
         let oauth2Service = OAuth2Service(objectService: objectService)
+        let profileService = ProfileService(objectLoader: objectService)
 
         return SplashViewController(
             oauth2TokenExtractor: oauth2Service,
             oauthTokenStorage: oauthTokenStorage,
-            objectService: objectService
+            profileLoader: profileService
         )
     }
 
