@@ -1,28 +1,28 @@
 import Foundation
 
-protocol ObjectLoading {
-    @discardableResult func fetch<Object: Decodable>(
+protocol ModelLoading {
+    @discardableResult func fetch<Model: Decodable>(
         url: URL,
         bearerToken: String?,
-        handler: @escaping (Result<Object, Error>) -> Void
+        handler: @escaping (Result<Model, Error>) -> Void
     ) -> URLSessionTask
 
-    @discardableResult func fetch<Object: Decodable>(
+    @discardableResult func fetch<Model: Decodable>(
         request: URLRequest,
-        handler: @escaping (Result<Object, Error>) -> Void
+        handler: @escaping (Result<Model, Error>) -> Void
     ) -> URLSessionTask
 }
 
-extension ObjectLoading {
-    @discardableResult func fetch<Object: Decodable>(
+extension ModelLoading {
+    @discardableResult func fetch<Model: Decodable>(
         url: URL,
-        handler: @escaping (Result<Object, Error>) -> Void
+        handler: @escaping (Result<Model, Error>) -> Void
     ) -> URLSessionTask {
         fetch(url: url, bearerToken: nil, handler: handler)
     }
 }
 
-struct ObjectService: ObjectLoading {
+struct ModelService: ModelLoading {
     private let networkClient: NetworkRouting
 
     init(
@@ -31,10 +31,10 @@ struct ObjectService: ObjectLoading {
         self.networkClient = networkClient
     }
 
-    func fetch<Object: Decodable>(
+    func fetch<Model: Decodable>(
         url: URL,
         bearerToken: String?,
-        handler: @escaping (Result<Object, Error>) -> Void
+        handler: @escaping (Result<Model, Error>) -> Void
     ) -> URLSessionTask {
 
         var request = URLRequest(url: url)
@@ -48,18 +48,18 @@ struct ObjectService: ObjectLoading {
         return fetch(request: request, handler: handler)
     }
 
-    func fetch<Object: Decodable>(
+    func fetch<Model: Decodable>(
         request: URLRequest,
-        handler: @escaping (Result<Object, Error>) -> Void
+        handler: @escaping (Result<Model, Error>) -> Void
     ) -> URLSessionTask {
         return networkClient.fetch(request: request) { result in
             switch result {
             case .success(let data):
                 do {
                     let decoder = JSONDecoder()
-                    let object = try decoder.decode(Object.self, from: data)
+                    let model = try decoder.decode(Model.self, from: data)
 
-                    handler(.success(object))
+                    handler(.success(model))
                 } catch {
                     handler(.failure(error))
                 }

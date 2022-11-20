@@ -32,13 +32,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let keychainWrapper = KeychainWrapper.standard
         let oauthTokenStorage = OAuth2TokenStorage(
             keychainWrapper: keychainWrapper)
-        let objectService = ObjectService(networkClient: networkClient)
-        let oauth2Service = OAuth2Service(objectService: objectService)
-        let profileService = ProfileService(objectLoader: objectService)
+        let modelService = ModelService(networkClient: networkClient)
+        let oauth2Service = OAuth2Service(modelLoader: modelService)
+        let profileService = ProfileService(modelLoader: modelService)
         let errorPresenter = ErrorPresenter()
         let profileImageService = ProfileImageService(
             notificationCenter: notificateionCenter,
-            objectLoader: objectService
+            modelLoader: modelService
         )
 
         let profileVCDep = ProfileViewController.Dependencies(

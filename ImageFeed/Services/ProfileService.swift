@@ -15,10 +15,10 @@ protocol ProfileLoader {
 }
 
 struct ProfileService {
-    private let objectLoader: ObjectLoading
+    private let modelLoader: ModelLoading
 
-    init(objectLoader: ObjectLoading) {
-        self.objectLoader = objectLoader
+    init(modelLoader: ModelLoading) {
+        self.modelLoader = modelLoader
     }
 }
 
@@ -30,7 +30,7 @@ extension ProfileService: ProfileLoader {
         var url = URL.unsplashBaseURL
         url.appendPathComponent("/me")
 
-        objectLoader.fetch(
+        modelLoader.fetch(
             url: url,
             bearerToken: bearerToken
         ) { (result: Result<UserProfile, Error>) in

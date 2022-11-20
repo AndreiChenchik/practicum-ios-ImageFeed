@@ -8,13 +8,13 @@ protocol OAuth2TokenExtractor {
 }
 
 final class OAuth2Service: OAuth2TokenExtractor {
-    private let objectService: ObjectLoading
+    private let modelLoader: ModelLoading
 
     private var task: URLSessionTask?
     private var lastAuthCode: String?
 
-    init(objectService: ObjectLoading) {
-        self.objectService = objectService
+    init(modelLoader: ModelLoading) {
+        self.modelLoader = modelLoader
     }
 
     func fetchAuthToken(
@@ -44,7 +44,7 @@ final class OAuth2Service: OAuth2TokenExtractor {
         request.httpBody = Data(query.utf8)
 
         lastAuthCode = authCode
-        task = objectService.fetch(
+        task = modelLoader.fetch(
             request: request
         ) { [weak self] (result: Result<OAuthTokenResponseBody, Error>) in
             defer { self?.task = nil }

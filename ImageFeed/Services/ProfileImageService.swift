@@ -24,7 +24,7 @@ final class ProfileImageService {
     )
 
     private let notificationCenter: NotificationCenter
-    private let objectLoader: ObjectLoading
+    private let modelLoader: ModelLoading
 
     private (set) var avatarURLString: String? {
         didSet {
@@ -38,10 +38,10 @@ final class ProfileImageService {
 
     init(
         notificationCenter: NotificationCenter,
-        objectLoader: ObjectLoading
+        modelLoader: ModelLoading
     ) {
         self.notificationCenter = notificationCenter
-        self.objectLoader = objectLoader
+        self.modelLoader = modelLoader
         self.avatarURLString = nil
     }
 }
@@ -61,7 +61,7 @@ extension ProfileImageService: ProfileImageLoader {
         var url = URL.unsplashBaseURL
         url.appendPathComponent("/users/\(username)")
 
-        objectLoader.fetch(
+        modelLoader.fetch(
             url: url,
             bearerToken: bearerToken
         ) { [weak self] (result: Result<UserPublicProfile, Error>) in
