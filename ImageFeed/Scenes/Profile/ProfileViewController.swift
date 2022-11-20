@@ -1,11 +1,21 @@
 import UIKit
+import Kingfisher
+import SwiftKeychainWrapper
 
 final class ProfileViewController: UIViewController {
+    struct Dependencies {
+        let notificationCenter: NotificationCenter
+        let profileImageLoader: ProfileImageLoader
+    }
+
     let userProfile: UserProfile
+    let dep: Dependencies
 
-    init(userProfile: UserProfile) {
+    private var profileAvatarObserver: NSObjectProtocol?
+
+    init(userProfile: UserProfile, dep: Dependencies) {
         self.userProfile = userProfile
-
+        self.dep = dep
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -18,7 +28,9 @@ final class ProfileViewController: UIViewController {
 
         setupView()
         layoutComponents()
+        setupActions()
 
+        observeAvatarChanges()
         displayUserData()
     }
 
@@ -30,6 +42,8 @@ final class ProfileViewController: UIViewController {
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFill
         imageView.tintColor = .cyan
+
+        imageView.image = .asset(.placeholderUserPic)
 
         return imageView
     }()
@@ -69,6 +83,38 @@ final class ProfileViewController: UIViewController {
 
         return button
     }()
+}
+
+// MARK: - Actions
+
+extension ProfileViewController {
+    private func setupActions() {
+        logoutButton.addTarget(
+            self,
+            action: #selector(logoutPressed),
+            for: .touchUpInside
+        )
+    }
+
+    @objc private func logoutPressed() {
+        // Temporary function to help with login testing
+        KeychainWrapper.standard.removeObject(forKey: .key(.tokenDefaultsKey))
+        tabBarController?.dismiss(animated: true)
+    }
+}
+
+// MARK: - Observe AvatarChanges
+
+extension ProfileViewController {
+    private func observeAvatarChanges() {
+        profileAvatarObserver = dep.notificationCenter.addObserver(
+            forName: dep.profileImageLoader.didChangeNotification,
+            object: nil,
+            queue: .main
+        ) { [weak self] _ in
+            self?.updateAvatar()
+        }
+    }
 }
 
 // MARK: - Layout
@@ -135,27 +181,22 @@ extension ProfileViewController {
 // MARK: - Data
 
 extension ProfileViewController {
+    private func updateAvatar() {
+        guard
+            let avatarURLString = dep.profileImageLoader.avatarURLString,
+            let avatarURL = URL(string: avatarURLString)
+        else { return }
+
+        userPicView.kf.setImage(
+            with: avatarURL,
+            placeholder: UIImage.asset(.placeholderUserPic)
+        )
+    }
+
     private func displayUserData() {
         userNameLabel.text = userProfile.fullName
         userHandlerLabel.text = userProfile.handler
         userDescriptionLabel.text = "Hello, Unsplash!"
-
-        DispatchQueue.global().async { [weak self] in
-            guard
-                let self,
-                let pictureURL = self.userProfile.profilePictureURL,
-                let data = try? Data(contentsOf: pictureURL) else { return }
-
-            DispatchQueue.main.async { [weak self] in
-                guard let self else { return }
-
-                UIView.transition(
-                    with: self.userPicView,
-                    duration: 0.5,
-                    options: .transitionCrossDissolve) {
-                        self.userPicView.image = UIImage(data: data)
-                    }
-            }
-        }
+        updateAvatar()
     }
 }

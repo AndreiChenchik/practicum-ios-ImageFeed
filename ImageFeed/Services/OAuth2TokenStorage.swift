@@ -1,19 +1,24 @@
 import Foundation
+import SwiftKeychainWrapper
 
 protocol OAuth2TokenStoring {
     var token: String? { get set }
 }
 
 struct OAuth2TokenStorage: OAuth2TokenStoring {
-    let userDefaults: UserDefaults
+    let keychainWrapper: KeychainWrapper
 
     var token: String? {
         get {
-            userDefaults.string(forKey: .key(.tokenDefaultsKey))
+            keychainWrapper.string(forKey: .key(.tokenDefaultsKey))
         }
 
         set {
-            userDefaults.set(newValue, forKey: .key(.tokenDefaultsKey))
+            if let newValue {
+                keychainWrapper.set(newValue, forKey: .key(.tokenDefaultsKey))
+            } else {
+                keychainWrapper.removeObject(forKey: .key(.tokenDefaultsKey))
+            }
         }
     }
 }

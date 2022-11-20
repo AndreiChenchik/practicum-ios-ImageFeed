@@ -1,19 +1,21 @@
 import UIKit
 
 final class SplashViewController: UIViewController {
+    struct Dependencies {
+        let oauth2TokenExtractor: OAuth2TokenExtractor
+        let oauthTokenStorage: OAuth2TokenStoring
+        let profileLoader: ProfileLoader
+        let profileImageLoader: ProfileImageLoader
+        let errorPresenter: ErrorPresenting
 
-    let oauth2TokenExtractor: OAuth2TokenExtractor
-    let oauthTokenStorage: OAuth2TokenStoring
-    let userProfileService: UserProfileLoading
+        let tabBarDep: TabBarController.Dependencies
+        let authVCDep: AuthViewController.Dependencies
+    }
 
-    init(
-        oauth2TokenExtractor: OAuth2TokenExtractor,
-        oauthTokenStorage: OAuth2TokenStoring,
-        userProfileService: UserProfileLoading
-    ) {
-        self.oauth2TokenExtractor = oauth2TokenExtractor
-        self.oauthTokenStorage = oauthTokenStorage
-        self.userProfileService = userProfileService
+    private let dep: Dependencies
+
+    init(dep: Dependencies) {
+        self.dep = dep
 
         super.init(nibName: nil, bundle: nil)
     }
@@ -32,7 +34,11 @@ final class SplashViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        navigateUser()
+        if let userToken = dep.oauthTokenStorage.token {
+            loadApp(with: userToken)
+        } else {
+            startAuthentification()
+        }
     }
 
     // MARK: View components
@@ -50,30 +56,44 @@ final class SplashViewController: UIViewController {
 // MARK: - User Info
 
 extension SplashViewController {
-    private func navigateUser() {
-        guard let token = oauthTokenStorage.token else {
-            navigateToAuth()
-            return
-        }
+    private func loadApp(with token: String) {
+        UIBlockingProgressHUD.show()
 
-        userProfileService.fetchUserProfile(
-            token: token
+        dep.profileLoader.fetchProfile(
+            bearerToken: token
         ) { [weak self] result in
             guard let self else { return }
 
             DispatchQueue.main.async {
-                switch result {
+                defer { UIBlockingProgressHUD.dismiss() }
 
+                switch result {
                 case let .success(userProfile):
                     self.navigateToApp(userProfile: userProfile)
-                case let .failure(error):
-                    print(
-                        "Can't load user profile: \(error.localizedDescription)"
-                    )
 
-                    self.navigateToAuth()
+                    DispatchQueue.global(qos: .userInteractive).async {
+                        self.dep.profileImageLoader.fetchProfileImageURL(
+                            username: userProfile.username,
+                            bearerToken: token
+                        ) { _ in }
+                    }
+                case let .failure(error):
+                    self.displayLoadError(error: error)
                 }
             }
+        }
+    }
+
+    private func displayLoadError(error: Error) {
+        let errorMessage = error.localizedDescription
+
+        dep.errorPresenter.displayAlert(
+            over: self,
+            title: "Error!!",
+            message: "Something went wrong: \(errorMessage)",
+            actionTitle: "OK"
+        ) { [weak self] in
+            self?.startAuthentification()
         }
     }
 }
@@ -81,18 +101,17 @@ extension SplashViewController {
 // MARK: - Navigation
 
 extension SplashViewController {
-    private func navigateToAuth() {
-        let authVC = AuthViewController(
-            oauth2TokenExtractor: oauth2TokenExtractor,
-            oauthTokenStorage: oauthTokenStorage)
-
+    private func startAuthentification() {
+        let authVC = AuthViewController(dep: dep.authVCDep)
         authVC.modalPresentationStyle = .fullScreen
-
         present(authVC, animated: true)
     }
 
     private func navigateToApp(userProfile: UserProfile) {
-        let appVC = TabBarController(userProfile: userProfile)
+        let appVC = TabBarController(
+            userProfile: userProfile,
+            dep: dep.tabBarDep
+        )
 
         appVC.modalPresentationStyle = .fullScreen
 

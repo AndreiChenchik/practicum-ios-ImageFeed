@@ -3,20 +3,27 @@ import Foundation
 protocol OAuth2TokenExtractor {
     func fetchAuthToken(
         authCode: String,
-        completion: @escaping (Result<String, Error>) -> Void)
+        completion: @escaping (Result<String, Error>) -> Void
+    )
 }
 
-struct OAuth2Service: OAuth2TokenExtractor {
-    private let networkClient: NetworkRouting
+final class OAuth2Service: OAuth2TokenExtractor {
+    private let modelLoader: ModelLoading
 
-    init(networkClient: NetworkRouting) {
-        self.networkClient = networkClient
+    private var task: URLSessionTask?
+    private var lastAuthCode: String?
+
+    init(modelLoader: ModelLoading) {
+        self.modelLoader = modelLoader
     }
 
     func fetchAuthToken(
         authCode: String,
         completion: @escaping (Result<String, Error>) -> Void
     ) {
+        guard lastAuthCode != authCode else { return }
+        task?.cancel()
+
         guard var components = URLComponents(
             url: .unsplashAuthTokenURL,
             resolvingAgainstBaseURL: false)
@@ -36,18 +43,16 @@ struct OAuth2Service: OAuth2TokenExtractor {
         request.httpMethod = "POST"
         request.httpBody = Data(query.utf8)
 
-        networkClient.fetch(request: request) { result in
-            switch result {
-            case .success(let data):
-                do {
-                    let oauthResponse = try JSONDecoder().decode(
-                        OAuthTokenResponseBody.self, from: data
-                    )
+        lastAuthCode = authCode
+        task = modelLoader.fetch(
+            request: request
+        ) { [weak self] (result: Result<OAuthTokenResponseBody, Error>) in
+            defer { self?.task = nil }
 
-                    completion(.success(oauthResponse.accessToken))
-                } catch {
-                    completion(.failure(error))
-                }
+            switch result {
+            case let .success(body):
+                completion(.success(body.accessToken))
+                self?.lastAuthCode = nil
             case .failure(let error):
                 completion(.failure(error))
             }

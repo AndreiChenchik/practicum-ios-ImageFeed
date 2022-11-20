@@ -1,4 +1,5 @@
 import UIKit
+import Kingfisher
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -8,7 +9,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
         // Override point for customization after application launch.
+        configureCache()
         return true
+    }
+
+    private func configureCache() {
+        let cache = ImageCache.default
+
+        // Установить лимит в оперативной памяти в 300 MB.
+        cache.memoryStorage.config.totalCostLimit = 300 * 1024 * 1024
+
+        // Установить лимит в оперативной памяти на 150 картинок.
+        cache.memoryStorage.config.countLimit = 150
+
+        // Установить лимит дискового кэша в 1 Гб
+        cache.diskStorage.config.sizeLimit = 1000 * 1024 * 1024
+
+        // Установить лимит на протухание кэша в оперативной памяти на 10 минут.
+        // Таким образом картинка будет удаляться через 10 минут.
+        cache.memoryStorage.config.expiration = .seconds(600)
+
+        // Установить вечный лимит на протухание дискового кэша.
+        // Таким образом закэшированные картинки на диске будут храниться вечно
+        // (пока не удалят приложение).
+        cache.diskStorage.config.expiration = .never
+
+        // Установить временной интервал очистки кэша в 30 секунд.
+        // Каждые 30 секунд будет выполняться проверка и удаление
+        // протухших картинок.
+        cache.memoryStorage.config.cleanInterval = 30
     }
 
     // MARK: UISceneSession Lifecycle

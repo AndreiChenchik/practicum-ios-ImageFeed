@@ -1,4 +1,5 @@
 import UIKit
+import SwiftKeychainWrapper
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -25,19 +26,46 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     private func makeRootVC() -> UIViewController {
         let urlSession = URLSession.shared
+        let notificateionCenter = NotificationCenter.default
+
         let networkClient = NetworkClient(urlSession: urlSession)
-        let oauth2Service = OAuth2Service(networkClient: networkClient)
+        let keychainWrapper = KeychainWrapper.standard
+        let oauthTokenStorage = OAuth2TokenStorage(
+            keychainWrapper: keychainWrapper)
+        let modelService = ModelService(networkClient: networkClient)
+        let oauth2Service = OAuth2Service(modelLoader: modelService)
+        let profileService = ProfileService(modelLoader: modelService)
+        let errorPresenter = ErrorPresenter()
+        let profileImageService = ProfileImageService(
+            notificationCenter: notificateionCenter,
+            modelLoader: modelService
+        )
 
-        let userDefaults = UserDefaults.standard
-        let oauthTokenStorage = OAuth2TokenStorage(userDefaults: userDefaults)
+        let profileVCDep = ProfileViewController.Dependencies(
+            notificationCenter: notificateionCenter,
+            profileImageLoader: profileImageService
+        )
 
-        let userProfileService = UserProfileService(
-            networkClient: networkClient)
+        let tabBarDep = TabBarController.Dependencies(
+            profileVCDep: profileVCDep
+        )
 
-        return SplashViewController(
+        let authVCDep = AuthViewController.Dependencies(
+            oauth2TokenExtractor: oauth2Service,
+            oauthTokenStorage: oauthTokenStorage
+        )
+
+        let splashViewDep = SplashViewController.Dependencies(
             oauth2TokenExtractor: oauth2Service,
             oauthTokenStorage: oauthTokenStorage,
-            userProfileService: userProfileService)
+            profileLoader: profileService,
+            profileImageLoader: profileImageService,
+            errorPresenter: errorPresenter,
+            tabBarDep: tabBarDep,
+            authVCDep: authVCDep
+        )
+
+        return SplashViewController(dep: splashViewDep)
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

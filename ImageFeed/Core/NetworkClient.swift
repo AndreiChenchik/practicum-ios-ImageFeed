@@ -1,8 +1,15 @@
 import Foundation
 
 protocol NetworkRouting {
-    func fetch(url: URL, handler: @escaping (Result<Data, Error>) -> Void)
-    func fetch(request: URLRequest, handler: @escaping (Result<Data, Error>) -> Void)
+    @discardableResult func fetch(
+        url: URL,
+        handler: @escaping (Result<Data, Error>) -> Void
+    ) -> URLSessionTask
+
+    @discardableResult func fetch(
+        request: URLRequest,
+        handler: @escaping (Result<Data, Error>) -> Void
+    ) -> URLSessionTask
 }
 
 struct NetworkClient: NetworkRouting {
@@ -16,12 +23,18 @@ struct NetworkClient: NetworkRouting {
         case codeError
     }
 
-    func fetch(url: URL, handler: @escaping (Result<Data, Error>) -> Void) {
+    @discardableResult func fetch(
+        url: URL,
+        handler: @escaping (Result<Data, Error>) -> Void
+    ) -> URLSessionTask {
         let request = URLRequest(url: url)
-        fetch(request: request, handler: handler)
+        return fetch(request: request, handler: handler)
     }
 
-    func fetch(request: URLRequest, handler: @escaping (Result<Data, Error>) -> Void) {
+    @discardableResult func fetch(
+        request: URLRequest,
+        handler: @escaping (Result<Data, Error>) -> Void
+    ) -> URLSessionTask {
         let task = urlSession.dataTask(
             with: request
         ) { data, response, error in
@@ -31,7 +44,7 @@ struct NetworkClient: NetworkRouting {
             }
 
             if let response = response as? HTTPURLResponse,
-                response.statusCode < 200 || response.statusCode >= 300 {
+               response.statusCode < 200 || response.statusCode >= 300 {
                 handler(.failure(NetworkError.codeError))
                 return
             }
@@ -41,5 +54,7 @@ struct NetworkClient: NetworkRouting {
         }
 
         task.resume()
+
+        return task
     }
 }

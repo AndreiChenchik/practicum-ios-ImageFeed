@@ -1,15 +1,15 @@
 import UIKit
 
 final class AuthViewController: UIViewController {
-    let oauth2TokenExtractor: OAuth2TokenExtractor
-    var oauthTokenStorage: OAuth2TokenStoring
+    struct Dependencies {
+        let oauth2TokenExtractor: OAuth2TokenExtractor
+        var oauthTokenStorage: OAuth2TokenStoring
+    }
 
-    init(
-        oauth2TokenExtractor: OAuth2TokenExtractor,
-        oauthTokenStorage: OAuth2TokenStoring
-    ) {
-        self.oauth2TokenExtractor = oauth2TokenExtractor
-        self.oauthTokenStorage = oauthTokenStorage
+    private var dep: Dependencies
+
+    init(dep: Dependencies) {
+        self.dep = dep
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -118,16 +118,20 @@ extension AuthViewController: OAuthCodeViewControllerDelegate {
         _ oauthCodeVC: OAuthCodeViewController,
         didAuthenticateWithCode code: String
     ) {
+        UIBlockingProgressHUD.show()
+
         oauthCodeVC.dismiss(animated: true)
-        oauth2TokenExtractor.fetchAuthToken(
+        dep.oauth2TokenExtractor.fetchAuthToken(
             authCode: code
         ) { [weak self] result in
             guard let self else { return }
 
             DispatchQueue.main.async {
+                UIBlockingProgressHUD.dismiss()
+
                 switch result {
                 case let .success(token):
-                    self.oauthTokenStorage.token = token
+                    self.dep.oauthTokenStorage.token = token
                     self.dismiss(animated: true)
                 case let .failure(error):
                     print(
