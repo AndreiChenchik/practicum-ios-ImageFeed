@@ -10,9 +10,9 @@ import UIKit
 protocol ErrorPresenting {
     func displayAlert(
         over viewController: UIViewController,
-        title: String?,
+        title: String,
         message: String?,
-        actionTitle: String?,
+        actionTitle: String,
         onDismiss: @escaping () -> Void
     )
 }
@@ -20,9 +20,9 @@ protocol ErrorPresenting {
 extension ErrorPresenting {
     func displayAlert(
         over viewController: UIViewController,
-        title: String? = nil,
+        title: String,
         message: String? = nil,
-        actionTitle: String? = nil,
+        actionTitle: String,
         onDismiss: @escaping () -> Void = { }
     ) {
         displayAlert(
@@ -38,9 +38,9 @@ extension ErrorPresenting {
 struct ErrorPresenter: ErrorPresenting {
     func displayAlert(
         over viewController: UIViewController,
-        title: String?,
+        title: String,
         message: String?,
-        actionTitle: String?,
+        actionTitle: String,
         onDismiss: @escaping () -> Void
     ) {
         let alert = UIAlertController(

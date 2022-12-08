@@ -22,6 +22,7 @@
 		382AFB4F291FB28900ACC49D /* SwiftKeychainWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = 382AFB4E291FB28900ACC49D /* SwiftKeychainWrapper */; };
 		382AFB51291FB45600ACC49D /* ModelService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 382AFB50291FB45600ACC49D /* ModelService.swift */; };
 		3837F3DE290E9B5E0069F905 /* OAuthCodeViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3837F3DD290E9B5E0069F905 /* OAuthCodeViewControllerDelegate.swift */; };
+		385CE866294281F1008C8454 /* LikeResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 385CE865294281F1008C8454 /* LikeResult.swift */; };
 		3891790D290D251F00B7C7B0 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3891790C290D251F00B7C7B0 /* Constant.swift */; };
 		3891790F290D25B500B7C7B0 /* URL+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3891790E290D25B500B7C7B0 /* URL+Extensions.swift */; };
 		38917914290D577100B7C7B0 /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38917913290D577100B7C7B0 /* AuthViewController.swift */; };
@@ -67,6 +68,7 @@
 		382AFB48291F9EC100ACC49D /* UIBlockingProgressHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBlockingProgressHUD.swift; sourceTree = "<group>"; };
 		382AFB50291FB45600ACC49D /* ModelService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelService.swift; sourceTree = "<group>"; };
 		3837F3DD290E9B5E0069F905 /* OAuthCodeViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthCodeViewControllerDelegate.swift; sourceTree = "<group>"; };
+		385CE865294281F1008C8454 /* LikeResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeResult.swift; sourceTree = "<group>"; };
 		3891790C290D251F00B7C7B0 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		3891790E290D25B500B7C7B0 /* URL+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Extensions.swift"; sourceTree = "<group>"; };
 		38917913290D577100B7C7B0 /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
@@ -229,6 +231,7 @@
 				38A3284729294A6C002A122A /* UserPublicProfile.swift */,
 				38A3284929294AC7002A122A /* ProfileImage.swift */,
 				381099C7294201E6009B1392 /* PhotoResult.swift */,
+				385CE865294281F1008C8454 /* LikeResult.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -394,6 +397,7 @@
 				381B7B86290EF02A00F8EF06 /* OAuth2Service.swift in Sources */,
 				381099CC2942085D009B1392 /* SingleImageViewModel.swift in Sources */,
 				38A3284A29294AC7002A122A /* ProfileImage.swift in Sources */,
+				385CE866294281F1008C8454 /* LikeResult.swift in Sources */,
 				38B9CAB62904655D009EBD63 /* TabBarController.swift in Sources */,
 				3837F3DE290E9B5E0069F905 /* OAuthCodeViewControllerDelegate.swift in Sources */,
 				389FE83E28DCCDE800560E49 /* AppDelegate.swift in Sources */,

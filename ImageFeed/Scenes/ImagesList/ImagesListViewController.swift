@@ -229,7 +229,9 @@ extension ImagesListViewController: ImagesListCellDelegate {
                 completion(isLiked)
             case let .failure(error):
                 self.deps.errorPresenter.displayAlert(
-                    over: self, title: error.localizedDescription
+                    over: self,
+                    title: error.localizedDescription,
+                    actionTitle: "OK"
                 )
             }
 

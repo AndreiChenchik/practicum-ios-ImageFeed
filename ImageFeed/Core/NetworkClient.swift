@@ -19,8 +19,15 @@ struct NetworkClient: NetworkRouting {
         self.urlSession = urlSession
     }
 
-    private enum NetworkError: Error {
+    private enum NetworkError: LocalizedError {
         case codeError
+
+        public var errorDescription: String? {
+            switch self {
+            case .codeError:
+                return NSLocalizedString("Backend returned non 200 code.", comment: "NetworkClient")
+            }
+        }
     }
 
     @discardableResult func fetch(

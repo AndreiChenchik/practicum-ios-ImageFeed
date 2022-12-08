@@ -43,7 +43,6 @@ final class ImagesListService {
 
     func prepareForDisplay(index: Int) {
         if index + 1 == photos.count && task == nil {
-            print("let's load")
             fetchPhotosNextPage()
         }
     }
@@ -54,7 +53,6 @@ final class ImagesListService {
 extension ImagesListService {
     private func fetchPhotosNextPage() {
         let photosURL = nextPhotosURL()
-        print(photosURL.absoluteString)
 
         task = modelService.fetch(
             url: photosURL,
@@ -117,12 +115,38 @@ extension ImagesListService {
 
 extension ImagesListService {
     func changeLike(index: Int, isLiked: Bool, completion: @escaping (Result<Bool, Error>) -> Void) {
-        photos[index].isLiked = isLiked
+        guard let bearer else { return }
 
-        DispatchQueue.global().async {
-            sleep(3)
-            DispatchQueue.main.async {
-                completion(.success(isLiked))
+        let photo = photos[index]
+
+        var url = URL.unsplashBaseURL
+        url.appendPathComponent("/photos/\(photo.id)/like")
+
+        var request = URLRequest(url: url)
+        request.httpMethod = isLiked ? "POST" : "DELETE"
+
+        request.setValue(
+            "Bearer \(bearer)",
+            forHTTPHeaderField: "Authorization"
+        )
+
+        modelService.fetch(request: request) { [weak self] (result: Result<LikeResult, Error>) in
+            let likeResult: Result<Bool, Error>
+
+            defer {
+                DispatchQueue.main.async { [weak self] in
+                    if case .success = likeResult {
+                        self?.photos[index].isLiked = isLiked
+                    }
+                    completion(likeResult)
+                }
+            }
+
+            switch result {
+            case .success:
+                likeResult = .success(isLiked)
+            case let .failure(error):
+                likeResult = .failure(error)
             }
         }
     }
