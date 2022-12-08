@@ -1,5 +1,6 @@
 import UIKit
 import Kingfisher
+import ProgressHUD
 
 final class SingleImageViewController: UITabBarController {
 
@@ -90,11 +91,13 @@ extension SingleImageViewController {
         let placeholderImage = UIImage.asset(.placeholderImageView)
         rescaleAndCenterImageInScrollView(imageSize: placeholderImage.size)
 
-        imageView.kf.indicatorType = .activity
+        ProgressHUD.show()
+
         imageView.kf.setImage(
             with: model.image,
             placeholder: placeholderImage
         ) { [weak self] _ in
+            ProgressHUD.dismiss()
             self?.rescaleAndCenterImageInScrollView(imageSize: model.size)
         }
     }
