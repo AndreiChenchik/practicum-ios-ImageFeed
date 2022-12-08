@@ -87,8 +87,16 @@ extension SingleImageViewController {
 
 extension SingleImageViewController {
     private func displayImage(_ model: SingleImageViewModel) {
-        imageView.kf.setImage(with: model.image)
-        rescaleAndCenterImageInScrollView(imageSize: model.size)
+        let placeholderImage = UIImage.asset(.placeholderImageView)
+        rescaleAndCenterImageInScrollView(imageSize: placeholderImage.size)
+
+        imageView.kf.indicatorType = .activity
+        imageView.kf.setImage(
+            with: model.image,
+            placeholder: placeholderImage
+        ) { [weak self] _ in
+            self?.rescaleAndCenterImageInScrollView(imageSize: model.size)
+        }
     }
 
     @objc private func backPressed() {
