@@ -58,7 +58,8 @@ final class ImagesListCell: UITableViewCell {
 
 extension ImagesListCell {
     func configure(with viewModel: ImageViewModel) {
-        mainImageView.kf.setImage(with: viewModel.image)
+        mainImageView.kf.indicatorType = .activity
+        mainImageView.kf.setImage(with: viewModel.image, placeholder: UIImage.asset(.placeholderImageCell))
 
         dateLabel.text = viewModel.dateString
 
