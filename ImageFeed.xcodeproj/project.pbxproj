@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		381099CC2942085D009B1392 /* SingleImageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 381099CB2942085D009B1392 /* SingleImageViewModel.swift */; };
 		381B7B81290EECCC00F8EF06 /* OAuthTokenResponseBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 381B7B80290EECCC00F8EF06 /* OAuthTokenResponseBody.swift */; };
 		381B7B84290EEF9000F8EF06 /* NetworkClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 381B7B83290EEF9000F8EF06 /* NetworkClient.swift */; };
 		381B7B86290EF02A00F8EF06 /* OAuth2Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 381B7B85290EF02A00F8EF06 /* OAuth2Service.swift */; };
@@ -52,6 +53,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		381099CB2942085D009B1392 /* SingleImageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleImageViewModel.swift; sourceTree = "<group>"; };
 		381B7B80290EECCC00F8EF06 /* OAuthTokenResponseBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthTokenResponseBody.swift; sourceTree = "<group>"; };
 		381B7B83290EEF9000F8EF06 /* NetworkClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkClient.swift; sourceTree = "<group>"; };
 		381B7B85290EF02A00F8EF06 /* OAuth2Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuth2Service.swift; sourceTree = "<group>"; };
@@ -239,6 +241,7 @@
 			isa = PBXGroup;
 			children = (
 				38B9CAB729047420009EBD63 /* SingleImageViewController.swift */,
+				381099CB2942085D009B1392 /* SingleImageViewModel.swift */,
 			);
 			path = SingleImageView;
 			sourceTree = "<group>";
@@ -383,6 +386,7 @@
 				381B7B8C290EFD6000F8EF06 /* SplashViewController.swift in Sources */,
 				38A3284829294A6C002A122A /* UserPublicProfile.swift in Sources */,
 				381B7B86290EF02A00F8EF06 /* OAuth2Service.swift in Sources */,
+				381099CC2942085D009B1392 /* SingleImageViewModel.swift in Sources */,
 				38A3284A29294AC7002A122A /* ProfileImage.swift in Sources */,
 				38B9CAB62904655D009EBD63 /* TabBarController.swift in Sources */,
 				3837F3DE290E9B5E0069F905 /* OAuthCodeViewControllerDelegate.swift in Sources */,

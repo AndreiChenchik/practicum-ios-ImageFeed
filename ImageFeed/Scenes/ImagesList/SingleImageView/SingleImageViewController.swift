@@ -3,7 +3,7 @@ import Kingfisher
 
 final class SingleImageViewController: UITabBarController {
 
-    var image: URL?
+    var image: SingleImageViewModel?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -86,10 +86,9 @@ extension SingleImageViewController {
 // MARK: - Actions
 
 extension SingleImageViewController {
-    private func displayImage(_ image: URL) {
-        imageView.kf.setImage(with: image)
-        #warning("return rescale method somehow")
-        //rescaleAndCenterImageInScrollView(image: image)
+    private func displayImage(_ model: SingleImageViewModel) {
+        imageView.kf.setImage(with: model.image)
+        rescaleAndCenterImageInScrollView(imageSize: model.size)
     }
 
     @objc private func backPressed() {
@@ -193,12 +192,11 @@ extension SingleImageViewController: UIScrollViewDelegate {
         imageView
     }
 
-    private func rescaleAndCenterImageInScrollView(image: UIImage) {
+    private func rescaleAndCenterImageInScrollView(imageSize: CGSize) {
         let minZoomScale = scrollView.minimumZoomScale
         let maxZoomScale = scrollView.maximumZoomScale
 
         let containerSize = view.bounds.size
-        let imageSize = image.size
 
         let hScale = containerSize.width / imageSize.width
         let vScale = containerSize.height / imageSize.height

@@ -7,14 +7,15 @@ final class ImagesListViewController: UIViewController {
         (0...21)
             .map { _ in (Int.random(in: 100...800), Int.random(in: 100...800)) }
             .map { width, height in
-                let fileURL = URL(string: "https://picsum.photos/\(width)/\(height)")!
-                let imageSize = CGSize(width: width, height: height)
+                let thumbnailImage = URL(string: "https://picsum.photos/\(width)/\(height)")!
+                let largeImage = URL(string: "https://picsum.photos/\(width*4)/\(height*4)")!
+                let imageSize = CGSize(width: width*4, height: height*4)
 
                 return Photo(
                     id: UUID().uuidString,
                     description: nil,
-                    thumbnailImage: fileURL,
-                    largeImage: fileURL,
+                    thumbnailImage: thumbnailImage,
+                    largeImage: largeImage,
                     size: imageSize,
                     createdAt: Date(),
                     isLiked: Bool.random()
@@ -112,8 +113,8 @@ extension ImagesListViewController: UITableViewDelegate {
     ) {
         tableView.deselectRow(at: indexPath, animated: true)
 
-        let imagePath = mockData[indexPath.row].largeImage
-        singleImageView.image = imagePath
+        let photo = mockData[indexPath.row]
+        singleImageView.image = .init(image: photo.largeImage, size: photo.size)
 
         present(singleImageView, animated: true)
     }
@@ -138,7 +139,8 @@ extension ImagesListViewController: UITableViewDataSource {
     func tableView(
         _ tableView: UITableView, numberOfRowsInSection section: Int
     ) -> Int {
-        mockData.count
+        print("how many?")
+        return mockData.count
     }
 
     func tableView(
