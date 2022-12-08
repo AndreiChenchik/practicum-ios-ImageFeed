@@ -1,6 +1,7 @@
 import UIKit
 import Kingfisher
 import SwiftKeychainWrapper
+import WebKit
 
 final class ProfileViewController: UIViewController {
     struct Dependencies {
@@ -97,7 +98,18 @@ extension ProfileViewController {
     }
 
     @objc private func logoutPressed() {
-        // Temporary function to help with login testing
+        HTTPCookieStorage.shared.removeCookies(since: Date.distantPast)
+        WKWebsiteDataStore.default().fetchDataRecords(
+            ofTypes: WKWebsiteDataStore.allWebsiteDataTypes()
+        ) { records in
+           records.forEach { record in
+              WKWebsiteDataStore.default().removeData(
+                ofTypes: record.dataTypes,
+                for: [record],
+                completionHandler: {}
+              )
+           }
+        }
         KeychainWrapper.standard.removeObject(forKey: .key(.tokenDefaultsKey))
         tabBarController?.dismiss(animated: true)
     }
