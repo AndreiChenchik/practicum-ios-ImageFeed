@@ -9,5 +9,5 @@ struct Photo {
     let size: CGSize
 
     let createdAt: Date
-    let isLiked: Bool
+    var isLiked: Bool
 }

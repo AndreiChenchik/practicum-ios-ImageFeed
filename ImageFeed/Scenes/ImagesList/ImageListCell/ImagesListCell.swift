@@ -1,7 +1,16 @@
 import UIKit
 import Kingfisher
 
+protocol ImagesListCellDelegate: AnyObject {
+    func imageListCellDidTapLike(
+        _ cell: ImagesListCell,
+        completion: @escaping (Bool) -> Void
+    )
+}
+
 final class ImagesListCell: UITableViewCell {
+
+    weak var delegate: ImagesListCellDelegate?
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -51,7 +60,10 @@ final class ImagesListCell: UITableViewCell {
         return view
     }()
 
-    private let isFavoriteView = UIImageView()
+    private let isFavoriteButton: UIButton = {
+        let button = UIButton()
+        return UIButton()
+    }()
 }
 
 // MARK: - Cell configuration
@@ -63,9 +75,7 @@ extension ImagesListCell {
 
         dateLabel.text = viewModel.dateString
 
-        isFavoriteView.image = viewModel.isFavorite
-            ? .asset(.isFavoriteIcon)
-            : .asset(.isNotFavoriteIcon)
+        setIsLiked(viewModel.isFavorite)
 
         layoutIfNeeded()
     }
@@ -84,7 +94,7 @@ extension ImagesListCell {
         setupImageView()
         setupGradient()
         setupDataLabel()
-        setupFavoriteView()
+        setupFavoriteButton()
     }
 
     private func setupImageView() {
@@ -129,18 +139,41 @@ extension ImagesListCell {
                 equalTo: mainImageView.bottomAnchor, constant: -8)
         ])
     }
+}
 
-    private func setupFavoriteView() {
-        isFavoriteView.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(isFavoriteView)
+// MARK: - Favorite Button
+
+extension ImagesListCell {
+    private func setupFavoriteButton() {
+        isFavoriteButton.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(isFavoriteButton)
 
         NSLayoutConstraint.activate([
-            isFavoriteView.trailingAnchor.constraint(
+            isFavoriteButton.trailingAnchor.constraint(
                 equalTo: mainImageView.trailingAnchor),
-            isFavoriteView.topAnchor.constraint(
+            isFavoriteButton.topAnchor.constraint(
                 equalTo: mainImageView.topAnchor),
-            isFavoriteView.heightAnchor.constraint(equalToConstant: 42),
-            isFavoriteView.widthAnchor.constraint(equalToConstant: 42)
+            isFavoriteButton.heightAnchor.constraint(equalToConstant: 42),
+            isFavoriteButton.widthAnchor.constraint(equalToConstant: 42)
         ])
+
+        isFavoriteButton.addTarget(self,
+                                   action: #selector(favoriteButtonPressed),
+                                   for: .touchUpInside)
+    }
+
+    private func setIsLiked(_ state: Bool) {
+        isFavoriteButton.setBackgroundImage(
+            state
+            ? .asset(.isFavoriteIcon)
+            : .asset(.isNotFavoriteIcon),
+            for: .normal
+        )
+    }
+
+    @objc func favoriteButtonPressed() {
+        delegate?.imageListCellDidTapLike(self) { [weak self] in
+            self?.setIsLiked($0)
+        }
     }
 }

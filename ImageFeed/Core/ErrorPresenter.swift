@@ -17,6 +17,24 @@ protocol ErrorPresenting {
     )
 }
 
+extension ErrorPresenting {
+    func displayAlert(
+        over viewController: UIViewController,
+        title: String? = nil,
+        message: String? = nil,
+        actionTitle: String? = nil,
+        onDismiss: @escaping () -> Void = { }
+    ) {
+        displayAlert(
+            over: viewController,
+            title: title,
+            message: message,
+            actionTitle: actionTitle,
+            onDismiss: onDismiss
+        )
+    }
+}
+
 struct ErrorPresenter: ErrorPresenting {
     func displayAlert(
         over viewController: UIViewController,

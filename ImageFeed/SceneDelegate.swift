@@ -56,7 +56,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         let imagesListVCDep = ImagesListViewController.Dependencies(
             notificationCenter: notificateionCenter,
-            imagesListService: imagesListService
+            imagesListService: imagesListService,
+            errorPresenter: errorPresenter
         )
 
         let tabBarDep = TabBarController.Dependencies(

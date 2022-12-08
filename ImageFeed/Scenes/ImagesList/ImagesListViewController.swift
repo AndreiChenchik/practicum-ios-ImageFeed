@@ -5,6 +5,7 @@ final class ImagesListViewController: UIViewController {
     struct Dependencies {
         let notificationCenter: NotificationCenter
         let imagesListService: ImagesListService
+        let errorPresenter: ErrorPresenting
     }
 
     private let deps: Dependencies
@@ -152,6 +153,8 @@ extension ImagesListViewController: UITableViewDataSource {
         let viewModel = convert(model: deps.imagesListService.photos[indexPath.row])
         imagesListCell.configure(with: viewModel)
 
+        imagesListCell.delegate = self
+
         return imagesListCell
     }
 
@@ -197,7 +200,39 @@ extension ImagesListViewController {
 
             tableView.performBatchUpdates {
                 tableView.insertRows(at: newPaths, with: .automatic)
-            } completion: { _ in }
+            }
+        }
+    }
+}
+
+// MARK: - ImagesListCellDelegate
+
+extension ImagesListViewController: ImagesListCellDelegate {
+    func imageListCellDidTapLike(
+        _ cell: ImagesListCell,
+        completion: @escaping (Bool) -> Void
+    ) {
+        guard let indexPath = tableView.indexPath(for: cell) else { return }
+        let photo = deps.imagesListService.photos[indexPath.row]
+
+        UIBlockingProgressHUD.show()
+        deps.imagesListService.changeLike(
+            index: indexPath.row,
+            isLiked: !photo.isLiked
+        ) { [weak self] result in
+            defer { UIBlockingProgressHUD.dismiss() }
+
+            guard let self else { return }
+
+            switch result {
+            case let .success(isLiked):
+                completion(isLiked)
+            case let .failure(error):
+                self.deps.errorPresenter.displayAlert(
+                    over: self, title: error.localizedDescription
+                )
+            }
+
         }
     }
 }

@@ -49,6 +49,8 @@ final class ImagesListService {
     }
 }
 
+// MARK: - Photos Loading
+
 extension ImagesListService {
     private func fetchPhotosNextPage() {
         let photosURL = nextPhotosURL()
@@ -108,5 +110,20 @@ extension ImagesListService {
         }
 
         return photosURL
+    }
+}
+
+// MARK: - Likes
+
+extension ImagesListService {
+    func changeLike(index: Int, isLiked: Bool, completion: @escaping (Result<Bool, Error>) -> Void) {
+        photos[index].isLiked = isLiked
+
+        DispatchQueue.global().async {
+            sleep(3)
+            DispatchQueue.main.async {
+                completion(.success(isLiked))
+            }
+        }
     }
 }
