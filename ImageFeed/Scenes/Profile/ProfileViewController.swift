@@ -8,8 +8,8 @@ final class ProfileViewController: UIViewController {
         let profileImageLoader: ProfileImageLoader
     }
 
-    let userProfile: UserProfile
-    let dep: Dependencies
+    private let userProfile: UserProfile
+    private let dep: Dependencies
 
     private var profileAvatarObserver: NSObjectProtocol?
 

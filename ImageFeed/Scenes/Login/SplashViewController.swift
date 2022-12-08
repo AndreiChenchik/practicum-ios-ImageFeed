@@ -59,6 +59,8 @@ extension SplashViewController {
     private func loadApp(with token: String) {
         UIBlockingProgressHUD.show()
 
+        dep.tabBarDep.imagesListVCDep.imagesListService.authorize(with: token)
+
         dep.profileLoader.fetchProfile(
             bearerToken: token
         ) { [weak self] result in

@@ -2,26 +2,22 @@ import UIKit
 import Kingfisher
 
 final class ImagesListViewController: UIViewController {
+    struct Dependencies {
+        let notificationCenter: NotificationCenter
+        let imagesListService: ImagesListService
+    }
 
-    private let mockData: [Photo] = {
-        (0...21)
-            .map { _ in (Int.random(in: 100...800), Int.random(in: 100...800)) }
-            .map { width, height in
-                let thumbnailImage = URL(string: "https://picsum.photos/\(width)/\(height)")!
-                let largeImage = URL(string: "https://picsum.photos/\(width*4)/\(height*4)")!
-                let imageSize = CGSize(width: width*4, height: height*4)
+    private let deps: Dependencies
+    private var imagesListObserver: NSObjectProtocol?
 
-                return Photo(
-                    id: UUID().uuidString,
-                    description: nil,
-                    thumbnailImage: thumbnailImage,
-                    largeImage: largeImage,
-                    size: imageSize,
-                    createdAt: Date(),
-                    isLiked: Bool.random()
-                )
-        }
-    }()
+    init(deps: Dependencies) {
+        self.deps = deps
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,6 +25,7 @@ final class ImagesListViewController: UIViewController {
         configureTable()
 
         updateInsets() // Imitate scroll position showed in design
+        observeImagesListChanges()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -65,9 +62,9 @@ extension ImagesListViewController {
         tableView.contentInset =  UIEdgeInsets(
             top: 16, left: 0, bottom: 0, right: 0
         )
-        tableView.scrollToRow(
-            at: IndexPath(row: 0, section: 0), at: .top, animated: false
-        )
+//        tableView.scrollToRow(
+//            at: IndexPath(row: 0, section: 0), at: .top, animated: false
+//        )
     }
 
     private func configureView() {
@@ -113,7 +110,7 @@ extension ImagesListViewController: UITableViewDelegate {
     ) {
         tableView.deselectRow(at: indexPath, animated: true)
 
-        let photo = mockData[indexPath.row]
+        let photo = deps.imagesListService.photos[indexPath.row]
         singleImageView.image = .init(image: photo.largeImage, size: photo.size)
 
         present(singleImageView, animated: true)
@@ -123,7 +120,7 @@ extension ImagesListViewController: UITableViewDelegate {
     func tableView(
         _ tableView: UITableView, heightForRowAt indexPath: IndexPath
     ) -> CGFloat {
-        let imageSize = convert(model: mockData[indexPath.row]).size
+        let imageSize = convert(model: deps.imagesListService.photos[indexPath.row]).size
         let aspectRatio = imageSize.height / imageSize.width
 
         let cellWidth = view.frame.width - 32
@@ -139,8 +136,7 @@ extension ImagesListViewController: UITableViewDataSource {
     func tableView(
         _ tableView: UITableView, numberOfRowsInSection section: Int
     ) -> Int {
-        print("how many?")
-        return mockData.count
+        return deps.imagesListService.photos.count
     }
 
     func tableView(
@@ -153,10 +149,18 @@ extension ImagesListViewController: UITableViewDataSource {
             fatalError("Can't get cell for ImagesList")
         }
 
-        let viewModel = convert(model: mockData[indexPath.row])
+        let viewModel = convert(model: deps.imagesListService.photos[indexPath.row])
         imagesListCell.configure(with: viewModel)
 
         return imagesListCell
+    }
+
+    func tableView(
+        _ tableView: UITableView,
+        willDisplay cell: UITableViewCell,
+        forRowAt indexPath: IndexPath
+    ) {
+        deps.imagesListService.prepareForDisplay(index: indexPath.row)
     }
 
     private func convert(model: Photo) -> ImageViewModel {
@@ -168,5 +172,19 @@ extension ImagesListViewController: UITableViewDataSource {
             dateString: dateString,
             isFavorite: model.isLiked
         )
+    }
+}
+
+// MARK: - Observe ImagesList Changes
+
+extension ImagesListViewController {
+    private func observeImagesListChanges() {
+        imagesListObserver = deps.notificationCenter.addObserver(
+            forName: deps.imagesListService.didChangeNotification,
+            object: nil,
+            queue: .main
+        ) { [weak self] _ in
+            self?.tableView.reloadData()
+        }
     }
 }
