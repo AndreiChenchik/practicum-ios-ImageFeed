@@ -1,13 +1,13 @@
 import Foundation
 
-struct PhotoDTO: Decodable {
+struct PhotoResult: Decodable {
     let id: String
     let createdAt: Date
     let width: Int
     let height: Int
     let likedByUser: Bool
     let description: String?
-    let urls: PhotoURLs
+    let urls: PhotoUrlsResult
 
     enum CodingKeys: String, CodingKey {
         case id, width, height, description, urls
@@ -15,7 +15,7 @@ struct PhotoDTO: Decodable {
         case likedByUser = "liked_by_user"
     }
 
-    struct PhotoURLs: Decodable {
+    struct PhotoUrlsResult: Decodable {
         let regular: URL
         let thumb: URL
     }

@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		381099C8294201E6009B1392 /* PhotoDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 381099C7294201E6009B1392 /* PhotoDTO.swift */; };
+		381099C8294201E6009B1392 /* PhotoResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 381099C7294201E6009B1392 /* PhotoResult.swift */; };
 		381099CA29420409009B1392 /* ImagesListService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 381099C929420409009B1392 /* ImagesListService.swift */; };
 		381099CC2942085D009B1392 /* SingleImageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 381099CB2942085D009B1392 /* SingleImageViewModel.swift */; };
 		381B7B81290EECCC00F8EF06 /* OAuthTokenResponseBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 381B7B80290EECCC00F8EF06 /* OAuthTokenResponseBody.swift */; };
@@ -55,7 +55,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		381099C7294201E6009B1392 /* PhotoDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoDTO.swift; sourceTree = "<group>"; };
+		381099C7294201E6009B1392 /* PhotoResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoResult.swift; sourceTree = "<group>"; };
 		381099C929420409009B1392 /* ImagesListService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListService.swift; sourceTree = "<group>"; };
 		381099CB2942085D009B1392 /* SingleImageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleImageViewModel.swift; sourceTree = "<group>"; };
 		381B7B80290EECCC00F8EF06 /* OAuthTokenResponseBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthTokenResponseBody.swift; sourceTree = "<group>"; };
@@ -228,7 +228,7 @@
 				381B7B8D290F027B00F8EF06 /* UserProfile.swift */,
 				38A3284729294A6C002A122A /* UserPublicProfile.swift */,
 				38A3284929294AC7002A122A /* ProfileImage.swift */,
-				381099C7294201E6009B1392 /* PhotoDTO.swift */,
+				381099C7294201E6009B1392 /* PhotoResult.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -417,7 +417,7 @@
 				38A328462929496C002A122A /* ProfileImageService.swift in Sources */,
 				38B9CAB829047420009EBD63 /* SingleImageViewController.swift in Sources */,
 				38B9CAA729043906009EBD63 /* FontAsset.swift in Sources */,
-				381099C8294201E6009B1392 /* PhotoDTO.swift in Sources */,
+				381099C8294201E6009B1392 /* PhotoResult.swift in Sources */,
 				381B7B8A290EF84500F8EF06 /* OAuth2TokenStorage.swift in Sources */,
 				381B7B84290EEF9000F8EF06 /* NetworkClient.swift in Sources */,
 				382AFB51291FB45600ACC49D /* ModelService.swift in Sources */,
