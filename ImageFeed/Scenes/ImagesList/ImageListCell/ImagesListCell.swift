@@ -68,6 +68,12 @@ extension ImagesListCell {
 
         layoutIfNeeded()
     }
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+
+        mainImageView.kf.cancelDownloadTask()
+    }
 }
 
 // MARK: - Cell layout
