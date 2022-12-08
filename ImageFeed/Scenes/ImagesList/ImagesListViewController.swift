@@ -184,7 +184,20 @@ extension ImagesListViewController {
             object: nil,
             queue: .main
         ) { [weak self] _ in
-            self?.tableView.reloadData()
+            self?.updateTableViewAnimated()
+        }
+    }
+
+    private func updateTableViewAnimated() {
+        let oldCount = tableView.numberOfRows(inSection: 0)
+        let newCount = deps.imagesListService.photos.count
+
+        if oldCount < newCount {
+            let newPaths = (oldCount..<newCount).map { IndexPath(row: $0, section: 0) }
+
+            tableView.performBatchUpdates {
+                tableView.insertRows(at: newPaths, with: .automatic)
+            } completion: { _ in }
         }
     }
 }
