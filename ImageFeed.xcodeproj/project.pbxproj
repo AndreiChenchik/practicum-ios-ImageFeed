@@ -48,7 +48,7 @@
 		38C8E1BE28F1E6960078FD78 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38C8E1BD28F1E6960078FD78 /* GradientView.swift */; };
 		38C8E1C228F1F0850078FD78 /* YSDisplay-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 38C8E1C028F1F0850078FD78 /* YSDisplay-Bold.ttf */; };
 		38C8E1C728F1F8040078FD78 /* YSDisplay-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 38C8E1C628F1F8040078FD78 /* YSDisplay-Medium.ttf */; };
-		38C8E1C928F1FA800078FD78 /* Picture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38C8E1C828F1FA800078FD78 /* Picture.swift */; };
+		38C8E1C928F1FA800078FD78 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38C8E1C828F1FA800078FD78 /* Photo.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -93,7 +93,7 @@
 		38C8E1BD28F1E6960078FD78 /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		38C8E1C028F1F0850078FD78 /* YSDisplay-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "YSDisplay-Bold.ttf"; sourceTree = "<group>"; };
 		38C8E1C628F1F8040078FD78 /* YSDisplay-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "YSDisplay-Medium.ttf"; sourceTree = "<group>"; };
-		38C8E1C828F1FA800078FD78 /* Picture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Picture.swift; sourceTree = "<group>"; };
+		38C8E1C828F1FA800078FD78 /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -216,7 +216,7 @@
 		38B9CAB429044A9A009EBD63 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				38C8E1C828F1FA800078FD78 /* Picture.swift */,
+				38C8E1C828F1FA800078FD78 /* Photo.swift */,
 				381B7B80290EECCC00F8EF06 /* OAuthTokenResponseBody.swift */,
 				381B7B8D290F027B00F8EF06 /* UserProfile.swift */,
 				38A3284729294A6C002A122A /* UserPublicProfile.swift */,
@@ -394,7 +394,7 @@
 				38917916290D579900B7C7B0 /* OAuthCodeViewController.swift in Sources */,
 				38B9CAAE29043FEA009EBD63 /* ImageAsset.swift in Sources */,
 				389FE84028DCCDE800560E49 /* SceneDelegate.swift in Sources */,
-				38C8E1C928F1FA800078FD78 /* Picture.swift in Sources */,
+				38C8E1C928F1FA800078FD78 /* Photo.swift in Sources */,
 				38C8E1BE28F1E6960078FD78 /* GradientView.swift in Sources */,
 				381B7B8E290F027B00F8EF06 /* UserProfile.swift in Sources */,
 				38B9CAA1290434E9009EBD63 /* ProfileViewController.swift in Sources */,

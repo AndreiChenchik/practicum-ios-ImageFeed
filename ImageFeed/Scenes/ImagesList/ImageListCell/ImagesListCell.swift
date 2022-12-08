@@ -1,4 +1,5 @@
 import UIKit
+import Kingfisher
 
 final class ImagesListCell: UITableViewCell {
 
@@ -57,7 +58,8 @@ final class ImagesListCell: UITableViewCell {
 
 extension ImagesListCell {
     func configure(with viewModel: ImageViewModel) {
-        mainImageView.image = viewModel.image
+        mainImageView.kf.setImage(with: viewModel.image)
+
         dateLabel.text = viewModel.dateString
 
         isFavoriteView.image = viewModel.isFavorite

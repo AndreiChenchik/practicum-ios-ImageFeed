@@ -1,14 +1,24 @@
 import UIKit
+import Kingfisher
 
 final class ImagesListViewController: UIViewController {
 
-    private let mockData: [Picture] = {
-        (0...21).map { num in
-            Picture(
-                path: "\(num).png",
-                date: Date(),
-                isFavorite: num % 2 == 1
-            )
+    private let mockData: [Photo] = {
+        (0...21)
+            .map { _ in (Int.random(in: 100...800), Int.random(in: 100...800)) }
+            .map { width, height in
+                let fileURL = URL(string: "https://picsum.photos/\(width)/\(height)")!
+                let imageSize = CGSize(width: width, height: height)
+
+                return Photo(
+                    id: UUID().uuidString,
+                    description: nil,
+                    thumbnailImage: fileURL,
+                    largeImage: fileURL,
+                    size: imageSize,
+                    createdAt: Date(),
+                    isLiked: Bool.random()
+                )
         }
     }()
 
@@ -102,8 +112,8 @@ extension ImagesListViewController: UITableViewDelegate {
     ) {
         tableView.deselectRow(at: indexPath, animated: true)
 
-        let imagePath = mockData[indexPath.row].path
-        singleImageView.image = UIImage(named: imagePath)
+        let imagePath = mockData[indexPath.row].largeImage
+        singleImageView.image = imagePath
 
         present(singleImageView, animated: true)
     }
@@ -112,7 +122,7 @@ extension ImagesListViewController: UITableViewDelegate {
     func tableView(
         _ tableView: UITableView, heightForRowAt indexPath: IndexPath
     ) -> CGFloat {
-        let imageSize = convert(model: mockData[indexPath.row]).image.size
+        let imageSize = convert(model: mockData[indexPath.row]).size
         let aspectRatio = imageSize.height / imageSize.width
 
         let cellWidth = view.frame.width - 32
@@ -147,13 +157,14 @@ extension ImagesListViewController: UITableViewDataSource {
         return imagesListCell
     }
 
-    private func convert(model: Picture) -> ImageViewModel {
-        let image = UIImage(named: model.path) ?? .remove
-
-        let dateString = dateFormatter.string(from: model.date)
+    private func convert(model: Photo) -> ImageViewModel {
+        let dateString = dateFormatter.string(from: model.createdAt)
 
         return ImageViewModel(
-            image: image, dateString: dateString, isFavorite: model.isFavorite
+            image: model.thumbnailImage,
+            size: model.size,
+            dateString: dateString,
+            isFavorite: model.isLiked
         )
     }
 }
