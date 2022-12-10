@@ -5,4 +5,5 @@ enum ImageAsset: String, CaseIterable {
     case isFavoriteIcon, isNotFavoriteIcon, listTabIcon
     case shareIcon, backIcon
     case placeholderUserPic, logoutIcon, profileTabIcon
+    case placeholderImageCell, placeholderImageView
 }

@@ -1,8 +1,10 @@
 import UIKit
+import Kingfisher
+import ProgressHUD
 
 final class SingleImageViewController: UITabBarController {
 
-    var image: UIImage?
+    var image: SingleImageViewModel?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -85,9 +87,19 @@ extension SingleImageViewController {
 // MARK: - Actions
 
 extension SingleImageViewController {
-    private func displayImage(_ image: UIImage) {
-        imageView.image = image
-        rescaleAndCenterImageInScrollView(image: image)
+    private func displayImage(_ model: SingleImageViewModel) {
+        let placeholderImage = UIImage.asset(.placeholderImageView)
+        rescaleAndCenterImageInScrollView(imageSize: placeholderImage.size)
+
+        UIBlockingProgressHUD.show()
+
+        imageView.kf.setImage(
+            with: model.image,
+            placeholder: placeholderImage
+        ) { [weak self] _ in
+            UIBlockingProgressHUD.dismiss()
+            self?.rescaleAndCenterImageInScrollView(imageSize: model.size)
+        }
     }
 
     @objc private func backPressed() {
@@ -191,12 +203,11 @@ extension SingleImageViewController: UIScrollViewDelegate {
         imageView
     }
 
-    private func rescaleAndCenterImageInScrollView(image: UIImage) {
+    private func rescaleAndCenterImageInScrollView(imageSize: CGSize) {
         let minZoomScale = scrollView.minimumZoomScale
         let maxZoomScale = scrollView.maximumZoomScale
 
         let containerSize = view.bounds.size
-        let imageSize = image.size
 
         let hScale = containerSize.width / imageSize.width
         let vScale = containerSize.height / imageSize.height

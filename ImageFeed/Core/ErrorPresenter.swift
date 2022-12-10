@@ -10,19 +10,37 @@ import UIKit
 protocol ErrorPresenting {
     func displayAlert(
         over viewController: UIViewController,
-        title: String?,
+        title: String,
         message: String?,
-        actionTitle: String?,
+        actionTitle: String,
         onDismiss: @escaping () -> Void
     )
+}
+
+extension ErrorPresenting {
+    func displayAlert(
+        over viewController: UIViewController,
+        title: String,
+        message: String? = nil,
+        actionTitle: String,
+        onDismiss: @escaping () -> Void = { }
+    ) {
+        displayAlert(
+            over: viewController,
+            title: title,
+            message: message,
+            actionTitle: actionTitle,
+            onDismiss: onDismiss
+        )
+    }
 }
 
 struct ErrorPresenter: ErrorPresenting {
     func displayAlert(
         over viewController: UIViewController,
-        title: String?,
+        title: String,
         message: String?,
-        actionTitle: String?,
+        actionTitle: String,
         onDismiss: @escaping () -> Void
     ) {
         let alert = UIAlertController(

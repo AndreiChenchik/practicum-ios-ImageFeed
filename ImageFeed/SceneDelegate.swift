@@ -25,7 +25,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     private func makeRootVC() -> UIViewController {
-        let urlSession = URLSession.shared
+        let cache = URLCache(memoryCapacity: 50 * 1024 * 1024, diskCapacity: 100 * 1024 * 1024, directory: nil)
+        let configuration = URLSessionConfiguration.default
+        configuration.urlCache = cache
+        let urlSession = URLSession(configuration: configuration)
+
         let notificateionCenter = NotificationCenter.default
 
         let networkClient = NetworkClient(urlSession: urlSession)
@@ -40,14 +44,26 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             notificationCenter: notificateionCenter,
             modelLoader: modelService
         )
+        let imagesListService = ImagesListService(
+            notificationCenter: notificateionCenter,
+            modelService: modelService
+        )
 
         let profileVCDep = ProfileViewController.Dependencies(
             notificationCenter: notificateionCenter,
-            profileImageLoader: profileImageService
+            profileImageLoader: profileImageService,
+            tokenStorage: oauthTokenStorage
+        )
+
+        let imagesListVCDep = ImagesListViewController.Dependencies(
+            notificationCenter: notificateionCenter,
+            imagesListService: imagesListService,
+            errorPresenter: errorPresenter
         )
 
         let tabBarDep = TabBarController.Dependencies(
-            profileVCDep: profileVCDep
+            profileVCDep: profileVCDep,
+            imagesListVCDep: imagesListVCDep
         )
 
         let authVCDep = AuthViewController.Dependencies(

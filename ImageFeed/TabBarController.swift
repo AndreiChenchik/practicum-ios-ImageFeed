@@ -3,6 +3,7 @@ import UIKit
 class TabBarController: UITabBarController {
     struct Dependencies {
         let profileVCDep: ProfileViewController.Dependencies
+        let imagesListVCDep: ImagesListViewController.Dependencies
     }
 
     private let userProfile: UserProfile
@@ -27,7 +28,7 @@ class TabBarController: UITabBarController {
 
     private func setupTabs() {
         viewControllers = [
-            ImagesListViewController(),
+            ImagesListViewController(deps: dep.imagesListVCDep),
             ProfileViewController(
                 userProfile: userProfile,
                 dep: dep.profileVCDep

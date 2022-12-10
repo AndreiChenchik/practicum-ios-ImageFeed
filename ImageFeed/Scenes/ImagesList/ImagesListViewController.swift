@@ -1,23 +1,35 @@
 import UIKit
+import Kingfisher
 
 final class ImagesListViewController: UIViewController {
+    struct Dependencies {
+        let notificationCenter: NotificationCenter
+        let imagesListService: ImagesListService
+        let errorPresenter: ErrorPresenting
+    }
 
-    private let mockData: [Picture] = {
-        (0...21).map { num in
-            Picture(
-                path: "\(num).png",
-                date: Date(),
-                isFavorite: num % 2 == 1
-            )
-        }
-    }()
+    private let deps: Dependencies
+    private var imagesListObserver: NSObjectProtocol?
+
+    init(deps: Dependencies) {
+        self.deps = deps
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    deinit {
+        stopObservingImagesListChanges()
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         configureView()
         configureTable()
 
-        updateInsets() // Imitate scroll position showed in design
+        observeImagesListChanges()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -26,7 +38,15 @@ final class ImagesListViewController: UIViewController {
 
     // MARK: Components
 
-    private let tableView = UITableView()
+    private let tableView: UITableView = {
+        let tableView = UITableView()
+
+        tableView.contentInset =  UIEdgeInsets(
+            top: 16, left: 0, bottom: 0, right: 0
+        )
+
+        return tableView
+    }()
 
     private lazy var singleImageView: SingleImageViewController = {
         let controller = SingleImageViewController()
@@ -49,15 +69,6 @@ final class ImagesListViewController: UIViewController {
 
 extension ImagesListViewController {
     override var preferredStatusBarStyle: UIStatusBarStyle { .lightContent }
-
-    private func updateInsets() {
-        tableView.contentInset =  UIEdgeInsets(
-            top: 16, left: 0, bottom: 0, right: 0
-        )
-        tableView.scrollToRow(
-            at: IndexPath(row: 0, section: 0), at: .top, animated: false
-        )
-    }
 
     private func configureView() {
         view.backgroundColor = .asset(.ypBlack)
@@ -102,8 +113,8 @@ extension ImagesListViewController: UITableViewDelegate {
     ) {
         tableView.deselectRow(at: indexPath, animated: true)
 
-        let imagePath = mockData[indexPath.row].path
-        singleImageView.image = UIImage(named: imagePath)
+        let photo = deps.imagesListService.photos[indexPath.row]
+        singleImageView.image = .init(image: photo.largeImage, size: photo.size)
 
         present(singleImageView, animated: true)
     }
@@ -112,7 +123,7 @@ extension ImagesListViewController: UITableViewDelegate {
     func tableView(
         _ tableView: UITableView, heightForRowAt indexPath: IndexPath
     ) -> CGFloat {
-        let imageSize = convert(model: mockData[indexPath.row]).image.size
+        let imageSize = convert(model: deps.imagesListService.photos[indexPath.row]).size
         let aspectRatio = imageSize.height / imageSize.width
 
         let cellWidth = view.frame.width - 32
@@ -128,7 +139,7 @@ extension ImagesListViewController: UITableViewDataSource {
     func tableView(
         _ tableView: UITableView, numberOfRowsInSection section: Int
     ) -> Int {
-        mockData.count
+        return deps.imagesListService.photos.count
     }
 
     func tableView(
@@ -141,19 +152,97 @@ extension ImagesListViewController: UITableViewDataSource {
             fatalError("Can't get cell for ImagesList")
         }
 
-        let viewModel = convert(model: mockData[indexPath.row])
+        let viewModel = convert(model: deps.imagesListService.photos[indexPath.row])
         imagesListCell.configure(with: viewModel)
+
+        imagesListCell.delegate = self
 
         return imagesListCell
     }
 
-    private func convert(model: Picture) -> ImageViewModel {
-        let image = UIImage(named: model.path) ?? .remove
+    func tableView(
+        _ tableView: UITableView,
+        willDisplay cell: UITableViewCell,
+        forRowAt indexPath: IndexPath
+    ) {
+        deps.imagesListService.prepareForDisplay(index: indexPath.row)
+    }
 
-        let dateString = dateFormatter.string(from: model.date)
+    private func convert(model: Photo) -> ImageViewModel {
+        let dateString = dateFormatter.string(from: model.createdAt)
 
         return ImageViewModel(
-            image: image, dateString: dateString, isFavorite: model.isFavorite
+            image: model.thumbnailImage,
+            size: model.size,
+            dateString: dateString,
+            isFavorite: model.isLiked
         )
+    }
+}
+
+// MARK: - Observe ImagesList Changes
+
+extension ImagesListViewController {
+    private func observeImagesListChanges() {
+        imagesListObserver = deps.notificationCenter.addObserver(
+            forName: deps.imagesListService.didChangeNotification,
+            object: nil,
+            queue: .main
+        ) { [weak self] _ in
+            self?.updateTableViewAnimated()
+        }
+    }
+
+    private func stopObservingImagesListChanges() {
+        if let imagesListObserver {
+            deps.notificationCenter.removeObserver(imagesListObserver)
+        }
+    }
+
+    private func updateTableViewAnimated() {
+        let oldCount = tableView.numberOfRows(inSection: 0)
+        let newCount = deps.imagesListService.photos.count
+
+        if oldCount < newCount {
+            let newPaths = (oldCount..<newCount).map { IndexPath(row: $0, section: 0) }
+
+            tableView.performBatchUpdates {
+                tableView.insertRows(at: newPaths, with: .automatic)
+            }
+        }
+    }
+}
+
+// MARK: - ImagesListCellDelegate
+
+extension ImagesListViewController: ImagesListCellDelegate {
+    func imageListCellDidTapLike(
+        _ cell: ImagesListCell,
+        completion: @escaping (Bool) -> Void
+    ) {
+        guard let indexPath = tableView.indexPath(for: cell) else { return }
+        let photo = deps.imagesListService.photos[indexPath.row]
+
+        UIBlockingProgressHUD.show()
+        deps.imagesListService.changeLike(
+            index: indexPath.row,
+            isLiked: !photo.isLiked
+        ) { [weak self] result in
+            defer { UIBlockingProgressHUD.dismiss() }
+
+            guard let self else { return }
+
+            switch result {
+            case let .success(isLiked):
+                completion(isLiked)
+            case let .failure(error):
+                self.deps.errorPresenter.displayAlert(
+                    over: self,
+                    title: error.localizedDescription,
+                    actionTitle: "OK"
+                )
+            }
+
+        }
     }
 }

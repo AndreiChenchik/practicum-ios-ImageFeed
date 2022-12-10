@@ -1,15 +1,16 @@
 import UIKit
 import Kingfisher
-import SwiftKeychainWrapper
+import WebKit
 
 final class ProfileViewController: UIViewController {
     struct Dependencies {
         let notificationCenter: NotificationCenter
         let profileImageLoader: ProfileImageLoader
+        var tokenStorage: OAuth2TokenStoring
     }
 
-    let userProfile: UserProfile
-    let dep: Dependencies
+    private let userProfile: UserProfile
+    private var dep: Dependencies
 
     private var profileAvatarObserver: NSObjectProtocol?
 
@@ -21,6 +22,10 @@ final class ProfileViewController: UIViewController {
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    deinit {
+        stopObservingAvatarChanges()
     }
 
     override func viewDidLoad() {
@@ -97,8 +102,20 @@ extension ProfileViewController {
     }
 
     @objc private func logoutPressed() {
-        // Temporary function to help with login testing
-        KeychainWrapper.standard.removeObject(forKey: .key(.tokenDefaultsKey))
+        HTTPCookieStorage.shared.removeCookies(since: Date.distantPast)
+        WKWebsiteDataStore.default().fetchDataRecords(
+            ofTypes: WKWebsiteDataStore.allWebsiteDataTypes()
+        ) { records in
+           records.forEach { record in
+              WKWebsiteDataStore.default().removeData(
+                ofTypes: record.dataTypes,
+                for: [record],
+                completionHandler: {}
+              )
+           }
+        }
+
+        dep.tokenStorage.token = nil
         tabBarController?.dismiss(animated: true)
     }
 }
@@ -113,6 +130,12 @@ extension ProfileViewController {
             queue: .main
         ) { [weak self] _ in
             self?.updateAvatar()
+        }
+    }
+
+    private func stopObservingAvatarChanges() {
+        if let profileAvatarObserver {
+            dep.notificationCenter.removeObserver(profileAvatarObserver)
         }
     }
 }
