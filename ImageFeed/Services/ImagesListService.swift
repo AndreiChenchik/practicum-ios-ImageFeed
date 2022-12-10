@@ -42,9 +42,13 @@ final class ImagesListService {
     }
 
     func prepareForDisplay(index: Int) {
-        if index + 1 == photos.count && task == nil {
-            fetchPhotosNextPage()
+        guard index + 1 == photos.count,
+              task == nil
+        else {
+            return
         }
+
+        fetchPhotosNextPage()
     }
 }
 
