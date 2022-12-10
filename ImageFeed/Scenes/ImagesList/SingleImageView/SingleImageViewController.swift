@@ -107,9 +107,11 @@ extension SingleImageViewController {
     }
 
     @objc private func sharePressed() {
-        if let image {
+        if let image = imageView.image {
             let activity = UIActivityViewController(
-                activityItems: [image], applicationActivities: nil)
+                activityItems: [image],
+                applicationActivities: nil
+            )
 
             present(activity, animated: true)
         }
