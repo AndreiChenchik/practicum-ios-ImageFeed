@@ -66,19 +66,8 @@ extension ImagesListService {
 
             switch result {
             case let .success(photoResults):
-                let photos = photoResults.map { photoResult in
-                    Photo(
-                        id: photoResult.id,
-                        description: photoResult.description,
-                        thumbnailImage: photoResult.urls.small,
-                        largeImage: photoResult.urls.full,
-                        size: .init(
-                            width: photoResult.width,
-                            height: photoResult.height
-                        ),
-                        createdAt: self.dateFormatter.date(from: photoResult.createdAt) ?? Date(),
-                        isLiked: photoResult.likedByUser
-                    )
+                let photos = photoResults.map {
+                    $0.convertToViewModel(formatter: self.dateFormatter)
                 }
 
                 DispatchQueue.main.async { [weak self] in
@@ -112,6 +101,23 @@ extension ImagesListService {
         }
 
         return photosURL
+    }
+}
+
+private extension PhotoResult {
+    func convertToViewModel(formatter: DateFormatter) -> Photo {
+        Photo(
+            id: self.id,
+            description: self.description,
+            thumbnailImage: self.urls.small,
+            largeImage: self.urls.full,
+            size: .init(
+                width: self.width,
+                height: self.height
+            ),
+            createdAt: formatter.date(from: self.createdAt) ?? Date(),
+            isLiked: self.likedByUser
+        )
     }
 }
 
