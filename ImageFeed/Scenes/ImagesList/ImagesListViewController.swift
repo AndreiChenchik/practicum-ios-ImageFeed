@@ -25,7 +25,6 @@ final class ImagesListViewController: UIViewController {
         configureView()
         configureTable()
 
-        updateInsets() // Imitate scroll position showed in design
         observeImagesListChanges()
     }
 
@@ -35,7 +34,15 @@ final class ImagesListViewController: UIViewController {
 
     // MARK: Components
 
-    private let tableView = UITableView()
+    private let tableView: UITableView = {
+        let tableView = UITableView()
+
+        tableView.contentInset =  UIEdgeInsets(
+            top: 16, left: 0, bottom: 0, right: 0
+        )
+
+        return tableView
+    }()
 
     private lazy var singleImageView: SingleImageViewController = {
         let controller = SingleImageViewController()
@@ -58,15 +65,6 @@ final class ImagesListViewController: UIViewController {
 
 extension ImagesListViewController {
     override var preferredStatusBarStyle: UIStatusBarStyle { .lightContent }
-
-    private func updateInsets() {
-        tableView.contentInset =  UIEdgeInsets(
-            top: 16, left: 0, bottom: 0, right: 0
-        )
-//        tableView.scrollToRow(
-//            at: IndexPath(row: 0, section: 0), at: .top, animated: false
-//        )
-    }
 
     private func configureView() {
         view.backgroundColor = .asset(.ypBlack)
