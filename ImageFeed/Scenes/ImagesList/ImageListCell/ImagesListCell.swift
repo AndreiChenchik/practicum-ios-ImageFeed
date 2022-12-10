@@ -83,6 +83,7 @@ extension ImagesListCell {
     override func prepareForReuse() {
         super.prepareForReuse()
 
+        setIsLiked(false)
         mainImageView.kf.cancelDownloadTask()
     }
 }
