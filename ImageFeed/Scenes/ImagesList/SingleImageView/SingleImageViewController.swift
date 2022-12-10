@@ -91,13 +91,13 @@ extension SingleImageViewController {
         let placeholderImage = UIImage.asset(.placeholderImageView)
         rescaleAndCenterImageInScrollView(imageSize: placeholderImage.size)
 
-        ProgressHUD.show()
+        UIBlockingProgressHUD.show()
 
         imageView.kf.setImage(
             with: model.image,
             placeholder: placeholderImage
         ) { [weak self] _ in
-            ProgressHUD.dismiss()
+            UIBlockingProgressHUD.dismiss()
             self?.rescaleAndCenterImageInScrollView(imageSize: model.size)
         }
     }
