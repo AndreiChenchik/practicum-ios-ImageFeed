@@ -20,6 +20,10 @@ final class ImagesListViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
+    deinit {
+        stopObservingImagesListChanges()
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         configureView()
@@ -186,6 +190,12 @@ extension ImagesListViewController {
             queue: .main
         ) { [weak self] _ in
             self?.updateTableViewAnimated()
+        }
+    }
+
+    private func stopObservingImagesListChanges() {
+        if let imagesListObserver {
+            deps.notificationCenter.removeObserver(imagesListObserver)
         }
     }
 

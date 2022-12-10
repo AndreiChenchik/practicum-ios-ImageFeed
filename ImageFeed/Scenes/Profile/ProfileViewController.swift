@@ -24,6 +24,10 @@ final class ProfileViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
+    deinit {
+        stopObservingAvatarChanges()
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -125,6 +129,12 @@ extension ProfileViewController {
             queue: .main
         ) { [weak self] _ in
             self?.updateAvatar()
+        }
+    }
+
+    private func stopObservingAvatarChanges() {
+        if let profileAvatarObserver {
+            dep.notificationCenter.removeObserver(profileAvatarObserver)
         }
     }
 }
