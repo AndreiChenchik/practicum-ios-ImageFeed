@@ -1,16 +1,16 @@
 import UIKit
 import Kingfisher
-import SwiftKeychainWrapper
 import WebKit
 
 final class ProfileViewController: UIViewController {
     struct Dependencies {
         let notificationCenter: NotificationCenter
         let profileImageLoader: ProfileImageLoader
+        var tokenStorage: OAuth2TokenStoring
     }
 
     private let userProfile: UserProfile
-    private let dep: Dependencies
+    private var dep: Dependencies
 
     private var profileAvatarObserver: NSObjectProtocol?
 
@@ -114,7 +114,8 @@ extension ProfileViewController {
               )
            }
         }
-        KeychainWrapper.standard.removeObject(forKey: .key(.tokenDefaultsKey))
+
+        dep.tokenStorage.token = nil
         tabBarController?.dismiss(animated: true)
     }
 }

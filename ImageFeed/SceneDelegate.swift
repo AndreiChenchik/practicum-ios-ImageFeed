@@ -51,7 +51,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         let profileVCDep = ProfileViewController.Dependencies(
             notificationCenter: notificateionCenter,
-            profileImageLoader: profileImageService
+            profileImageLoader: profileImageService,
+            tokenStorage: oauthTokenStorage
         )
 
         let imagesListVCDep = ImagesListViewController.Dependencies(
