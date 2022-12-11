@@ -5,6 +5,16 @@ import ProgressHUD
 final class SingleImageViewController: UITabBarController {
 
     var image: SingleImageViewModel?
+    var deps: Dependencies
+
+    init(deps: Dependencies) {
+        self.deps = deps
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -84,6 +94,14 @@ extension SingleImageViewController {
     }
 }
 
+// MARK: - Dependencies {
+extension SingleImageViewController {
+    struct Dependencies {
+        let fileManager: FileManager
+        let errorPresenter: ErrorPresenting
+    }
+}
+
 // MARK: - Actions
 
 extension SingleImageViewController {
@@ -108,12 +126,53 @@ extension SingleImageViewController {
 
     @objc private func sharePressed() {
         if let image = imageView.image {
-            let activity = UIActivityViewController(
-                activityItems: [image],
-                applicationActivities: nil
-            )
+            UIBlockingProgressHUD.show()
 
-            present(activity, animated: true)
+            saveImage(image) { [weak self] result in
+                DispatchQueue.main.async { [weak self] in
+                    guard let self else { return }
+
+                    UIBlockingProgressHUD.dismiss()
+
+                    switch result {
+                    case let .success(fileURL):
+                        self.shareImage(fileURL)
+                    case let .failure(error):
+                        self.deps.errorPresenter.displayAlert(
+                            over: self,
+                            title: error.localizedDescription,
+                            actionTitle: "OK"
+                        )
+                    }
+                }
+            }
+        }
+    }
+
+    private func shareImage(_ fileUrl: URL) {
+        let activity = UIActivityViewController(
+            activityItems: [fileUrl],
+            applicationActivities: nil
+        )
+
+        present(activity, animated: true)
+    }
+
+    private func saveImage(_ image: UIImage, completion: @escaping (Result<URL, Error>) -> Void) {
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            guard let self else { return }
+            guard let data = image.jpegData(compressionQuality: 0.8) else { return }
+
+            let tempFileUrl = self.deps.fileManager
+                .temporaryDirectory
+                .appendingPathComponent("SharedImageFeed.jpg")
+
+            do {
+                try data.write(to: tempFileUrl)
+                completion(.success(tempFileUrl))
+            } catch {
+                completion(.failure(error))
+            }
         }
     }
 }

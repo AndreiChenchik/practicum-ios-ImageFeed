@@ -24,19 +24,29 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window.makeKeyAndVisible()
     }
 
-    private func makeRootVC() -> UIViewController {
-        let cache = URLCache(memoryCapacity: 50 * 1024 * 1024, diskCapacity: 100 * 1024 * 1024, directory: nil)
+    private func makeModelService() -> ModelLoading {
         let configuration = URLSessionConfiguration.default
+        let cache = URLCache(
+            memoryCapacity: 50 * 1024 * 1024,
+            diskCapacity: 100 * 1024 * 1024,
+            directory: nil
+        )
         configuration.urlCache = cache
+
         let urlSession = URLSession(configuration: configuration)
+        let networkClient = NetworkClient(urlSession: urlSession)
+
+        return ModelService(networkClient: networkClient)
+    }
+
+    private func makeRootVC() -> UIViewController {
+        let modelService = makeModelService()
 
         let notificateionCenter = NotificationCenter.default
 
-        let networkClient = NetworkClient(urlSession: urlSession)
         let keychainWrapper = KeychainWrapper.standard
         let oauthTokenStorage = OAuth2TokenStorage(
             keychainWrapper: keychainWrapper)
-        let modelService = ModelService(networkClient: networkClient)
         let oauth2Service = OAuth2Service(modelLoader: modelService)
         let profileService = ProfileService(modelLoader: modelService)
         let errorPresenter = ErrorPresenter()
@@ -55,10 +65,17 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             tokenStorage: oauthTokenStorage
         )
 
+        let fileManager = FileManager.default
+        let singleImageVCDep = SingleImageViewController.Dependencies(
+            fileManager: fileManager,
+            errorPresenter: errorPresenter
+        )
+
         let imagesListVCDep = ImagesListViewController.Dependencies(
             notificationCenter: notificateionCenter,
             imagesListService: imagesListService,
-            errorPresenter: errorPresenter
+            errorPresenter: errorPresenter,
+            singleImageVCDep: singleImageVCDep
         )
 
         let tabBarDep = TabBarController.Dependencies(
