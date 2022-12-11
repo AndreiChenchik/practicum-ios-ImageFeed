@@ -87,7 +87,7 @@ extension SingleImageViewController {
     private func setupScrollView() {
         scrollView.delegate = self
 
-        scrollView.minimumZoomScale = 0.1
+        scrollView.minimumZoomScale = 0.01
         scrollView.maximumZoomScale = 1.25
 
         layoutScrollView()
@@ -115,8 +115,11 @@ extension SingleImageViewController {
             with: model.image,
             placeholder: placeholderImage
         ) { [weak self] _ in
+            guard let self else { return }
+
             UIBlockingProgressHUD.dismiss()
-            self?.rescaleAndCenterImageInScrollView(imageSize: model.size)
+            self.rescaleAndCenterImageInScrollView(imageSize: model.size)
+            self.restrictMinimumZoomLevel()
         }
     }
 
@@ -283,5 +286,9 @@ extension SingleImageViewController: UIScrollViewDelegate {
         let yVal = (newContentSize.height - containerSize.height) / 2
 
         scrollView.setContentOffset(CGPoint(x: xVal, y: yVal), animated: false)
+    }
+
+    private func restrictMinimumZoomLevel() {
+        scrollView.minimumZoomScale = scrollView.zoomScale
     }
 }
