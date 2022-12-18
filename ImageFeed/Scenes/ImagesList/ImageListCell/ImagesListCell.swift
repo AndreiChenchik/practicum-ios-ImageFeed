@@ -70,8 +70,8 @@ final class ImagesListCell: UITableViewCell {
 
 extension ImagesListCell {
     func configure(with viewModel: ImageViewModel) {
-        mainImageView.kf.indicatorType = .activity
-        mainImageView.kf.setImage(with: viewModel.image, placeholder: UIImage.asset(.placeholderImageCell))
+        mainImageView.kf.indicatorType = .custom(indicator: GradientKFIndicator())
+        mainImageView.kf.setImage(with: viewModel.image)
 
         dateLabel.text = viewModel.dateString
 
@@ -84,6 +84,7 @@ extension ImagesListCell {
         super.prepareForReuse()
 
         setIsLiked(false)
+        mainImageView.kf.cancelDownloadTask()
         mainImageView.kf.cancelDownloadTask()
     }
 }
