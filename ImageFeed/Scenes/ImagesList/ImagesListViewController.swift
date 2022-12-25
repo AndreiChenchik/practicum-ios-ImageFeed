@@ -6,6 +6,7 @@ final class ImagesListViewController: UIViewController {
         let notificationCenter: NotificationCenter
         let imagesListService: ImagesListService
         let errorPresenter: ErrorPresenting
+        let singleImageVCDep: SingleImageViewController.Dependencies
     }
 
     private let deps: Dependencies
@@ -49,7 +50,7 @@ final class ImagesListViewController: UIViewController {
     }()
 
     private lazy var singleImageView: SingleImageViewController = {
-        let controller = SingleImageViewController()
+        let controller = SingleImageViewController(deps: deps.singleImageVCDep)
 
         controller.hidesBottomBarWhenPushed = true
         controller.modalPresentationStyle = .fullScreen
