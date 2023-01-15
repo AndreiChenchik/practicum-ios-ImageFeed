@@ -17,7 +17,7 @@ final class OAuthCodePresenter: OAuthCodePresenterProtocol {
     }
 
     func viewDidLoad() {
-        let request = authHelper.authRequest()
+        let request = authHelper.authRequest
         view?.load(request: request)
         didUpdateProgressValue(0)
     }
@@ -37,7 +37,7 @@ final class OAuthCodePresenter: OAuthCodePresenterProtocol {
     }
 }
 
-private extension OAuthCodePresenter {
+extension OAuthCodePresenter {
     func shouldHideProgress(for value: Float) -> Bool {
         abs(value - 1.0) <= 0.0001
     }

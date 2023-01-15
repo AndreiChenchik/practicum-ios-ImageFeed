@@ -1,7 +1,7 @@
 import Foundation
 
 protocol AuthHelperProtocol {
-    func authRequest() -> URLRequest
+    var authRequest: URLRequest { get }
     func getAuthCode(from url: URL) -> String?
 }
 
@@ -14,7 +14,7 @@ struct AuthHelper {
 }
 
 extension AuthHelper: AuthHelperProtocol {
-    func authRequest() -> URLRequest {
+    var authURL: URL {
         guard var components = URLComponents(string: configuration.authURLString) else {
             fatalError("Can't construct URLComponents for authorization URL")
         }
@@ -30,7 +30,11 @@ extension AuthHelper: AuthHelperProtocol {
             fatalError("Can't construct authorization URL from URLComponents")
         }
 
-        return .init(url: url)
+        return url
+    }
+
+    var authRequest: URLRequest {
+        .init(url: authURL)
     }
 
     func getAuthCode(from url: URL) -> String? {
