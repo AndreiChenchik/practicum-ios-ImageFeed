@@ -100,11 +100,12 @@ extension AuthViewController {
     }
 
     @objc private func loginPressed() {
-        let oauthCodeVC = OAuthCodeViewController()
-        oauthCodeVC.delegate = self
+        let oAuthViewPresenter = OAuthCodePresenter()
+        let oAuthCodeVC = OAuthCodeViewController(presenter: oAuthViewPresenter, delegate: self)
+        oAuthViewPresenter.view = oAuthCodeVC
 
         let navigationController = UINavigationController(
-            rootViewController: oauthCodeVC)
+            rootViewController: oAuthCodeVC)
         navigationController.modalPresentationStyle = .fullScreen
 
         present(navigationController, animated: true)

@@ -1,34 +1,42 @@
 import UIKit
 import WebKit
 
-final class OAuthCodeViewController: UIViewController {
+public protocol OAuthCodeViewControllerProtocol: AnyObject {
+    var presenter: OAuthCodePresenterProtocol { get set }
 
-    var delegate: OAuthCodeViewControllerDelegate?
-    var observations: [NSKeyValueObservation] = []
+    func load(request: URLRequest)
+    func setProgressValue(_ newValue: Float)
+    func setProgressHidden(_ isHidden: Bool)
+}
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
+protocol OAuthCodeViewControllerDelegate: AnyObject {
+    func oauthCodeViewController(
+        _ oauthCodeVC: OAuthCodeViewController,
+        didAuthenticateWithCode code: String)
 
-        setupView()
-        layoutComponents()
+    func oauthCodeViewControllerDidCancel(
+        _ oauthCodeVC: OAuthCodeViewController)
+}
 
-        setupBackButton()
-        setupWebView()
+final class OAuthCodeViewController: UIViewController, OAuthCodeViewControllerProtocol {
+    weak var delegate: OAuthCodeViewControllerDelegate?
+    private var observations: [NSKeyValueObservation] = []
+
+    init(
+        presenter: OAuthCodePresenterProtocol,
+        delegate: OAuthCodeViewControllerDelegate? = nil
+    ) {
+        self.delegate = delegate
+        self.presenter = presenter
+        super.init(nibName: nil, bundle: nil)
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-
-        startObservingProgress()
-    }
-
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-
-        stopObservingProgress()
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 
     // MARK: View components
+
     private let webView = WKWebView()
 
     private lazy var barBackButton: UIBarButtonItem = {
@@ -50,66 +58,67 @@ final class OAuthCodeViewController: UIViewController {
 
         return progressView
     }()
+
+    // MARK: OAuthCodeViewControllerProtocol
+
+    var presenter: OAuthCodePresenterProtocol
+
+    func load(request: URLRequest) {
+        webView.load(request)
+    }
+
+    func setProgressValue(_ newValue: Float) {
+        progressView.setProgress(newValue, animated: true)
+    }
+
+    func setProgressHidden(_ isHidden: Bool) {
+        UIView.animate(withDuration: 0.4) {
+            self.progressView.alpha = isHidden ? 0 : 1
+        }
+    }
+}
+
+// MARK: - Lifecycle
+
+extension OAuthCodeViewController {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        setupView()
+        layoutComponents()
+        setupBackButton()
+
+        webView.navigationDelegate = self
+        presenter.viewDidLoad()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        startObservingProgress()
+    }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+
+        stopObservingProgress()
+    }
 }
 
 // MARK: - Observe Progress
 
-extension OAuthCodeViewController {
-    private func startObservingProgress() {
+private extension OAuthCodeViewController {
+    func startObservingProgress() {
         observations.append(
             webView.observe(\.estimatedProgress) { [weak self] _, _ in
-                self?.updateProgress()
+                guard let self else { return }
+                self.presenter.didUpdateProgressValue(self.webView.estimatedProgress)
             }
         )
     }
 
-    private func stopObservingProgress() {
+    func stopObservingProgress() {
         observations = []
-    }
-}
-
-// MARK: - WebView
-
-extension OAuthCodeViewController {
-    private func setupWebView() {
-        webView.navigationDelegate = self
-
-        guard var components = URLComponents(string: .key(.authorizeURL)) else {
-            fatalError("Can't construct URLComponents for authorizeURL")
-        }
-
-        components.queryItems = [
-            URLQueryItem(name: "client_id", value: .key(.accessKey)),
-            URLQueryItem(name: "redirect_uri", value: .key(.redirectURI)),
-            URLQueryItem(name: "response_type", value: "code"),
-            URLQueryItem(name: "scope", value: .key(.accessScope))
-        ]
-
-        guard let url = components.url else {
-            fatalError("Can't construct authorization URL")
-        }
-
-        let request = URLRequest(url: url)
-
-        webView.load(request)
-    }
-
-    private func updateProgress() {
-        progressView.setProgress(
-            Float(webView.estimatedProgress),
-            animated: true)
-
-        if !progressView.isHidden && webView.estimatedProgress >= 0.999 {
-            UIView.animate(withDuration: 0.4) {
-                self.progressView.alpha = 0
-            }
-        }
-
-        if progressView.isHidden && webView.estimatedProgress < 0.999 {
-            UIView.animate(withDuration: 0.4) {
-                self.progressView.alpha = 1
-            }
-        }
     }
 }
 
@@ -121,26 +130,16 @@ extension OAuthCodeViewController: WKNavigationDelegate {
         decidePolicyFor navigationAction: WKNavigationAction,
         decisionHandler: @escaping (WKNavigationActionPolicy) -> Void
     ) {
-        if let code = getCode(from: navigationAction) {
+        if
+            let url = navigationAction.request.url,
+            let code = presenter.getAuthCode(from: url)
+        {
             delegate?.oauthCodeViewController(
                 self, didAuthenticateWithCode: code)
             decisionHandler(.cancel)
         } else {
             decisionHandler(.allow)
         }
-    }
-
-    private func getCode(from navigationAction: WKNavigationAction) -> String? {
-        guard
-            let url = navigationAction.request.url,
-            let urlComponents = URLComponents(string: url.absoluteString),
-            urlComponents.path == .key(.authCodePath),
-            let items = urlComponents.queryItems,
-            let codeItem = items.first(where: { $0.name == "code" }),
-            let code = codeItem.value
-        else { return nil }
-
-        return code
     }
 }
 
