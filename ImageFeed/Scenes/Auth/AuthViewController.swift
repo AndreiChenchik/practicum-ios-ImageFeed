@@ -4,6 +4,8 @@ final class AuthViewController: UIViewController {
     struct Dependencies {
         let oauth2TokenExtractor: OAuth2TokenExtractor
         var oauthTokenStorage: OAuth2TokenStoring
+
+        var oAuthCodePresenter: OAuthCodePresenterProtocol
     }
 
     private var dep: Dependencies
@@ -100,9 +102,8 @@ extension AuthViewController {
     }
 
     @objc private func loginPressed() {
-        let oAuthViewPresenter = OAuthCodePresenter()
-        let oAuthCodeVC = OAuthCodeViewController(presenter: oAuthViewPresenter, delegate: self)
-        oAuthViewPresenter.view = oAuthCodeVC
+        let oAuthCodeVC = OAuthCodeViewController(presenter: dep.oAuthCodePresenter, delegate: self)
+        dep.oAuthCodePresenter.view = oAuthCodeVC
 
         let navigationController = UINavigationController(
             rootViewController: oAuthCodeVC)

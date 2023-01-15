@@ -39,6 +39,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         return ModelService(networkClient: networkClient)
     }
 
+    // swiftlint:disable:next function_body_length
     private func makeRootVC() -> UIViewController {
         let modelService = makeModelService()
 
@@ -83,9 +84,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             imagesListVCDep: imagesListVCDep
         )
 
+        let authHelper = AuthHelper(configuration: .standard)
+        let oAuthCodePresenter = OAuthCodePresenter(authHelper: authHelper)
+
         let authVCDep = AuthViewController.Dependencies(
             oauth2TokenExtractor: oauth2Service,
-            oauthTokenStorage: oauthTokenStorage
+            oauthTokenStorage: oauthTokenStorage,
+            oAuthCodePresenter: oAuthCodePresenter
         )
 
         let splashViewDep = SplashViewController.Dependencies(

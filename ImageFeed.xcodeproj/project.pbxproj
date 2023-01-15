@@ -38,6 +38,8 @@
 		38A3284829294A6C002A122A /* UserPublicProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38A3284729294A6C002A122A /* UserPublicProfile.swift */; };
 		38A3284A29294AC7002A122A /* ProfileImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38A3284929294AC7002A122A /* ProfileImage.swift */; };
 		38ACF4BC29747B3700CD2DB2 /* OAuthCodePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38ACF4BB29747B3700CD2DB2 /* OAuthCodePresenter.swift */; };
+		38ACF4BE2974861A00CD2DB2 /* AuthConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38ACF4BD2974861A00CD2DB2 /* AuthConfiguration.swift */; };
+		38ACF4C1297487C900CD2DB2 /* AuthHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38ACF4C0297487C900CD2DB2 /* AuthHelper.swift */; };
 		38B9CAA1290434E9009EBD63 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38B9CAA0290434E9009EBD63 /* ProfileViewController.swift */; };
 		38B9CAA5290437ED009EBD63 /* ColorAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38B9CAA4290437ED009EBD63 /* ColorAsset.swift */; };
 		38B9CAA729043906009EBD63 /* FontAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38B9CAA629043906009EBD63 /* FontAsset.swift */; };
@@ -88,6 +90,8 @@
 		38A3284729294A6C002A122A /* UserPublicProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPublicProfile.swift; sourceTree = "<group>"; };
 		38A3284929294AC7002A122A /* ProfileImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImage.swift; sourceTree = "<group>"; };
 		38ACF4BB29747B3700CD2DB2 /* OAuthCodePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthCodePresenter.swift; sourceTree = "<group>"; };
+		38ACF4BD2974861A00CD2DB2 /* AuthConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthConfiguration.swift; sourceTree = "<group>"; };
+		38ACF4C0297487C900CD2DB2 /* AuthHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthHelper.swift; sourceTree = "<group>"; };
 		38B9CAA0290434E9009EBD63 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		38B9CAA4290437ED009EBD63 /* ColorAsset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorAsset.swift; sourceTree = "<group>"; };
 		38B9CAA629043906009EBD63 /* FontAsset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontAsset.swift; sourceTree = "<group>"; };
@@ -185,6 +189,15 @@
 			path = Core;
 			sourceTree = "<group>";
 		};
+		38ACF4BF297487BB00CD2DB2 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				38ACF4BD2974861A00CD2DB2 /* AuthConfiguration.swift */,
+				38ACF4C0297487C900CD2DB2 /* AuthHelper.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
 		38B9CAAC29043C46009EBD63 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
@@ -260,6 +273,7 @@
 		38C8E1B628F19B650078FD78 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				38ACF4BF297487BB00CD2DB2 /* Auth */,
 				38C8E1B728F19B780078FD78 /* UIColor+Extensions.swift */,
 				38B9CAA829043956009EBD63 /* UIFont+Extensions.swift */,
 				38B9CAAF29044097009EBD63 /* UIImage+Extensions.swift */,
@@ -415,10 +429,12 @@
 				389FE84028DCCDE800560E49 /* SceneDelegate.swift in Sources */,
 				38C8E1C928F1FA800078FD78 /* Photo.swift in Sources */,
 				38C8E1BE28F1E6960078FD78 /* GradientView.swift in Sources */,
+				38ACF4C1297487C900CD2DB2 /* AuthHelper.swift in Sources */,
 				381B7B8E290F027B00F8EF06 /* UserProfile.swift in Sources */,
 				38B9CAA1290434E9009EBD63 /* ProfileViewController.swift in Sources */,
 				38917914290D577100B7C7B0 /* AuthViewController.swift in Sources */,
 				38C8E1BA28F1A0A80078FD78 /* ImagesListCell.swift in Sources */,
+				38ACF4BE2974861A00CD2DB2 /* AuthConfiguration.swift in Sources */,
 				3891790F290D25B500B7C7B0 /* URL+Extensions.swift in Sources */,
 				38C8E1B828F19B780078FD78 /* UIColor+Extensions.swift in Sources */,
 				38B9CAA929043956009EBD63 /* UIFont+Extensions.swift in Sources */,

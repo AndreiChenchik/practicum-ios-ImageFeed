@@ -10,26 +10,16 @@ public protocol OAuthCodePresenterProtocol {
 
 final class OAuthCodePresenter: OAuthCodePresenterProtocol {
     weak var view: OAuthCodeViewControllerProtocol?
+    private var authHelper: AuthHelperProtocol
+
+    init(authHelper: AuthHelperProtocol) {
+        self.authHelper = authHelper
+    }
 
     func viewDidLoad() {
-        guard var components = URLComponents(string: .key(.authorizeURL)) else {
-            fatalError("Can't construct URLComponents for authorizeURL")
-        }
-
-        components.queryItems = [
-            URLQueryItem(name: "client_id", value: .key(.accessKey)),
-            URLQueryItem(name: "redirect_uri", value: .key(.redirectURI)),
-            URLQueryItem(name: "response_type", value: "code"),
-            URLQueryItem(name: "scope", value: .key(.accessScope))
-        ]
-
-        guard let url = components.url else {
-            fatalError("Can't construct authorization URL")
-        }
-
-        let request = URLRequest(url: url)
-
+        let request = authHelper.authRequest()
         view?.load(request: request)
+        didUpdateProgressValue(0)
     }
 
     func didUpdateProgressValue(_ newValue: Double) {
@@ -43,15 +33,7 @@ final class OAuthCodePresenter: OAuthCodePresenterProtocol {
     }
 
     func getAuthCode(from url: URL) -> String? {
-        guard
-            let urlComponents = URLComponents(string: url.absoluteString),
-            urlComponents.path == .key(.authCodePath),
-            let items = urlComponents.queryItems,
-            let codeItem = items.first(where: { $0.name == "code" }),
-            let code = codeItem.value
-        else { return nil }
-
-        return code
+        authHelper.getAuthCode(from: url)
     }
 }
 
