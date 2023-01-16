@@ -60,11 +60,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             modelService: modelService
         )
 
-        let profileVCDep = ProfileViewController.Dependencies(
+        let logoutHelper = LogoutHelper()
+        let profileViewPresenter = ProfileViewPresenter(dep: .init(
             notificationCenter: notificateionCenter,
             profileImageLoader: profileImageService,
-            tokenStorage: oauthTokenStorage
-        )
+            tokenStorage: oauthTokenStorage,
+            logoutHelper: logoutHelper
+        ))
 
         let fileManager = FileManager.default
         let singleImageVCDep = SingleImageViewController.Dependencies(
@@ -80,7 +82,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         )
 
         let tabBarDep = TabBarController.Dependencies(
-            profileVCDep: profileVCDep,
+            profileViewPresenter: profileViewPresenter,
             imagesListVCDep: imagesListVCDep
         )
 

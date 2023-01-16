@@ -43,6 +43,8 @@
 		38ACF4C929748C6B00CD2DB2 /* OAuthCodeViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38ACF4C829748C6B00CD2DB2 /* OAuthCodeViewTests.swift */; };
 		38ACF4D029748CF200CD2DB2 /* OAuthCodePresenterSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38ACF4CF29748CF200CD2DB2 /* OAuthCodePresenterSpy.swift */; };
 		38ACF4D229748F6C00CD2DB2 /* OAuthCodeViewControllerSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38ACF4D129748F6C00CD2DB2 /* OAuthCodeViewControllerSpy.swift */; };
+		38ACF4D429753E3B00CD2DB2 /* ProfileViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38ACF4D329753E3B00CD2DB2 /* ProfileViewPresenter.swift */; };
+		38ACF4D629753FB900CD2DB2 /* LogoutHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38ACF4D529753FB900CD2DB2 /* LogoutHelper.swift */; };
 		38B9CAA1290434E9009EBD63 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38B9CAA0290434E9009EBD63 /* ProfileViewController.swift */; };
 		38B9CAA5290437ED009EBD63 /* ColorAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38B9CAA4290437ED009EBD63 /* ColorAsset.swift */; };
 		38B9CAA729043906009EBD63 /* FontAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38B9CAA629043906009EBD63 /* FontAsset.swift */; };
@@ -109,6 +111,8 @@
 		38ACF4C829748C6B00CD2DB2 /* OAuthCodeViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthCodeViewTests.swift; sourceTree = "<group>"; };
 		38ACF4CF29748CF200CD2DB2 /* OAuthCodePresenterSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthCodePresenterSpy.swift; sourceTree = "<group>"; };
 		38ACF4D129748F6C00CD2DB2 /* OAuthCodeViewControllerSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthCodeViewControllerSpy.swift; sourceTree = "<group>"; };
+		38ACF4D329753E3B00CD2DB2 /* ProfileViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewPresenter.swift; sourceTree = "<group>"; };
+		38ACF4D529753FB900CD2DB2 /* LogoutHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoutHelper.swift; sourceTree = "<group>"; };
 		38B9CAA0290434E9009EBD63 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		38B9CAA4290437ED009EBD63 /* ColorAsset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorAsset.swift; sourceTree = "<group>"; };
 		38B9CAA629043906009EBD63 /* FontAsset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontAsset.swift; sourceTree = "<group>"; };
@@ -220,6 +224,7 @@
 			children = (
 				38ACF4BD2974861A00CD2DB2 /* AuthConfiguration.swift */,
 				38ACF4C0297487C900CD2DB2 /* AuthHelper.swift */,
+				38ACF4D529753FB900CD2DB2 /* LogoutHelper.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -269,6 +274,7 @@
 			isa = PBXGroup;
 			children = (
 				38B9CAA0290434E9009EBD63 /* ProfileViewController.swift */,
+				38ACF4D329753E3B00CD2DB2 /* ProfileViewPresenter.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -491,6 +497,7 @@
 				38A3284429293EED002A122A /* ErrorPresenter.swift in Sources */,
 				381B7B81290EECCC00F8EF06 /* OAuthTokenResponseBody.swift in Sources */,
 				38917916290D579900B7C7B0 /* OAuthCodeViewController.swift in Sources */,
+				38ACF4D629753FB900CD2DB2 /* LogoutHelper.swift in Sources */,
 				38B9CAAE29043FEA009EBD63 /* ImageAsset.swift in Sources */,
 				389FE84028DCCDE800560E49 /* SceneDelegate.swift in Sources */,
 				38C8E1C928F1FA800078FD78 /* Photo.swift in Sources */,
@@ -502,6 +509,7 @@
 				38C8E1BA28F1A0A80078FD78 /* ImagesListCell.swift in Sources */,
 				38ACF4BE2974861A00CD2DB2 /* AuthConfiguration.swift in Sources */,
 				3891790F290D25B500B7C7B0 /* URL+Extensions.swift in Sources */,
+				38ACF4D429753E3B00CD2DB2 /* ProfileViewPresenter.swift in Sources */,
 				38C8E1B828F19B780078FD78 /* UIColor+Extensions.swift in Sources */,
 				38B9CAA929043956009EBD63 /* UIFont+Extensions.swift in Sources */,
 				38A328462929496C002A122A /* ProfileImageService.swift in Sources */,

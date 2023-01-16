@@ -2,7 +2,7 @@ import UIKit
 
 class TabBarController: UITabBarController {
     struct Dependencies {
-        let profileVCDep: ProfileViewController.Dependencies
+        let profileViewPresenter: ProfileViewPresenter
         let imagesListVCDep: ImagesListViewController.Dependencies
     }
 
@@ -27,12 +27,13 @@ class TabBarController: UITabBarController {
     }
 
     private func setupTabs() {
+        let profileViewController = ProfileViewController(presenter: dep.profileViewPresenter)
+        dep.profileViewPresenter.view = profileViewController
+        dep.profileViewPresenter.userProfile = userProfile
+
         viewControllers = [
             ImagesListViewController(deps: dep.imagesListVCDep),
-            ProfileViewController(
-                userProfile: userProfile,
-                dep: dep.profileVCDep
-            )
+            profileViewController
         ]
 
         if let listItem = tabBar.items?[0] {

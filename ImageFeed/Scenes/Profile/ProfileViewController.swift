@@ -2,30 +2,22 @@ import UIKit
 import Kingfisher
 import WebKit
 
-final class ProfileViewController: UIViewController {
-    struct Dependencies {
-        let notificationCenter: NotificationCenter
-        let profileImageLoader: ProfileImageLoader
-        var tokenStorage: OAuth2TokenStoring
-    }
+protocol ProfileViewControllerProtocol: AnyObject {
+    var presenter: ProfileViewPresenterProtocol { get }
 
-    private let userProfile: UserProfile
-    private var dep: Dependencies
+    func dismiss()
+    func updateAvatarURL(_ url: URL)
+    func displayUserData(profile: UserProfile)
+}
 
-    private var profileAvatarObserver: NSObjectProtocol?
-
-    init(userProfile: UserProfile, dep: Dependencies) {
-        self.userProfile = userProfile
-        self.dep = dep
+final class ProfileViewController: UIViewController, ProfileViewControllerProtocol {
+    init(presenter: ProfileViewPresenterProtocol) {
+        self.presenter = presenter
         super.init(nibName: nil, bundle: nil)
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-
-    deinit {
-        stopObservingAvatarChanges()
     }
 
     override func viewDidLoad() {
@@ -35,8 +27,26 @@ final class ProfileViewController: UIViewController {
         layoutComponents()
         setupActions()
 
-        observeAvatarChanges()
-        displayUserData()
+        presenter.viewDidLoad()
+    }
+
+    // MARK: ProfileViewControllerProtocol
+    let presenter: ProfileViewPresenterProtocol
+
+    func dismiss() {
+        tabBarController?.dismiss(animated: true)
+    }
+
+    func updateAvatarURL(_ url: URL) {
+        gradient.removeFromSuperlayer()
+        userPicView.kf.indicatorType = .custom(indicator: GradientKFIndicator())
+        userPicView.kf.setImage(with: url)
+    }
+
+    func displayUserData(profile: UserProfile) {
+        userNameLabel.text = profile.fullName
+        userHandlerLabel.text = profile.handler
+        userDescriptionLabel.text = "Hello, Unsplash!"
     }
 
     // MARK: View components
@@ -119,41 +129,7 @@ extension ProfileViewController {
     }
 
     @objc private func logoutPressed() {
-        HTTPCookieStorage.shared.removeCookies(since: Date.distantPast)
-        WKWebsiteDataStore.default().fetchDataRecords(
-            ofTypes: WKWebsiteDataStore.allWebsiteDataTypes()
-        ) { records in
-           records.forEach { record in
-              WKWebsiteDataStore.default().removeData(
-                ofTypes: record.dataTypes,
-                for: [record],
-                completionHandler: {}
-              )
-           }
-        }
-
-        dep.tokenStorage.token = nil
-        tabBarController?.dismiss(animated: true)
-    }
-}
-
-// MARK: - Observe AvatarChanges
-
-extension ProfileViewController {
-    private func observeAvatarChanges() {
-        profileAvatarObserver = dep.notificationCenter.addObserver(
-            forName: dep.profileImageLoader.didChangeNotification,
-            object: nil,
-            queue: .main
-        ) { [weak self] _ in
-            self?.updateAvatar()
-        }
-    }
-
-    private func stopObservingAvatarChanges() {
-        if let profileAvatarObserver {
-            dep.notificationCenter.removeObserver(profileAvatarObserver)
-        }
+        presenter.logout()
     }
 }
 
@@ -224,27 +200,5 @@ extension ProfileViewController {
         gradientChangeAnimation.fromValue = [0, 0.1, 0.3]
         gradientChangeAnimation.toValue = [0, 0.8, 1]
         gradient.add(gradientChangeAnimation, forKey: "locationsChange")
-    }
-}
-
-// MARK: - Data
-
-extension ProfileViewController {
-    private func updateAvatar() {
-        guard
-            let avatarURLString = dep.profileImageLoader.avatarURLString,
-            let avatarURL = URL(string: avatarURLString)
-        else { return }
-
-        gradient.removeFromSuperlayer()
-        userPicView.kf.indicatorType = .custom(indicator: GradientKFIndicator())
-        userPicView.kf.setImage(with: avatarURL)
-    }
-
-    private func displayUserData() {
-        userNameLabel.text = userProfile.fullName
-        userHandlerLabel.text = userProfile.handler
-        userDescriptionLabel.text = "Hello, Unsplash!"
-        updateAvatar()
     }
 }
