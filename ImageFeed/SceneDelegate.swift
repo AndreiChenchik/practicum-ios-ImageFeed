@@ -85,7 +85,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         )
 
         let authHelper = AuthHelper(configuration: .standard)
-        let oAuthCodePresenter = OAuthCodePresenter(authHelper: authHelper)
+        let oAuthCodePresenter = OAuthCodeViewPresenter(authHelper: authHelper)
 
         let authVCDep = AuthViewController.Dependencies(
             oauth2TokenExtractor: oauth2Service,

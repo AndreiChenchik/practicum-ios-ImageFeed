@@ -1,7 +1,7 @@
 import ImageFeed
 import Foundation
 
-final class OAuthCodePresenterSpy: OAuthCodePresenterProtocol {
+final class OAuthCodePresenterSpy: OAuthCodeViewPresenterProtocol {
     var isViewDidLoadCalled = false
     var view: OAuthCodeViewControllerProtocol?
 

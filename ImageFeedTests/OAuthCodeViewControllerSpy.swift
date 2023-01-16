@@ -2,10 +2,10 @@ import ImageFeed
 import Foundation
 
 final class OAuthCodeViewControllerSpy: OAuthCodeViewControllerProtocol {
-    var presenter: OAuthCodePresenterProtocol
+    var presenter: OAuthCodeViewPresenterProtocol
     var isLoadCalled = false
 
-    init(presenter: OAuthCodePresenterProtocol) {
+    init(presenter: OAuthCodeViewPresenterProtocol) {
         self.presenter = presenter
     }
 

@@ -2,7 +2,7 @@ import UIKit
 import WebKit
 
 public protocol OAuthCodeViewControllerProtocol: AnyObject {
-    var presenter: OAuthCodePresenterProtocol { get set }
+    var presenter: OAuthCodeViewPresenterProtocol { get set }
 
     func load(request: URLRequest)
     func setProgressValue(_ newValue: Float)
@@ -23,7 +23,7 @@ final class OAuthCodeViewController: UIViewController, OAuthCodeViewControllerPr
     private var observations: [NSKeyValueObservation] = []
 
     init(
-        presenter: OAuthCodePresenterProtocol,
+        presenter: OAuthCodeViewPresenterProtocol,
         delegate: OAuthCodeViewControllerDelegate? = nil
     ) {
         self.delegate = delegate
@@ -61,7 +61,7 @@ final class OAuthCodeViewController: UIViewController, OAuthCodeViewControllerPr
 
     // MARK: OAuthCodeViewControllerProtocol
 
-    var presenter: OAuthCodePresenterProtocol
+    var presenter: OAuthCodeViewPresenterProtocol
 
     func load(request: URLRequest) {
         webView.load(request)

@@ -20,7 +20,7 @@ final class OAuthCodeViewTests: XCTestCase {
     func testPresenterCallsLoadRequest() {
         // given
         let authHelper = AuthHelper()
-        let presenter = OAuthCodePresenter(authHelper: authHelper)
+        let presenter = OAuthCodeViewPresenter(authHelper: authHelper)
         let viewController = OAuthCodeViewControllerSpy(presenter: presenter)
         presenter.view = viewController
 
@@ -34,7 +34,7 @@ final class OAuthCodeViewTests: XCTestCase {
     func testProgressVisibleWhenLessThenOne() {
         // given
         let authHelper = AuthHelper()
-        let presenter = OAuthCodePresenter(authHelper: authHelper)
+        let presenter = OAuthCodeViewPresenter(authHelper: authHelper)
         let progress: Float = 0.6
 
         // when
@@ -47,7 +47,7 @@ final class OAuthCodeViewTests: XCTestCase {
     func testProgressHiddenWhenOne() {
         // given
         let authHelper = AuthHelper()
-        let presenter = OAuthCodePresenter(authHelper: authHelper)
+        let presenter = OAuthCodeViewPresenter(authHelper: authHelper)
         let progress: Float = 1
 
         // when

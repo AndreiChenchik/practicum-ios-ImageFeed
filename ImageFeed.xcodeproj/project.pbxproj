@@ -37,7 +37,7 @@
 		38A328462929496C002A122A /* ProfileImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38A328452929496C002A122A /* ProfileImageService.swift */; };
 		38A3284829294A6C002A122A /* UserPublicProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38A3284729294A6C002A122A /* UserPublicProfile.swift */; };
 		38A3284A29294AC7002A122A /* ProfileImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38A3284929294AC7002A122A /* ProfileImage.swift */; };
-		38ACF4BC29747B3700CD2DB2 /* OAuthCodePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38ACF4BB29747B3700CD2DB2 /* OAuthCodePresenter.swift */; };
+		38ACF4BC29747B3700CD2DB2 /* OAuthCodeViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38ACF4BB29747B3700CD2DB2 /* OAuthCodeViewPresenter.swift */; };
 		38ACF4BE2974861A00CD2DB2 /* AuthConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38ACF4BD2974861A00CD2DB2 /* AuthConfiguration.swift */; };
 		38ACF4C1297487C900CD2DB2 /* AuthHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38ACF4C0297487C900CD2DB2 /* AuthHelper.swift */; };
 		38ACF4C929748C6B00CD2DB2 /* OAuthCodeViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38ACF4C829748C6B00CD2DB2 /* OAuthCodeViewTests.swift */; };
@@ -102,7 +102,7 @@
 		38A328452929496C002A122A /* ProfileImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageService.swift; sourceTree = "<group>"; };
 		38A3284729294A6C002A122A /* UserPublicProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPublicProfile.swift; sourceTree = "<group>"; };
 		38A3284929294AC7002A122A /* ProfileImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImage.swift; sourceTree = "<group>"; };
-		38ACF4BB29747B3700CD2DB2 /* OAuthCodePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthCodePresenter.swift; sourceTree = "<group>"; };
+		38ACF4BB29747B3700CD2DB2 /* OAuthCodeViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthCodeViewPresenter.swift; sourceTree = "<group>"; };
 		38ACF4BD2974861A00CD2DB2 /* AuthConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthConfiguration.swift; sourceTree = "<group>"; };
 		38ACF4C0297487C900CD2DB2 /* AuthHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthHelper.swift; sourceTree = "<group>"; };
 		38ACF4C629748C6B00CD2DB2 /* ImageFeedTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ImageFeedTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -165,7 +165,7 @@
 			children = (
 				38917913290D577100B7C7B0 /* AuthViewController.swift */,
 				38917915290D579900B7C7B0 /* OAuthCodeViewController.swift */,
-				38ACF4BB29747B3700CD2DB2 /* OAuthCodePresenter.swift */,
+				38ACF4BB29747B3700CD2DB2 /* OAuthCodeViewPresenter.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -485,7 +485,7 @@
 				38B9CAB62904655D009EBD63 /* TabBarController.swift in Sources */,
 				389FE83E28DCCDE800560E49 /* AppDelegate.swift in Sources */,
 				38B9CAB029044097009EBD63 /* UIImage+Extensions.swift in Sources */,
-				38ACF4BC29747B3700CD2DB2 /* OAuthCodePresenter.swift in Sources */,
+				38ACF4BC29747B3700CD2DB2 /* OAuthCodeViewPresenter.swift in Sources */,
 				38B9CAA5290437ED009EBD63 /* ColorAsset.swift in Sources */,
 				381099CA29420409009B1392 /* ImagesListService.swift in Sources */,
 				38A3284429293EED002A122A /* ErrorPresenter.swift in Sources */,

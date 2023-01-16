@@ -5,7 +5,7 @@ final class AuthViewController: UIViewController {
         let oauth2TokenExtractor: OAuth2TokenExtractor
         var oauthTokenStorage: OAuth2TokenStoring
 
-        var oAuthCodePresenter: OAuthCodePresenterProtocol
+        var oAuthCodePresenter: OAuthCodeViewPresenterProtocol
     }
 
     private var dep: Dependencies

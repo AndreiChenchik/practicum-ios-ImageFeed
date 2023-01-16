@@ -1,6 +1,6 @@
 import Foundation
 
-public protocol OAuthCodePresenterProtocol {
+public protocol OAuthCodeViewPresenterProtocol {
     var view: OAuthCodeViewControllerProtocol? { get set }
 
     func viewDidLoad()
@@ -8,7 +8,7 @@ public protocol OAuthCodePresenterProtocol {
     func getAuthCode(from url: URL) -> String?
 }
 
-final class OAuthCodePresenter: OAuthCodePresenterProtocol {
+final class OAuthCodeViewPresenter: OAuthCodeViewPresenterProtocol {
     weak var view: OAuthCodeViewControllerProtocol?
     private var authHelper: AuthHelperProtocol
 
@@ -37,7 +37,7 @@ final class OAuthCodePresenter: OAuthCodePresenterProtocol {
     }
 }
 
-extension OAuthCodePresenter {
+extension OAuthCodeViewPresenter {
     func shouldHideProgress(for value: Float) -> Bool {
         abs(value - 1.0) <= 0.0001
     }
