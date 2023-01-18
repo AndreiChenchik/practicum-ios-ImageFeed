@@ -1,4 +1,4 @@
-import ImageFeed
+@testable import ImageFeed
 import Foundation
 
 final class OAuthCodePresenterSpy: OAuthCodeViewPresenterProtocol {

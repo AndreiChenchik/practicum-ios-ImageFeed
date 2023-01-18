@@ -1,4 +1,4 @@
-struct ProfileImage: Codable {
+struct ProfileImage: Codable, Equatable {
     let small: String?
     let medium: String?
     let large: String?

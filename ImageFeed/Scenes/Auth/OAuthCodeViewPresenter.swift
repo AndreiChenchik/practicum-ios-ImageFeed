@@ -1,6 +1,6 @@
 import Foundation
 
-public protocol OAuthCodeViewPresenterProtocol {
+protocol OAuthCodeViewPresenterProtocol {
     var view: OAuthCodeViewControllerProtocol? { get set }
 
     func viewDidLoad()

@@ -45,6 +45,12 @@
 		38ACF4D229748F6C00CD2DB2 /* OAuthCodeViewControllerSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38ACF4D129748F6C00CD2DB2 /* OAuthCodeViewControllerSpy.swift */; };
 		38ACF4D429753E3B00CD2DB2 /* ProfileViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38ACF4D329753E3B00CD2DB2 /* ProfileViewPresenter.swift */; };
 		38ACF4D629753FB900CD2DB2 /* LogoutHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38ACF4D529753FB900CD2DB2 /* LogoutHelper.swift */; };
+		38ACF4D82975495300CD2DB2 /* ProfileViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38ACF4D72975495300CD2DB2 /* ProfileViewTests.swift */; };
+		38ACF4DC29786F6200CD2DB2 /* ProfileViewPresenterSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38ACF4DB29786F6200CD2DB2 /* ProfileViewPresenterSpy.swift */; };
+		38ACF4DE2978749200CD2DB2 /* ProfileViewControllerSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38ACF4DD2978749200CD2DB2 /* ProfileViewControllerSpy.swift */; };
+		38ACF4E02978755800CD2DB2 /* LogoutHelperSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38ACF4DF2978755800CD2DB2 /* LogoutHelperSpy.swift */; };
+		38ACF4E229787A8600CD2DB2 /* ProfileImageLoaderMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38ACF4E129787A8600CD2DB2 /* ProfileImageLoaderMock.swift */; };
+		38ACF4E429787D7200CD2DB2 /* OAuth2TokenStoringMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38ACF4E329787D7200CD2DB2 /* OAuth2TokenStoringMock.swift */; };
 		38B9CAA1290434E9009EBD63 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38B9CAA0290434E9009EBD63 /* ProfileViewController.swift */; };
 		38B9CAA5290437ED009EBD63 /* ColorAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38B9CAA4290437ED009EBD63 /* ColorAsset.swift */; };
 		38B9CAA729043906009EBD63 /* FontAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38B9CAA629043906009EBD63 /* FontAsset.swift */; };
@@ -113,6 +119,12 @@
 		38ACF4D129748F6C00CD2DB2 /* OAuthCodeViewControllerSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthCodeViewControllerSpy.swift; sourceTree = "<group>"; };
 		38ACF4D329753E3B00CD2DB2 /* ProfileViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewPresenter.swift; sourceTree = "<group>"; };
 		38ACF4D529753FB900CD2DB2 /* LogoutHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoutHelper.swift; sourceTree = "<group>"; };
+		38ACF4D72975495300CD2DB2 /* ProfileViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewTests.swift; sourceTree = "<group>"; };
+		38ACF4DB29786F6200CD2DB2 /* ProfileViewPresenterSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewPresenterSpy.swift; sourceTree = "<group>"; };
+		38ACF4DD2978749200CD2DB2 /* ProfileViewControllerSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewControllerSpy.swift; sourceTree = "<group>"; };
+		38ACF4DF2978755800CD2DB2 /* LogoutHelperSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoutHelperSpy.swift; sourceTree = "<group>"; };
+		38ACF4E129787A8600CD2DB2 /* ProfileImageLoaderMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageLoaderMock.swift; sourceTree = "<group>"; };
+		38ACF4E329787D7200CD2DB2 /* OAuth2TokenStoringMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuth2TokenStoringMock.swift; sourceTree = "<group>"; };
 		38B9CAA0290434E9009EBD63 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		38B9CAA4290437ED009EBD63 /* ColorAsset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorAsset.swift; sourceTree = "<group>"; };
 		38B9CAA629043906009EBD63 /* FontAsset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontAsset.swift; sourceTree = "<group>"; };
@@ -232,11 +244,33 @@
 		38ACF4C729748C6B00CD2DB2 /* ImageFeedTests */ = {
 			isa = PBXGroup;
 			children = (
+				38ACF4DA2975496B00CD2DB2 /* ProfileView */,
+				38ACF4D92975496000CD2DB2 /* OAuthCodeView */,
+			);
+			path = ImageFeedTests;
+			sourceTree = "<group>";
+		};
+		38ACF4D92975496000CD2DB2 /* OAuthCodeView */ = {
+			isa = PBXGroup;
+			children = (
 				38ACF4C829748C6B00CD2DB2 /* OAuthCodeViewTests.swift */,
 				38ACF4CF29748CF200CD2DB2 /* OAuthCodePresenterSpy.swift */,
 				38ACF4D129748F6C00CD2DB2 /* OAuthCodeViewControllerSpy.swift */,
 			);
-			path = ImageFeedTests;
+			path = OAuthCodeView;
+			sourceTree = "<group>";
+		};
+		38ACF4DA2975496B00CD2DB2 /* ProfileView */ = {
+			isa = PBXGroup;
+			children = (
+				38ACF4D72975495300CD2DB2 /* ProfileViewTests.swift */,
+				38ACF4DB29786F6200CD2DB2 /* ProfileViewPresenterSpy.swift */,
+				38ACF4DD2978749200CD2DB2 /* ProfileViewControllerSpy.swift */,
+				38ACF4DF2978755800CD2DB2 /* LogoutHelperSpy.swift */,
+				38ACF4E129787A8600CD2DB2 /* ProfileImageLoaderMock.swift */,
+				38ACF4E329787D7200CD2DB2 /* OAuth2TokenStoringMock.swift */,
+			);
+			path = ProfileView;
 			sourceTree = "<group>";
 		};
 		38B9CAAC29043C46009EBD63 /* Fonts */ = {
@@ -527,9 +561,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				38ACF4D82975495300CD2DB2 /* ProfileViewTests.swift in Sources */,
 				38ACF4D229748F6C00CD2DB2 /* OAuthCodeViewControllerSpy.swift in Sources */,
 				38ACF4D029748CF200CD2DB2 /* OAuthCodePresenterSpy.swift in Sources */,
+				38ACF4E02978755800CD2DB2 /* LogoutHelperSpy.swift in Sources */,
+				38ACF4E229787A8600CD2DB2 /* ProfileImageLoaderMock.swift in Sources */,
+				38ACF4DC29786F6200CD2DB2 /* ProfileViewPresenterSpy.swift in Sources */,
 				38ACF4C929748C6B00CD2DB2 /* OAuthCodeViewTests.swift in Sources */,
+				38ACF4E429787D7200CD2DB2 /* OAuth2TokenStoringMock.swift in Sources */,
+				38ACF4DE2978749200CD2DB2 /* ProfileViewControllerSpy.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

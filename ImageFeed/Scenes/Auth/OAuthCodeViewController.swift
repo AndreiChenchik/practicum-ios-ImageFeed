@@ -1,7 +1,7 @@
 import UIKit
 import WebKit
 
-public protocol OAuthCodeViewControllerProtocol: AnyObject {
+protocol OAuthCodeViewControllerProtocol: AnyObject {
     var presenter: OAuthCodeViewPresenterProtocol { get set }
 
     func load(request: URLRequest)
