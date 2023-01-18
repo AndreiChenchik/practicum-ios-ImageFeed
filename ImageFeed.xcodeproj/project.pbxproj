@@ -51,6 +51,8 @@
 		38ACF4E02978755800CD2DB2 /* LogoutHelperSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38ACF4DF2978755800CD2DB2 /* LogoutHelperSpy.swift */; };
 		38ACF4E229787A8600CD2DB2 /* ProfileImageLoaderMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38ACF4E129787A8600CD2DB2 /* ProfileImageLoaderMock.swift */; };
 		38ACF4E429787D7200CD2DB2 /* OAuth2TokenStoringMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38ACF4E329787D7200CD2DB2 /* OAuth2TokenStoringMock.swift */; };
+		38ACF4E62978834600CD2DB2 /* ImagesListViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38ACF4E52978834600CD2DB2 /* ImagesListViewPresenter.swift */; };
+		38ACF4E82978936900CD2DB2 /* ImagesListViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38ACF4E72978936900CD2DB2 /* ImagesListViewDataSource.swift */; };
 		38B9CAA1290434E9009EBD63 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38B9CAA0290434E9009EBD63 /* ProfileViewController.swift */; };
 		38B9CAA5290437ED009EBD63 /* ColorAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38B9CAA4290437ED009EBD63 /* ColorAsset.swift */; };
 		38B9CAA729043906009EBD63 /* FontAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38B9CAA629043906009EBD63 /* FontAsset.swift */; };
@@ -125,6 +127,8 @@
 		38ACF4DF2978755800CD2DB2 /* LogoutHelperSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoutHelperSpy.swift; sourceTree = "<group>"; };
 		38ACF4E129787A8600CD2DB2 /* ProfileImageLoaderMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageLoaderMock.swift; sourceTree = "<group>"; };
 		38ACF4E329787D7200CD2DB2 /* OAuth2TokenStoringMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuth2TokenStoringMock.swift; sourceTree = "<group>"; };
+		38ACF4E52978834600CD2DB2 /* ImagesListViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListViewPresenter.swift; sourceTree = "<group>"; };
+		38ACF4E72978936900CD2DB2 /* ImagesListViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListViewDataSource.swift; sourceTree = "<group>"; };
 		38B9CAA0290434E9009EBD63 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		38B9CAA4290437ED009EBD63 /* ColorAsset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorAsset.swift; sourceTree = "<group>"; };
 		38B9CAA629043906009EBD63 /* FontAsset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontAsset.swift; sourceTree = "<group>"; };
@@ -300,6 +304,8 @@
 				38B9CABA2904857A009EBD63 /* SingleImageView */,
 				38B9CAB92904855C009EBD63 /* ImageListCell */,
 				389FE84128DCCDE800560E49 /* ImagesListViewController.swift */,
+				38ACF4E52978834600CD2DB2 /* ImagesListViewPresenter.swift */,
+				38ACF4E72978936900CD2DB2 /* ImagesListViewDataSource.swift */,
 			);
 			path = ImagesList;
 			sourceTree = "<group>";
@@ -533,6 +539,7 @@
 				38917916290D579900B7C7B0 /* OAuthCodeViewController.swift in Sources */,
 				38ACF4D629753FB900CD2DB2 /* LogoutHelper.swift in Sources */,
 				38B9CAAE29043FEA009EBD63 /* ImageAsset.swift in Sources */,
+				38ACF4E82978936900CD2DB2 /* ImagesListViewDataSource.swift in Sources */,
 				389FE84028DCCDE800560E49 /* SceneDelegate.swift in Sources */,
 				38C8E1C928F1FA800078FD78 /* Photo.swift in Sources */,
 				38C8E1BE28F1E6960078FD78 /* GradientView.swift in Sources */,
@@ -552,6 +559,7 @@
 				381099C8294201E6009B1392 /* PhotoResult.swift in Sources */,
 				381B7B8A290EF84500F8EF06 /* OAuth2TokenStorage.swift in Sources */,
 				381B7B84290EEF9000F8EF06 /* NetworkClient.swift in Sources */,
+				38ACF4E62978834600CD2DB2 /* ImagesListViewPresenter.swift in Sources */,
 				382AFB51291FB45600ACC49D /* ModelService.swift in Sources */,
 				38A32842292939FF002A122A /* ProfileService.swift in Sources */,
 			);

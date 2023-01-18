@@ -74,16 +74,20 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             errorPresenter: errorPresenter
         )
 
-        let imagesListVCDep = ImagesListViewController.Dependencies(
-            notificationCenter: notificateionCenter,
-            imagesListService: imagesListService,
-            errorPresenter: errorPresenter,
-            singleImageVCDep: singleImageVCDep
+        let imagesListViewDataSource = ImagesListViewDataSource(
+            imagesListService: imagesListService
         )
+        let imagesListViewPresenter = ImagesListViewPresenter(deps: .init(
+            notificationCenter: notificateionCenter,
+            dataSource: imagesListViewDataSource,
+            errorPresenter: errorPresenter,
+            singleImageVCDep: singleImageVCDep)
+        )
+        imagesListViewDataSource.cellDelegate = imagesListViewPresenter
 
         let tabBarDep = TabBarController.Dependencies(
             profileViewPresenter: profileViewPresenter,
-            imagesListVCDep: imagesListVCDep
+            imagesListViewPresenter: imagesListViewPresenter
         )
 
         let authHelper = AuthHelper(configuration: .standard)
@@ -101,6 +105,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             profileLoader: profileService,
             profileImageLoader: profileImageService,
             errorPresenter: errorPresenter,
+            imagesListService: imagesListService,
             tabBarDep: tabBarDep,
             authVCDep: authVCDep
         )

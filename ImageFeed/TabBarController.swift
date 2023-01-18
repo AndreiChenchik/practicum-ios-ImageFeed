@@ -3,7 +3,7 @@ import UIKit
 class TabBarController: UITabBarController {
     struct Dependencies {
         let profileViewPresenter: ProfileViewPresenter
-        let imagesListVCDep: ImagesListViewController.Dependencies
+        let imagesListViewPresenter: ImagesListViewPresenterProtocol
     }
 
     private let userProfile: UserProfile
@@ -31,8 +31,13 @@ class TabBarController: UITabBarController {
         dep.profileViewPresenter.view = profileViewController
         dep.profileViewPresenter.userProfile = userProfile
 
+        let imagesListViewController = ImagesListViewController(
+            presenter: dep.imagesListViewPresenter
+        )
+        dep.imagesListViewPresenter.view = imagesListViewController
+
         viewControllers = [
-            ImagesListViewController(deps: dep.imagesListVCDep),
+            imagesListViewController,
             profileViewController
         ]
 

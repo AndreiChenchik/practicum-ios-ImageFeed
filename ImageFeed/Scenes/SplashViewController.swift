@@ -7,6 +7,7 @@ final class SplashViewController: UIViewController {
         let profileLoader: ProfileLoader
         let profileImageLoader: ProfileImageLoader
         let errorPresenter: ErrorPresenting
+        let imagesListService: ImagesListService
 
         let tabBarDep: TabBarController.Dependencies
         let authVCDep: AuthViewController.Dependencies
@@ -59,7 +60,7 @@ extension SplashViewController {
     private func loadApp(with token: String) {
         UIBlockingProgressHUD.show()
 
-        dep.tabBarDep.imagesListVCDep.imagesListService.authorize(with: token)
+        dep.imagesListService.authorize(with: token)
 
         dep.profileLoader.fetchProfile(
             bearerToken: token
