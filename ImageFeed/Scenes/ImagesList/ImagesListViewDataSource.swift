@@ -1,36 +1,71 @@
 import UIKit
 
+protocol ImagesListViewDataSourceProtocol: UITableViewDataSource {
+    var tableView: UITableView? { get set }
+    var cellDelegate: ImagesListCellDelegate? { get set }
+
+    func viewDidLoad()
+
+    func getPhoto(at index: Int) -> Photo
+    func changeLike(index: Int, completion: @escaping (Result<Bool, Error>) -> Void)
+    func photoSize(index: Int) -> CGSize
+}
+
 final class ImagesListViewDataSource: NSObject {
-    weak var cellDelegate: ImagesListCellDelegate?
+    private let deps: Dependencies
+    private var imagesListObserver: NSObjectProtocol?
 
-    private let imagesListService: ImagesListService
-    var photos: [Photo] { imagesListService.photos }
-
-    lazy var dateFormatter: DateFormatter = {
+    private lazy var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .long
         formatter.timeStyle = .none
         return formatter
     }()
 
-    init(imagesListService: ImagesListService) {
-        self.imagesListService = imagesListService
+    init(deps: Dependencies) {
+        self.deps = deps
+    }
+
+    deinit {
+        stopObservingImagesListChanges()
+    }
+
+    // MARK: ImagesListViewDataSourceProtocol
+
+    weak var tableView: UITableView?
+    weak var cellDelegate: ImagesListCellDelegate?
+}
+
+// MARK: - Dependencies
+
+extension ImagesListViewDataSource {
+    struct Dependencies {
+        let notificationCenter: NotificationCenter
+        let imagesListService: ImagesListService
     }
 }
 
-// MARK: - Image actions
+// MARK: - ImagesListViewDataSourceProtocol
 
-extension ImagesListViewDataSource {
+extension ImagesListViewDataSource: ImagesListViewDataSourceProtocol {
+    func viewDidLoad() {
+        startObservingImagesListChanges()
+    }
+
+    func getPhoto(at index: Int) -> Photo {
+        deps.imagesListService.photos[index]
+    }
+
     func changeLike(index: Int, completion: @escaping (Result<Bool, Error>) -> Void) {
-        imagesListService.changeLike(
+        deps.imagesListService.changeLike(
             index: index,
-            isLiked: !imagesListService.photos[index].isLiked,
+            isLiked: !deps.imagesListService.photos[index].isLiked,
             completion: completion
         )
     }
 
     func photoSize(index: Int) -> CGSize {
-        imagesListService.photos[index].size
+        deps.imagesListService.photos[index].size
     }
 }
 
@@ -40,7 +75,7 @@ extension ImagesListViewDataSource: UITableViewDataSource {
     func tableView(
         _ tableView: UITableView, numberOfRowsInSection section: Int
     ) -> Int {
-        return imagesListService.photos.count
+        return deps.imagesListService.photos.count
     }
 
     func tableView(
@@ -53,7 +88,11 @@ extension ImagesListViewDataSource: UITableViewDataSource {
             fatalError("Can't get cell for ImagesList")
         }
 
-        let viewModel = convert(model: imagesListService.photos[indexPath.row])
+        let viewModel = ImageViewModel(
+            model: deps.imagesListService.photos[indexPath.row],
+            dateFormatter: dateFormatter
+        )
+
         imagesListCell.configure(with: viewModel)
 
         imagesListCell.delegate = cellDelegate
@@ -66,21 +105,54 @@ extension ImagesListViewDataSource: UITableViewDataSource {
         willDisplay cell: UITableViewCell,
         forRowAt indexPath: IndexPath
     ) {
-        imagesListService.prepareForDisplay(index: indexPath.row)
+        deps.imagesListService.prepareForDisplay(index: indexPath.row)
+    }
+}
+
+// MARK: - On ImagesList Changes
+
+private extension ImagesListViewDataSource {
+    func startObservingImagesListChanges() {
+        imagesListObserver = deps.notificationCenter.addObserver(
+            forName: deps.imagesListService.didChangeNotification,
+            object: nil,
+            queue: .main
+        ) { [weak self] _ in
+            self?.updateTableViewAnimated()
+        }
+    }
+
+    func stopObservingImagesListChanges() {
+        if let imagesListObserver {
+            deps.notificationCenter.removeObserver(imagesListObserver)
+        }
+    }
+
+    func updateTableViewAnimated() {
+        guard let tableView else { return }
+
+        let oldCount = tableView.numberOfRows(inSection: 0)
+        let newCount = deps.imagesListService.photos.count
+
+        if oldCount < newCount {
+            let newPaths = (oldCount..<newCount).map { IndexPath(row: $0, section: 0) }
+
+            tableView.performBatchUpdates {
+                tableView.insertRows(at: newPaths, with: .automatic)
+            }
+        }
     }
 }
 
 // MARK: - Helpers
 
-private extension ImagesListViewDataSource {
-    func convert(model: Photo) -> ImageViewModel {
+private extension ImageViewModel {
+    init(model: Photo, dateFormatter: DateFormatter) {
         let dateString = dateFormatter.string(from: model.createdAt)
 
-        return ImageViewModel(
-            image: model.thumbnailImage,
-            size: model.size,
-            dateString: dateString,
-            isFavorite: model.isLiked
-        )
+        image = model.thumbnailImage
+        size = model.size
+        self.dateString = dateString
+        isFavorite =  model.isLiked
     }
 }

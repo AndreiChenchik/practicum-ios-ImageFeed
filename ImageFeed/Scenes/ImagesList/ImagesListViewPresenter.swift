@@ -2,29 +2,33 @@ import UIKit
 
 protocol ImagesListViewPresenterProtocol: UITableViewDelegate, ImagesListCellDelegate {
     var view: ImagesListViewControllerProtocol? { get set }
-    var dataSource: UITableViewDataSource { get }
     func viewDidLoad()
 }
 
 final class ImagesListViewPresenter: NSObject, ImagesListViewPresenterProtocol {
     private let deps: Dependencies
-
     weak var view: ImagesListViewControllerProtocol?
-    private var imagesListObserver: NSObjectProtocol?
-
-    var dataSource: UITableViewDataSource { deps.dataSource }
 
     init(deps: Dependencies) {
         self.deps = deps
         super.init()
     }
 
-    deinit {
-        stopObservingImagesListChanges()
+    func viewDidLoad() {
+        configureTable()
+        deps.dataSource.viewDidLoad()
     }
 
-    func viewDidLoad() {
-        observeImagesListChanges()
+    func configureTable() {
+        guard let view else { fatalError("Then who is calling for configure?") }
+
+        view.tableView.register(
+            ImagesListCell.self,
+            forCellReuseIdentifier: "\(ImagesListCell.self)")
+
+        view.tableView.delegate = self
+        view.tableView.dataSource = deps.dataSource
+        deps.dataSource.tableView = view.tableView
     }
 
     private lazy var singleImageView: SingleImageViewController = {
@@ -41,44 +45,9 @@ final class ImagesListViewPresenter: NSObject, ImagesListViewPresenterProtocol {
 
 extension ImagesListViewPresenter {
     struct Dependencies {
-        let notificationCenter: NotificationCenter
-        let dataSource: ImagesListViewDataSource
+        let dataSource: ImagesListViewDataSourceProtocol
         let errorPresenter: ErrorPresenting
         let singleImageVCDep: SingleImageViewController.Dependencies
-    }
-}
-
-// MARK: - On ImagesList Changes
-
-private extension ImagesListViewPresenter {
-    func observeImagesListChanges() {
-        imagesListObserver = deps.notificationCenter.addObserver(
-            forName: ImagesListService.didChangeNotification,
-            object: nil,
-            queue: .main
-        ) { [weak self] _ in
-            self?.updateTableViewAnimated()
-        }
-    }
-
-    func stopObservingImagesListChanges() {
-        if let imagesListObserver {
-            deps.notificationCenter.removeObserver(imagesListObserver)
-        }
-    }
-
-    func updateTableViewAnimated() {
-        guard let view else { return }
-        let oldCount = view.tableView.numberOfRows(inSection: 0)
-        let newCount = deps.dataSource.photos.count
-
-        if oldCount < newCount {
-            let newPaths = (oldCount..<newCount).map { IndexPath(row: $0, section: 0) }
-
-            view.tableView.performBatchUpdates {
-                view.tableView.insertRows(at: newPaths, with: .automatic)
-            }
-        }
     }
 }
 
@@ -90,7 +59,8 @@ extension ImagesListViewPresenter: UITableViewDelegate {
     ) {
         tableView.deselectRow(at: indexPath, animated: true)
 
-        let photo = deps.dataSource.photos[indexPath.row]
+        let photo = deps.dataSource.getPhoto(at: indexPath.row)
+
         singleImageView.image = .init(image: photo.largeImage, size: photo.size)
 
         view?.present(singleImageView, animated: true)

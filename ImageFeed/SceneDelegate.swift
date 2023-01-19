@@ -74,15 +74,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             errorPresenter: errorPresenter
         )
 
-        let imagesListViewDataSource = ImagesListViewDataSource(
-            imagesListService: imagesListService
-        )
-        let imagesListViewPresenter = ImagesListViewPresenter(deps: .init(
+        let imagesListViewDataSource = ImagesListViewDataSource(deps: .init(
             notificationCenter: notificateionCenter,
+            imagesListService: imagesListService
+        ))
+        let imagesListViewPresenter = ImagesListViewPresenter(deps: .init(
             dataSource: imagesListViewDataSource,
             errorPresenter: errorPresenter,
-            singleImageVCDep: singleImageVCDep)
-        )
+            singleImageVCDep: singleImageVCDep
+        ))
         imagesListViewDataSource.cellDelegate = imagesListViewPresenter
 
         let tabBarDep = TabBarController.Dependencies(

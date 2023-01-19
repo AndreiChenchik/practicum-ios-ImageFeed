@@ -21,7 +21,7 @@ final class ImagesListViewController: UIViewController, ImagesListViewController
     override func viewDidLoad() {
         super.viewDidLoad()
         configureView()
-        configureTable()
+        layoutTableView()
 
         presenter.viewDidLoad()
     }
@@ -38,6 +38,9 @@ final class ImagesListViewController: UIViewController, ImagesListViewController
         tableView.contentInset =  UIEdgeInsets(
             top: 16, left: 0, bottom: 0, right: 0
         )
+
+        tableView.backgroundColor = .clear
+        tableView.separatorStyle = .none
 
         return tableView
     }()
@@ -56,17 +59,7 @@ extension ImagesListViewController {
 // MARK: - UITableView
 
 extension ImagesListViewController {
-    private func configureTable() {
-        tableView.backgroundColor = .clear
-        tableView.separatorStyle = .none
-
-        tableView.register(
-            ImagesListCell.self,
-            forCellReuseIdentifier: "\(ImagesListCell.self)")
-
-        tableView.delegate = presenter
-        tableView.dataSource = presenter.dataSource
-
+    private func layoutTableView() {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(tableView)
 
@@ -82,4 +75,3 @@ extension ImagesListViewController {
         ])
     }
 }
-

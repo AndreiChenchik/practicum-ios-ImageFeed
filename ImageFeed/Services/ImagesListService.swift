@@ -1,7 +1,11 @@
 import Foundation
 
-final class ImagesListService {
-    static let didChangeNotification = Notification.Name(
+protocol ImagesListLoading {
+
+}
+
+final class ImagesListService: ImagesListLoading {
+    let didChangeNotification = Notification.Name(
         rawValue: "ImagesListServiceDidChange"
     )
 
@@ -18,7 +22,7 @@ final class ImagesListService {
     private (set) var photos: [Photo] = [] {
         didSet {
             notificationCenter.post(
-                name: Self.didChangeNotification,
+                name: didChangeNotification,
                 object: self
             )
         }
