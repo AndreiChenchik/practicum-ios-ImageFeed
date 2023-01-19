@@ -1,36 +1,28 @@
 import Foundation
 
-protocol ImagesListLoading {
+protocol ImagesListLoader {
+    var photos: [Photo] { get }
+    var didChangeNotification: Notification.Name { get }
 
+    func authorize(with bearer: String)
+    func prepareForDisplay(index: Int)
+    func changeLike(index: Int, isLiked: Bool, completion: @escaping (Result<Bool, Error>) -> Void)
 }
 
-final class ImagesListService: ImagesListLoading {
-    let didChangeNotification = Notification.Name(
-        rawValue: "ImagesListServiceDidChange"
-    )
-
+final class ImagesListService {
     private let modelService: ModelLoading
     private let notificationCenter: NotificationCenter
+    private var task: URLSessionTask?
+    private var bearer: String?
+
+    private var imagesPerPage = 10
+
     private let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
-
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
 
         return formatter
     }()
-
-    private (set) var photos: [Photo] = [] {
-        didSet {
-            notificationCenter.post(
-                name: didChangeNotification,
-                object: self
-            )
-        }
-    }
-
-    private var task: URLSessionTask?
-    private var bearer: String?
-    private var imagesPerPage = 10
 
     init(
         notificationCenter: NotificationCenter,
@@ -40,6 +32,25 @@ final class ImagesListService: ImagesListLoading {
         self.modelService = modelService
     }
 
+    // MARK: ImagesListLoader
+
+    let didChangeNotification = Notification.Name(
+        rawValue: "ImagesListServiceDidChange"
+    )
+
+    private (set) var photos: [Photo] = [] {
+        didSet {
+            notificationCenter.post(
+                name: didChangeNotification,
+                object: self
+            )
+        }
+    }
+}
+
+// MARK: - ImagesListLoader
+
+extension ImagesListService: ImagesListLoader {
     func authorize(with bearer: String) {
         self.bearer = bearer
         fetchPhotosNextPage()

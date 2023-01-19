@@ -42,7 +42,7 @@ final class ImagesListViewDataSource: NSObject {
 extension ImagesListViewDataSource {
     struct Dependencies {
         let notificationCenter: NotificationCenter
-        let imagesListService: ImagesListService
+        let imagesListService: ImagesListLoader
     }
 }
 

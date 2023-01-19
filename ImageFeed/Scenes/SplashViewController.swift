@@ -7,7 +7,7 @@ final class SplashViewController: UIViewController {
         let profileLoader: ProfileLoader
         let profileImageLoader: ProfileImageLoader
         let errorPresenter: ErrorPresenting
-        let imagesListService: ImagesListService
+        let imagesListService: ImagesListLoader
 
         let tabBarDep: TabBarController.Dependencies
         let authVCDep: AuthViewController.Dependencies
