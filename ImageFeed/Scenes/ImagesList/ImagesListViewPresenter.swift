@@ -78,6 +78,14 @@ extension ImagesListViewPresenter: UITableViewDelegate {
 
         return cellHeight
     }
+
+    func tableView(
+        _ tableView: UITableView,
+        willDisplay cell: UITableViewCell,
+        forRowAt indexPath: IndexPath
+    ) {
+        deps.dataSource.prepareForDisplay(index: indexPath.row)
+    }
 }
 
 // MARK: - ImagesListCellDelegate, On Cell tap

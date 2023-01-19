@@ -5,6 +5,7 @@ protocol ImagesListViewDataSourceProtocol: UITableViewDataSource {
     var cellDelegate: ImagesListCellDelegate? { get set }
 
     func viewDidLoad()
+    func prepareForDisplay(index: Int)
 
     func getPhoto(at index: Int) -> Photo
     func changeLike(index: Int, completion: @escaping (Result<Bool, Error>) -> Void)
@@ -50,6 +51,10 @@ extension ImagesListViewDataSource {
 extension ImagesListViewDataSource: ImagesListViewDataSourceProtocol {
     func viewDidLoad() {
         startObservingImagesListChanges()
+    }
+
+    func prepareForDisplay(index: Int) {
+        deps.imagesListService.prepareForDisplay(index: index)
     }
 
     func getPhoto(at index: Int) -> Photo {
@@ -98,14 +103,6 @@ extension ImagesListViewDataSource: UITableViewDataSource {
         imagesListCell.delegate = cellDelegate
 
         return imagesListCell
-    }
-
-    func tableView(
-        _ tableView: UITableView,
-        willDisplay cell: UITableViewCell,
-        forRowAt indexPath: IndexPath
-    ) {
-        deps.imagesListService.prepareForDisplay(index: indexPath.row)
     }
 }
 
