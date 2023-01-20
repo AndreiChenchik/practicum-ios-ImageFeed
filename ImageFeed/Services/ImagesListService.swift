@@ -86,7 +86,8 @@ extension ImagesListService {
                 }
 
                 DispatchQueue.main.async { [weak self] in
-                    self?.photos += photos
+                    guard let self else { return }
+                    self.photos += photos
                 }
             case let .failure(error):
                 print(error.localizedDescription)
