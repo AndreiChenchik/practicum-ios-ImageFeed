@@ -24,7 +24,7 @@ final class ProfileViewController: UIViewController, ProfileViewControllerProtoc
         super.viewDidLoad()
 
         setupView()
-        layoutComponents()
+        configureComponents()
         setupActions()
 
         presenter.viewDidLoad()
@@ -136,7 +136,7 @@ extension ProfileViewController {
 // MARK: - Layout
 
 extension ProfileViewController {
-    private func layoutComponents() {
+    private func configureComponents() {
         let vStack = UIStackView()
 
         vStack.axis = .vertical

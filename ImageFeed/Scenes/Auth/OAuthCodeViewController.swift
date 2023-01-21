@@ -85,7 +85,7 @@ extension OAuthCodeViewController {
         super.viewDidLoad()
 
         setupView()
-        layoutComponents()
+        configureComponents()
         setupBackButton()
 
         webView.navigationDelegate = self
@@ -156,12 +156,12 @@ extension OAuthCodeViewController {
 // MARK: - Layout
 
 extension OAuthCodeViewController {
-    private func layoutComponents() {
-        layoutWebView()
-        layoutProgressView()
+    private func configureComponents() {
+        configureWebView()
+        configureProgressView()
     }
 
-    private func layoutWebView() {
+    private func configureWebView() {
         webView.translatesAutoresizingMaskIntoConstraints = false
 
         view.addSubview(webView)
@@ -178,7 +178,7 @@ extension OAuthCodeViewController {
         ])
     }
 
-    private func layoutProgressView() {
+    private func configureProgressView() {
         progressView.translatesAutoresizingMaskIntoConstraints = false
 
         view.addSubview(progressView)

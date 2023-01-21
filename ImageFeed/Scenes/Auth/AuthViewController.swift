@@ -23,7 +23,7 @@ final class AuthViewController: UIViewController {
         super.viewDidLoad()
 
         setupView()
-        layoutComponents()
+        configureComponents()
 
         setupLoginButton()
     }
@@ -57,7 +57,7 @@ final class AuthViewController: UIViewController {
 // MARK: - Layout
 
 extension AuthViewController {
-    private func layoutComponents() {
+    private func configureComponents() {
         unsplashLogoView.translatesAutoresizingMaskIntoConstraints = false
         loginButton.translatesAutoresizingMaskIntoConstraints = false
 

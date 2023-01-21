@@ -29,7 +29,7 @@ final class SplashViewController: UIViewController {
         super.viewDidLoad()
 
         setupView()
-        layoutComponents()
+        configureComponents()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -125,7 +125,7 @@ extension SplashViewController {
 // MARK: - Layout
 
 extension SplashViewController {
-    private func layoutComponents() {
+    private func configureComponents() {
         practicumLogoView.translatesAutoresizingMaskIntoConstraints = false
 
         view.addSubview(practicumLogoView)

@@ -25,7 +25,7 @@ final class SingleImageViewController: UITabBarController {
         setupBackButton()
         setupShareButton()
 
-        layoutImageView()
+        configureImageView()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -73,13 +73,13 @@ final class SingleImageViewController: UITabBarController {
 
 extension SingleImageViewController {
     private func setupBackButton() {
-        layoutBackButton()
+        configureBackButton()
         backButton.addTarget(
             self, action: #selector(backPressed), for: .touchUpInside)
     }
 
     private func setupShareButton() {
-        layoutShareButton()
+        configureShareButton()
         shareButton.addTarget(
             self, action: #selector(sharePressed), for: .touchUpInside)
     }
@@ -90,7 +90,7 @@ extension SingleImageViewController {
         scrollView.minimumZoomScale = 0.01
         scrollView.maximumZoomScale = 1.25
 
-        layoutScrollView()
+        configureScrollView()
     }
 }
 
@@ -183,7 +183,7 @@ extension SingleImageViewController {
 // MARK: - Layout
 
 extension SingleImageViewController {
-    private func layoutScrollView() {
+    private func configureScrollView() {
         scrollView.translatesAutoresizingMaskIntoConstraints = false
 
         view.addSubview(scrollView)
@@ -200,7 +200,7 @@ extension SingleImageViewController {
         ])
     }
 
-    private func layoutImageView() {
+    private func configureImageView() {
         imageView.translatesAutoresizingMaskIntoConstraints = false
 
         scrollView.addSubview(imageView)
@@ -219,7 +219,7 @@ extension SingleImageViewController {
         ])
     }
 
-    private func layoutBackButton() {
+    private func configureBackButton() {
         backButton.translatesAutoresizingMaskIntoConstraints = false
 
         view.addSubview(backButton)
@@ -234,7 +234,7 @@ extension SingleImageViewController {
         ])
     }
 
-    private func layoutShareButton() {
+    private func configureShareButton() {
         shareButton.translatesAutoresizingMaskIntoConstraints = false
 
         view.addSubview(shareButton)

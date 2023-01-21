@@ -20,7 +20,7 @@ final class ImagesListViewController: UIViewController, ImagesListViewController
     override func viewDidLoad() {
         super.viewDidLoad()
         configureView()
-        layoutTableView()
+        configureTableView()
 
         presenter.viewDidLoad()
     }
@@ -58,7 +58,7 @@ extension ImagesListViewController {
 // MARK: - UITableView
 
 extension ImagesListViewController {
-    private func layoutTableView() {
+    private func configureTableView() {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(tableView)
 
