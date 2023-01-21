@@ -41,12 +41,12 @@ class TabBarController: UITabBarController {
             profileViewController
         ]
 
-        if let listItem = tabBar.items?[0] {
+        if let listItem = tabBar.items?.first {
             listItem.image = .asset(.listTabIcon)
             listItem.title = ""
         }
 
-        if let profileItem = tabBar.items?[1] {
+        if let profileItem = tabBar.items?.last {
             profileItem.image = .asset(.profileTabIcon)
             profileItem.title = ""
         }
