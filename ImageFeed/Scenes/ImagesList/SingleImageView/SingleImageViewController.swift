@@ -128,25 +128,25 @@ extension SingleImageViewController {
     }
 
     @objc private func sharePressed() {
-        if let image = imageView.image {
-            UIBlockingProgressHUD.show()
+        guard let image = imageView.image else { return }
 
-            saveImage(image) { [weak self] result in
-                DispatchQueue.main.async { [weak self] in
-                    guard let self else { return }
+        UIBlockingProgressHUD.show()
 
-                    UIBlockingProgressHUD.dismiss()
+        saveImage(image) { [weak self] result in
+            DispatchQueue.main.async { [weak self] in
+                guard let self else { return }
 
-                    switch result {
-                    case let .success(fileURL):
-                        self.shareImage(fileURL)
-                    case let .failure(error):
-                        self.deps.errorPresenter.displayAlert(
-                            over: self,
-                            title: error.localizedDescription,
-                            actionTitle: "OK"
-                        )
-                    }
+                UIBlockingProgressHUD.dismiss()
+
+                switch result {
+                case let .success(fileURL):
+                    self.shareImage(fileURL)
+                case let .failure(error):
+                    self.deps.errorPresenter.displayAlert(
+                        over: self,
+                        title: error.localizedDescription,
+                        actionTitle: "OK"
+                    )
                 }
             }
         }
