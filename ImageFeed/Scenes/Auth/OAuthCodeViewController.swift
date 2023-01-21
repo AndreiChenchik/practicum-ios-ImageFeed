@@ -24,7 +24,7 @@ final class OAuthCodeViewController: UIViewController, OAuthCodeViewControllerPr
 
     init(
         presenter: OAuthCodeViewPresenterProtocol,
-        delegate: OAuthCodeViewControllerDelegate? = nil
+        delegate: OAuthCodeViewControllerDelegate
     ) {
         self.delegate = delegate
         self.presenter = presenter
