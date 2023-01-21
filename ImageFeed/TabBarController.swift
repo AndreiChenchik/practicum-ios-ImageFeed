@@ -2,16 +2,16 @@ import UIKit
 
 class TabBarController: UITabBarController {
     struct Dependencies {
-        let profileVCDep: ProfileViewController.Dependencies
-        let imagesListVCDep: ImagesListViewController.Dependencies
+        let profileViewPresenter: ProfileViewPresenter
+        let imagesListViewPresenter: ImagesListViewPresenterProtocol
     }
 
     private let userProfile: UserProfile
-    private let dep: Dependencies
+    private let deps: Dependencies
 
-    init(userProfile: UserProfile, dep: Dependencies) {
+    init(userProfile: UserProfile, deps: Dependencies) {
         self.userProfile = userProfile
-        self.dep = dep
+        self.deps = deps
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -27,20 +27,26 @@ class TabBarController: UITabBarController {
     }
 
     private func setupTabs() {
+        let profileViewController = ProfileViewController(presenter: deps.profileViewPresenter)
+        deps.profileViewPresenter.view = profileViewController
+        deps.profileViewPresenter.userProfile = userProfile
+
+        let imagesListViewController = ImagesListViewController(
+            presenter: deps.imagesListViewPresenter
+        )
+        deps.imagesListViewPresenter.view = imagesListViewController
+
         viewControllers = [
-            ImagesListViewController(deps: dep.imagesListVCDep),
-            ProfileViewController(
-                userProfile: userProfile,
-                dep: dep.profileVCDep
-            )
+            imagesListViewController,
+            profileViewController
         ]
 
-        if let listItem = tabBar.items?[0] {
+        if let listItem = tabBar.items?.first {
             listItem.image = .asset(.listTabIcon)
             listItem.title = ""
         }
 
-        if let profileItem = tabBar.items?[1] {
+        if let profileItem = tabBar.items?.last {
             profileItem.image = .asset(.profileTabIcon)
             profileItem.title = ""
         }

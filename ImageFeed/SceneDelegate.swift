@@ -24,19 +24,30 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window.makeKeyAndVisible()
     }
 
-    private func makeRootVC() -> UIViewController {
-        let cache = URLCache(memoryCapacity: 50 * 1024 * 1024, diskCapacity: 100 * 1024 * 1024, directory: nil)
+    private func makeModelService() -> ModelLoading {
         let configuration = URLSessionConfiguration.default
+        let cache = URLCache(
+            memoryCapacity: 50 * 1024 * 1024,
+            diskCapacity: 100 * 1024 * 1024,
+            directory: nil
+        )
         configuration.urlCache = cache
+
         let urlSession = URLSession(configuration: configuration)
+        let networkClient = NetworkClient(urlSession: urlSession)
+
+        return ModelService(networkClient: networkClient)
+    }
+
+    // swiftlint:disable:next function_body_length
+    private func makeRootVC() -> UIViewController {
+        let modelService = makeModelService()
 
         let notificateionCenter = NotificationCenter.default
 
-        let networkClient = NetworkClient(urlSession: urlSession)
         let keychainWrapper = KeychainWrapper.standard
         let oauthTokenStorage = OAuth2TokenStorage(
             keychainWrapper: keychainWrapper)
-        let modelService = ModelService(networkClient: networkClient)
         let oauth2Service = OAuth2Service(modelLoader: modelService)
         let profileService = ProfileService(modelLoader: modelService)
         let errorPresenter = ErrorPresenter()
@@ -49,26 +60,43 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             modelService: modelService
         )
 
-        let profileVCDep = ProfileViewController.Dependencies(
+        let logoutHelper = LogoutHelper()
+        let profileViewPresenter = ProfileViewPresenter(deps: .init(
             notificationCenter: notificateionCenter,
             profileImageLoader: profileImageService,
-            tokenStorage: oauthTokenStorage
-        )
+            tokenStorage: oauthTokenStorage,
+            logoutHelper: logoutHelper
+        ))
 
-        let imagesListVCDep = ImagesListViewController.Dependencies(
-            notificationCenter: notificateionCenter,
-            imagesListService: imagesListService,
+        let fileManager = FileManager.default
+        let singleImageVCDep = SingleImageViewController.Dependencies(
+            fileManager: fileManager,
             errorPresenter: errorPresenter
         )
 
+        let imagesListViewDataSource = ImagesListViewDataSource(deps: .init(
+            notificationCenter: notificateionCenter,
+            imagesListService: imagesListService
+        ))
+        let imagesListViewPresenter = ImagesListViewPresenter(deps: .init(
+            dataSource: imagesListViewDataSource,
+            errorPresenter: errorPresenter,
+            singleImageVCDep: singleImageVCDep
+        ))
+        imagesListViewDataSource.cellDelegate = imagesListViewPresenter
+
         let tabBarDep = TabBarController.Dependencies(
-            profileVCDep: profileVCDep,
-            imagesListVCDep: imagesListVCDep
+            profileViewPresenter: profileViewPresenter,
+            imagesListViewPresenter: imagesListViewPresenter
         )
+
+        let authHelper = AuthHelper(configuration: .standard)
+        let oAuthCodePresenter = OAuthCodeViewPresenter(authHelper: authHelper)
 
         let authVCDep = AuthViewController.Dependencies(
             oauth2TokenExtractor: oauth2Service,
-            oauthTokenStorage: oauthTokenStorage
+            oauthTokenStorage: oauthTokenStorage,
+            oAuthCodePresenter: oAuthCodePresenter
         )
 
         let splashViewDep = SplashViewController.Dependencies(
@@ -77,11 +105,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             profileLoader: profileService,
             profileImageLoader: profileImageService,
             errorPresenter: errorPresenter,
+            imagesListService: imagesListService,
             tabBarDep: tabBarDep,
             authVCDep: authVCDep
         )
 
-        return SplashViewController(dep: splashViewDep)
+        return SplashViewController(deps: splashViewDep)
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

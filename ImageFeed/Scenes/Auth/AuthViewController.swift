@@ -4,12 +4,14 @@ final class AuthViewController: UIViewController {
     struct Dependencies {
         let oauth2TokenExtractor: OAuth2TokenExtractor
         var oauthTokenStorage: OAuth2TokenStoring
+
+        var oAuthCodePresenter: OAuthCodeViewPresenterProtocol
     }
 
-    private var dep: Dependencies
+    private var deps: Dependencies
 
-    init(dep: Dependencies) {
-        self.dep = dep
+    init(deps: Dependencies) {
+        self.deps = deps
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -21,7 +23,7 @@ final class AuthViewController: UIViewController {
         super.viewDidLoad()
 
         setupView()
-        layoutComponents()
+        configureComponents()
 
         setupLoginButton()
     }
@@ -55,7 +57,7 @@ final class AuthViewController: UIViewController {
 // MARK: - Layout
 
 extension AuthViewController {
-    private func layoutComponents() {
+    private func configureComponents() {
         unsplashLogoView.translatesAutoresizingMaskIntoConstraints = false
         loginButton.translatesAutoresizingMaskIntoConstraints = false
 
@@ -100,11 +102,11 @@ extension AuthViewController {
     }
 
     @objc private func loginPressed() {
-        let oauthCodeVC = OAuthCodeViewController()
-        oauthCodeVC.delegate = self
+        let oAuthCodeVC = OAuthCodeViewController(presenter: deps.oAuthCodePresenter, delegate: self)
+        deps.oAuthCodePresenter.view = oAuthCodeVC
 
         let navigationController = UINavigationController(
-            rootViewController: oauthCodeVC)
+            rootViewController: oAuthCodeVC)
         navigationController.modalPresentationStyle = .fullScreen
 
         present(navigationController, animated: true)
@@ -121,7 +123,7 @@ extension AuthViewController: OAuthCodeViewControllerDelegate {
         UIBlockingProgressHUD.show()
 
         oauthCodeVC.dismiss(animated: true)
-        dep.oauth2TokenExtractor.fetchAuthToken(
+        deps.oauth2TokenExtractor.fetchAuthToken(
             authCode: code
         ) { [weak self] result in
             guard let self else { return }
@@ -131,7 +133,7 @@ extension AuthViewController: OAuthCodeViewControllerDelegate {
 
                 switch result {
                 case let .success(token):
-                    self.dep.oauthTokenStorage.token = token
+                    self.deps.oauthTokenStorage.token = token
                     self.dismiss(animated: true)
                 case let .failure(error):
                     print(

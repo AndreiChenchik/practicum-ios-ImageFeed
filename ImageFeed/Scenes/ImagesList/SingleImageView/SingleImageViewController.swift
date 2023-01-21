@@ -5,6 +5,16 @@ import ProgressHUD
 final class SingleImageViewController: UITabBarController {
 
     var image: SingleImageViewModel?
+    var deps: Dependencies
+
+    init(deps: Dependencies) {
+        self.deps = deps
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -15,7 +25,7 @@ final class SingleImageViewController: UITabBarController {
         setupBackButton()
         setupShareButton()
 
-        layoutImageView()
+        configureImageView()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -63,13 +73,13 @@ final class SingleImageViewController: UITabBarController {
 
 extension SingleImageViewController {
     private func setupBackButton() {
-        layoutBackButton()
+        configureBackButton()
         backButton.addTarget(
             self, action: #selector(backPressed), for: .touchUpInside)
     }
 
     private func setupShareButton() {
-        layoutShareButton()
+        configureShareButton()
         shareButton.addTarget(
             self, action: #selector(sharePressed), for: .touchUpInside)
     }
@@ -77,10 +87,18 @@ extension SingleImageViewController {
     private func setupScrollView() {
         scrollView.delegate = self
 
-        scrollView.minimumZoomScale = 0.1
+        scrollView.minimumZoomScale = 0.01
         scrollView.maximumZoomScale = 1.25
 
-        layoutScrollView()
+        configureScrollView()
+    }
+}
+
+// MARK: - Dependencies {
+extension SingleImageViewController {
+    struct Dependencies {
+        let fileManager: FileManager
+        let errorPresenter: ErrorPresenting
     }
 }
 
@@ -97,8 +115,11 @@ extension SingleImageViewController {
             with: model.image,
             placeholder: placeholderImage
         ) { [weak self] _ in
+            guard let self else { return }
+
             UIBlockingProgressHUD.dismiss()
-            self?.rescaleAndCenterImageInScrollView(imageSize: model.size)
+            self.rescaleAndCenterImageInScrollView(imageSize: model.size)
+            self.restrictMinimumZoomLevel()
         }
     }
 
@@ -107,11 +128,54 @@ extension SingleImageViewController {
     }
 
     @objc private func sharePressed() {
-        if let image {
-            let activity = UIActivityViewController(
-                activityItems: [image], applicationActivities: nil)
+        guard let image = imageView.image else { return }
 
-            present(activity, animated: true)
+        UIBlockingProgressHUD.show()
+
+        saveImage(image) { [weak self] result in
+            DispatchQueue.main.async { [weak self] in
+                guard let self else { return }
+
+                UIBlockingProgressHUD.dismiss()
+
+                switch result {
+                case let .success(fileURL):
+                    self.shareImage(fileURL)
+                case let .failure(error):
+                    self.deps.errorPresenter.displayAlert(
+                        over: self,
+                        title: error.localizedDescription,
+                        actionTitle: "OK"
+                    )
+                }
+            }
+        }
+    }
+
+    private func shareImage(_ fileUrl: URL) {
+        let activity = UIActivityViewController(
+            activityItems: [fileUrl],
+            applicationActivities: nil
+        )
+
+        present(activity, animated: true)
+    }
+
+    private func saveImage(_ image: UIImage, completion: @escaping (Result<URL, Error>) -> Void) {
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            guard let self else { return }
+            guard let data = image.jpegData(compressionQuality: 0.8) else { return }
+
+            let tempFileUrl = self.deps.fileManager
+                .temporaryDirectory
+                .appendingPathComponent("SharedImageFeed.jpg")
+
+            do {
+                try data.write(to: tempFileUrl)
+                completion(.success(tempFileUrl))
+            } catch {
+                completion(.failure(error))
+            }
         }
     }
 }
@@ -119,7 +183,7 @@ extension SingleImageViewController {
 // MARK: - Layout
 
 extension SingleImageViewController {
-    private func layoutScrollView() {
+    private func configureScrollView() {
         scrollView.translatesAutoresizingMaskIntoConstraints = false
 
         view.addSubview(scrollView)
@@ -136,7 +200,7 @@ extension SingleImageViewController {
         ])
     }
 
-    private func layoutImageView() {
+    private func configureImageView() {
         imageView.translatesAutoresizingMaskIntoConstraints = false
 
         scrollView.addSubview(imageView)
@@ -155,7 +219,7 @@ extension SingleImageViewController {
         ])
     }
 
-    private func layoutBackButton() {
+    private func configureBackButton() {
         backButton.translatesAutoresizingMaskIntoConstraints = false
 
         view.addSubview(backButton)
@@ -170,7 +234,7 @@ extension SingleImageViewController {
         ])
     }
 
-    private func layoutShareButton() {
+    private func configureShareButton() {
         shareButton.translatesAutoresizingMaskIntoConstraints = false
 
         view.addSubview(shareButton)
@@ -222,5 +286,9 @@ extension SingleImageViewController: UIScrollViewDelegate {
         let yVal = (newContentSize.height - containerSize.height) / 2
 
         scrollView.setContentOffset(CGPoint(x: xVal, y: yVal), animated: false)
+    }
+
+    private func restrictMinimumZoomLevel() {
+        scrollView.minimumZoomScale = scrollView.zoomScale
     }
 }

@@ -2,21 +2,17 @@ import UIKit
 import Kingfisher
 import WebKit
 
-final class ProfileViewController: UIViewController {
-    struct Dependencies {
-        let notificationCenter: NotificationCenter
-        let profileImageLoader: ProfileImageLoader
-        var tokenStorage: OAuth2TokenStoring
-    }
+protocol ProfileViewControllerProtocol: AnyObject {
+    var presenter: ProfileViewPresenterProtocol { get }
 
-    private let userProfile: UserProfile
-    private var dep: Dependencies
+    func dismiss()
+    func updateAvatarURL(_ url: URL)
+    func displayUserData(profile: UserProfile)
+}
 
-    private var profileAvatarObserver: NSObjectProtocol?
-
-    init(userProfile: UserProfile, dep: Dependencies) {
-        self.userProfile = userProfile
-        self.dep = dep
+final class ProfileViewController: UIViewController, ProfileViewControllerProtocol {
+    init(presenter: ProfileViewPresenterProtocol) {
+        self.presenter = presenter
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -24,19 +20,33 @@ final class ProfileViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    deinit {
-        stopObservingAvatarChanges()
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
         setupView()
-        layoutComponents()
+        configureComponents()
         setupActions()
 
-        observeAvatarChanges()
-        displayUserData()
+        presenter.viewDidLoad()
+    }
+
+    // MARK: ProfileViewControllerProtocol
+    let presenter: ProfileViewPresenterProtocol
+
+    func dismiss() {
+        tabBarController?.dismiss(animated: true)
+    }
+
+    func updateAvatarURL(_ url: URL) {
+        gradient.removeFromSuperlayer()
+        userPicView.kf.indicatorType = .custom(indicator: GradientKFIndicator())
+        userPicView.kf.setImage(with: url)
+    }
+
+    func displayUserData(profile: UserProfile) {
+        userNameLabel.text = profile.fullName
+        userHandlerLabel.text = profile.handler
+        userDescriptionLabel.text = "Hello, Unsplash!"
     }
 
     // MARK: View components
@@ -51,6 +61,23 @@ final class ProfileViewController: UIViewController {
         imageView.image = .asset(.placeholderUserPic)
 
         return imageView
+    }()
+
+    private let gradient: CAGradientLayer = {
+        let gradient = CAGradientLayer()
+        gradient.frame = CGRect(origin: .zero, size: CGSize(width: 70, height: 70))
+        gradient.locations = [0, 0.1, 0.3]
+        gradient.colors = [
+            UIColor(red: 0.682, green: 0.686, blue: 0.706, alpha: 1).cgColor,
+            UIColor(red: 0.531, green: 0.533, blue: 0.553, alpha: 1).cgColor,
+            UIColor(red: 0.431, green: 0.433, blue: 0.453, alpha: 1).cgColor
+        ]
+        gradient.startPoint = CGPoint(x: 0, y: 0.5)
+        gradient.endPoint = CGPoint(x: 1, y: 0.5)
+        gradient.cornerRadius = 35
+        gradient.masksToBounds = true
+
+        return gradient
     }()
 
     private let userNameLabel: UILabel = {
@@ -102,48 +129,14 @@ extension ProfileViewController {
     }
 
     @objc private func logoutPressed() {
-        HTTPCookieStorage.shared.removeCookies(since: Date.distantPast)
-        WKWebsiteDataStore.default().fetchDataRecords(
-            ofTypes: WKWebsiteDataStore.allWebsiteDataTypes()
-        ) { records in
-           records.forEach { record in
-              WKWebsiteDataStore.default().removeData(
-                ofTypes: record.dataTypes,
-                for: [record],
-                completionHandler: {}
-              )
-           }
-        }
-
-        dep.tokenStorage.token = nil
-        tabBarController?.dismiss(animated: true)
-    }
-}
-
-// MARK: - Observe AvatarChanges
-
-extension ProfileViewController {
-    private func observeAvatarChanges() {
-        profileAvatarObserver = dep.notificationCenter.addObserver(
-            forName: dep.profileImageLoader.didChangeNotification,
-            object: nil,
-            queue: .main
-        ) { [weak self] _ in
-            self?.updateAvatar()
-        }
-    }
-
-    private func stopObservingAvatarChanges() {
-        if let profileAvatarObserver {
-            dep.notificationCenter.removeObserver(profileAvatarObserver)
-        }
+        presenter.logout()
     }
 }
 
 // MARK: - Layout
 
 extension ProfileViewController {
-    private func layoutComponents() {
+    private func configureComponents() {
         let vStack = UIStackView()
 
         vStack.axis = .vertical
@@ -198,28 +191,14 @@ extension ProfileViewController {
 
     private func setupView() {
         view.backgroundColor = .asset(.ypBlack)
-    }
-}
 
-// MARK: - Data
-
-extension ProfileViewController {
-    private func updateAvatar() {
-        guard
-            let avatarURLString = dep.profileImageLoader.avatarURLString,
-            let avatarURL = URL(string: avatarURLString)
-        else { return }
-
-        userPicView.kf.setImage(
-            with: avatarURL,
-            placeholder: UIImage.asset(.placeholderUserPic)
-        )
-    }
-
-    private func displayUserData() {
-        userNameLabel.text = userProfile.fullName
-        userHandlerLabel.text = userProfile.handler
-        userDescriptionLabel.text = "Hello, Unsplash!"
-        updateAvatar()
+        userPicView.layer.addSublayer(gradient)
+        let gradientChangeAnimation = CABasicAnimation(keyPath: "locations")
+        gradientChangeAnimation.duration = 1.0
+        gradientChangeAnimation.autoreverses = true
+        gradientChangeAnimation.repeatCount = .infinity
+        gradientChangeAnimation.fromValue = [0, 0.1, 0.3]
+        gradientChangeAnimation.toValue = [0, 0.8, 1]
+        gradient.add(gradientChangeAnimation, forKey: "locationsChange")
     }
 }

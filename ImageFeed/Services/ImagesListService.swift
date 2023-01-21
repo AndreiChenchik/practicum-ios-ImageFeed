@@ -1,32 +1,28 @@
 import Foundation
 
-final class ImagesListService {
-    let didChangeNotification = Notification.Name(
-        rawValue: "ImagesListServiceDidChange"
-    )
+protocol ImagesListLoader {
+    var photos: [Photo] { get }
+    var didChangeNotification: Notification.Name { get }
 
+    func authorize(with bearer: String)
+    func prepareForDisplay(index: Int)
+    func changeLike(index: Int, isLiked: Bool, completion: @escaping (Result<Bool, Error>) -> Void)
+}
+
+final class ImagesListService {
     private let modelService: ModelLoading
     private let notificationCenter: NotificationCenter
+    private var task: URLSessionTask?
+    private var bearer: String?
+
+    private var imagesPerPage = 10
+
     private let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
-
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
 
         return formatter
     }()
-
-    private (set) var photos: [Photo] = [] {
-        didSet {
-            notificationCenter.post(
-                name: didChangeNotification,
-                object: self
-            )
-        }
-    }
-
-    private var task: URLSessionTask?
-    private var bearer: String?
-    private var imagesPerPage = 10
 
     init(
         notificationCenter: NotificationCenter,
@@ -36,6 +32,25 @@ final class ImagesListService {
         self.modelService = modelService
     }
 
+    // MARK: ImagesListLoader
+
+    let didChangeNotification = Notification.Name(
+        rawValue: "ImagesListServiceDidChange"
+    )
+
+    private (set) var photos: [Photo] = [] {
+        didSet {
+            notificationCenter.post(
+                name: didChangeNotification,
+                object: self
+            )
+        }
+    }
+}
+
+// MARK: - ImagesListLoader
+
+extension ImagesListService: ImagesListLoader {
     func authorize(with bearer: String) {
         self.bearer = bearer
         fetchPhotosNextPage()
@@ -71,7 +86,8 @@ extension ImagesListService {
                 }
 
                 DispatchQueue.main.async { [weak self] in
-                    self?.photos += photos
+                    guard let self else { return }
+                    self.photos += photos
                 }
             case let .failure(error):
                 print(error.localizedDescription)
@@ -97,7 +113,7 @@ extension ImagesListService {
         ]
 
         guard let photosURL = urlComponents?.url else {
-            fatalError("Can't build photos URL")
+            preconditionFailure("Can't build photos URL")
         }
 
         return photosURL
