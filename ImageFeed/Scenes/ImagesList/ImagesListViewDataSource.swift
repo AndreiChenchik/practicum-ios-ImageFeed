@@ -90,7 +90,8 @@ extension ImagesListViewDataSource: UITableViewDataSource {
             withIdentifier: "\(ImagesListCell.self)", for: indexPath)
 
         guard let imagesListCell = cell as? ImagesListCell else {
-            fatalError("Can't get cell for ImagesList")
+            assertionFailure("Can't get cell for ImagesList")
+            return .init()
         }
 
         let viewModel = ImageViewModel(

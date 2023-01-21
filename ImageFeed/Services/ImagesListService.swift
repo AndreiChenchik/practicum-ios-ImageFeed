@@ -113,7 +113,7 @@ extension ImagesListService {
         ]
 
         guard let photosURL = urlComponents?.url else {
-            fatalError("Can't build photos URL")
+            preconditionFailure("Can't build photos URL")
         }
 
         return photosURL

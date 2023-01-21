@@ -20,7 +20,10 @@ final class ImagesListViewPresenter: NSObject, ImagesListViewPresenterProtocol {
     }
 
     func configureTable() {
-        guard let view else { fatalError("Then who is calling for configure?") }
+        guard let view else {
+            assertionFailure("Then who is calling for configure?")
+            return
+        }
 
         view.tableView.register(
             ImagesListCell.self,

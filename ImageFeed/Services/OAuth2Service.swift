@@ -27,7 +27,7 @@ final class OAuth2Service: OAuth2TokenExtractor {
         guard var components = URLComponents(
             url: .unsplashAuthTokenURL,
             resolvingAgainstBaseURL: false)
-        else { fatalError("Something went terribly wrong!") }
+        else { preconditionFailure("Something went terribly wrong!") }
 
         components.queryItems = [
             URLQueryItem(name: "client_id", value: .key(.accessKey)),

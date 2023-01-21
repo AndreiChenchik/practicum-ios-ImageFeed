@@ -16,7 +16,7 @@ struct AuthHelper {
 extension AuthHelper: AuthHelperProtocol {
     var authURL: URL {
         guard var components = URLComponents(string: configuration.authURLString) else {
-            fatalError("Can't construct URLComponents for authorization URL")
+            preconditionFailure("Can't construct URLComponents for authorization URL")
         }
 
         components.queryItems = [
@@ -27,7 +27,7 @@ extension AuthHelper: AuthHelperProtocol {
         ]
 
         guard let url = components.url else {
-            fatalError("Can't construct authorization URL from URLComponents")
+            preconditionFailure("Can't construct authorization URL from URLComponents")
         }
 
         return url
