@@ -10,6 +10,11 @@ final class OAuthCodeViewControllerDelegateDummy: OAuthCodeViewControllerDelegat
     func oauthCodeViewControllerDidCancel(_ oauthCodeVC: ImageFeed.OAuthCodeViewController) {}
 }
 
+final class AuthHelperDummy: AuthHelperProtocol {
+    var authRequest: URLRequest = .init(url: .init(string: "https://never.com")!)
+    func getAuthCode(from url: URL) -> String? { nil }
+}
+
 final class OAuthCodeViewTests: XCTestCase {
     func testVCCallsViewDidLoad() {
         // given
@@ -31,7 +36,7 @@ final class OAuthCodeViewTests: XCTestCase {
 
     func testPresenterCallsLoadRequest() {
         // given
-        let authHelper = AuthHelper()
+        let authHelper = AuthHelperDummy()
         let presenter = OAuthCodeViewPresenter(authHelper: authHelper)
         let viewController = OAuthCodeViewControllerSpy(presenter: presenter)
         presenter.view = viewController
@@ -45,7 +50,7 @@ final class OAuthCodeViewTests: XCTestCase {
 
     func testProgressVisibleWhenLessThenOne() {
         // given
-        let authHelper = AuthHelper()
+        let authHelper = AuthHelperDummy()
         let presenter = OAuthCodeViewPresenter(authHelper: authHelper)
         let progress: Float = 0.6
 
@@ -58,7 +63,7 @@ final class OAuthCodeViewTests: XCTestCase {
 
     func testProgressHiddenWhenOne() {
         // given
-        let authHelper = AuthHelper()
+        let authHelper = AuthHelperDummy()
         let presenter = OAuthCodeViewPresenter(authHelper: authHelper)
         let progress: Float = 1
 
