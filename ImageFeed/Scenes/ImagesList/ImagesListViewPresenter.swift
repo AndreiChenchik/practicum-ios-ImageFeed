@@ -105,9 +105,9 @@ extension ImagesListViewPresenter: ImagesListCellDelegate {
     ) {
         guard let indexPath = view?.tableView.indexPath(for: cell) else { return }
 
-        UIBlockingProgressHUD.show()
+        view?.setProgress(true)
         deps.dataSource.changeLike(index: indexPath.row) { [weak self] result in
-            defer { UIBlockingProgressHUD.dismiss() }
+            defer { self?.view?.setProgress(false) }
 
             guard let self, let view = self.view else { return }
 

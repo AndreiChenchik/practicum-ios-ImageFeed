@@ -3,9 +3,11 @@ import Kingfisher
 
 protocol ImagesListViewControllerProtocol: UIViewController {
     var tableView: UITableView { get }
+
+    func setProgress(_ isOn: Bool)
 }
 
-final class ImagesListViewController: UIViewController, ImagesListViewControllerProtocol {
+final class ImagesListViewController: UIViewController {
     private var presenter: ImagesListViewPresenterProtocol
 
     init(presenter: ImagesListViewPresenterProtocol) {
@@ -29,7 +31,7 @@ final class ImagesListViewController: UIViewController, ImagesListViewController
         super.viewWillAppear(animated)
     }
 
-    // MARK: Components
+    // MARK: Components, ImagesListViewControllerProtocol
 
     let tableView: UITableView = {
         let tableView = UITableView()
@@ -43,6 +45,18 @@ final class ImagesListViewController: UIViewController, ImagesListViewController
 
         return tableView
     }()
+}
+
+// MARK: - ImagesListViewControllerProtocol
+
+extension ImagesListViewController: ImagesListViewControllerProtocol {
+    func setProgress(_ isOn: Bool) {
+        if isOn {
+            UIBlockingProgressHUD.show()
+        } else {
+            UIBlockingProgressHUD.dismiss()
+        }
+    }
 }
 
 // MARK: - Styling
