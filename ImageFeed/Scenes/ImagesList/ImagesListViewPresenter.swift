@@ -73,10 +73,15 @@ extension ImagesListViewPresenter: UITableViewDelegate {
     func tableView(
         _ tableView: UITableView, heightForRowAt indexPath: IndexPath
     ) -> CGFloat {
+        guard let view else {
+            assertionFailure("View should be presented")
+            return .zero
+        }
+
         let imageSize = deps.dataSource.photoSize(index: indexPath.row)
         let aspectRatio = imageSize.height / imageSize.width
 
-        let cellWidth = view!.view.frame.width - 32
+        let cellWidth = view.view.frame.width - 32
         let cellHeight = cellWidth * aspectRatio + 8
 
         return cellHeight
