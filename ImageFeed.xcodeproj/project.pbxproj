@@ -59,6 +59,8 @@
 		38ACF4F1297B239700CD2DB2 /* ImagesListViewPresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38ACF4F0297B239700CD2DB2 /* ImagesListViewPresenterTests.swift */; };
 		38ACF4F3297B2E5700CD2DB2 /* ImagesListViewDataSourceSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38ACF4F2297B2E5700CD2DB2 /* ImagesListViewDataSourceSpy.swift */; };
 		38ACF4F5297B2EA000CD2DB2 /* ImagesListViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38ACF4F4297B2EA000CD2DB2 /* ImagesListViewControllerTests.swift */; };
+		38ACF4F7297C4A4800CD2DB2 /* ImagesListViewControllerDummy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38ACF4F6297C4A4800CD2DB2 /* ImagesListViewControllerDummy.swift */; };
+		38ACF4F9297C4B4000CD2DB2 /* ErrorPresenterDummy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38ACF4F8297C4B4000CD2DB2 /* ErrorPresenterDummy.swift */; };
 		38B9CAA1290434E9009EBD63 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38B9CAA0290434E9009EBD63 /* ProfileViewController.swift */; };
 		38B9CAA5290437ED009EBD63 /* ColorAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38B9CAA4290437ED009EBD63 /* ColorAsset.swift */; };
 		38B9CAA729043906009EBD63 /* FontAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38B9CAA629043906009EBD63 /* FontAsset.swift */; };
@@ -141,6 +143,8 @@
 		38ACF4F0297B239700CD2DB2 /* ImagesListViewPresenterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListViewPresenterTests.swift; sourceTree = "<group>"; };
 		38ACF4F2297B2E5700CD2DB2 /* ImagesListViewDataSourceSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListViewDataSourceSpy.swift; sourceTree = "<group>"; };
 		38ACF4F4297B2EA000CD2DB2 /* ImagesListViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListViewControllerTests.swift; sourceTree = "<group>"; };
+		38ACF4F6297C4A4800CD2DB2 /* ImagesListViewControllerDummy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListViewControllerDummy.swift; sourceTree = "<group>"; };
+		38ACF4F8297C4B4000CD2DB2 /* ErrorPresenterDummy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorPresenterDummy.swift; sourceTree = "<group>"; };
 		38B9CAA0290434E9009EBD63 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		38B9CAA4290437ED009EBD63 /* ColorAsset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorAsset.swift; sourceTree = "<group>"; };
 		38B9CAA629043906009EBD63 /* FontAsset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontAsset.swift; sourceTree = "<group>"; };
@@ -299,6 +303,8 @@
 				38ACF4F0297B239700CD2DB2 /* ImagesListViewPresenterTests.swift */,
 				38ACF4F2297B2E5700CD2DB2 /* ImagesListViewDataSourceSpy.swift */,
 				38ACF4F4297B2EA000CD2DB2 /* ImagesListViewControllerTests.swift */,
+				38ACF4F6297C4A4800CD2DB2 /* ImagesListViewControllerDummy.swift */,
+				38ACF4F8297C4B4000CD2DB2 /* ErrorPresenterDummy.swift */,
 			);
 			path = ImagesListView;
 			sourceTree = "<group>";
@@ -601,11 +607,13 @@
 				38ACF4D229748F6C00CD2DB2 /* OAuthCodeViewControllerSpy.swift in Sources */,
 				38ACF4D029748CF200CD2DB2 /* OAuthCodePresenterSpy.swift in Sources */,
 				38ACF4E02978755800CD2DB2 /* LogoutHelperSpy.swift in Sources */,
+				38ACF4F9297C4B4000CD2DB2 /* ErrorPresenterDummy.swift in Sources */,
 				38ACF4E229787A8600CD2DB2 /* ProfileImageLoaderMock.swift in Sources */,
 				38ACF4DC29786F6200CD2DB2 /* ProfileViewPresenterSpy.swift in Sources */,
 				38ACF4C929748C6B00CD2DB2 /* OAuthCodeViewTests.swift in Sources */,
 				38ACF4EB297B121B00CD2DB2 /* ImagesListServiceTests.swift in Sources */,
 				38ACF4F5297B2EA000CD2DB2 /* ImagesListViewControllerTests.swift in Sources */,
+				38ACF4F7297C4A4800CD2DB2 /* ImagesListViewControllerDummy.swift in Sources */,
 				38ACF4E429787D7200CD2DB2 /* OAuth2TokenStoringMock.swift in Sources */,
 				38ACF4F3297B2E5700CD2DB2 /* ImagesListViewDataSourceSpy.swift in Sources */,
 				38ACF4EF297B236E00CD2DB2 /* ModelLoadingSpy.swift in Sources */,

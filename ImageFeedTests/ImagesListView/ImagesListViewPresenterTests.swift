@@ -5,12 +5,13 @@ final class ImagesListViewPresenterTests: XCTestCase {
     func testDataSourceViewDidLoadCalled() {
         // given
         let spy = ImagesListViewDataSourceSpy()
+        let errorPresenter = ErrorPresenterDummy()
         let sut = ImagesListViewPresenter(deps: .init(
             dataSource: spy,
-            errorPresenter: ErrorPresenter(),
-            singleImageVCDep: .init(fileManager: .default, errorPresenter: ErrorPresenter())
+            errorPresenter: errorPresenter,
+            singleImageVCDep: .init(fileManager: .default, errorPresenter: errorPresenter)
         ))
-        let view = ImagesListViewController(presenter: sut)
+        let view = ImagesListViewControllerDummy()
         sut.view = view
 
         // when
@@ -23,12 +24,13 @@ final class ImagesListViewPresenterTests: XCTestCase {
     func testTableViewSetupCompleted() {
         // given
         let spy = ImagesListViewDataSourceSpy()
+        let errorPresenter = ErrorPresenterDummy()
         let sut = ImagesListViewPresenter(deps: .init(
             dataSource: spy,
-            errorPresenter: ErrorPresenter(),
-            singleImageVCDep: .init(fileManager: .default, errorPresenter: ErrorPresenter())
+            errorPresenter: errorPresenter,
+            singleImageVCDep: .init(fileManager: .default, errorPresenter: errorPresenter)
         ))
-        let view = ImagesListViewController(presenter: sut)
+        let view = ImagesListViewControllerDummy()
         sut.view = view
 
         // when
@@ -43,12 +45,13 @@ final class ImagesListViewPresenterTests: XCTestCase {
     func testChangeLikePassedToDataSource() {
         // given
         let spy = ImagesListViewDataSourceSpy()
+        let errorPresenter = ErrorPresenterDummy()
         let sut = ImagesListViewPresenter(deps: .init(
             dataSource: spy,
-            errorPresenter: ErrorPresenter(),
-            singleImageVCDep: .init(fileManager: .default, errorPresenter: ErrorPresenter())
+            errorPresenter: errorPresenter,
+            singleImageVCDep: .init(fileManager: .default, errorPresenter: errorPresenter)
         ))
-        let view = ImagesListViewController(presenter: sut)
+        let view = ImagesListViewControllerDummy()
         sut.view = view
 
         // when
@@ -68,12 +71,13 @@ final class ImagesListViewPresenterTests: XCTestCase {
     func testRowHeightCalculation() {
         // given
         let spy = ImagesListViewDataSourceSpy()
+        let errorPresenter = ErrorPresenterDummy()
         let sut = ImagesListViewPresenter(deps: .init(
             dataSource: spy,
-            errorPresenter: ErrorPresenter(),
-            singleImageVCDep: .init(fileManager: .default, errorPresenter: ErrorPresenter())
+            errorPresenter: errorPresenter,
+            singleImageVCDep: .init(fileManager: .default, errorPresenter: errorPresenter)
         ))
-        let view = ImagesListViewController(presenter: sut)
+        let view = ImagesListViewControllerDummy()
         sut.view = view
 
         // when
@@ -88,12 +92,13 @@ final class ImagesListViewPresenterTests: XCTestCase {
     func testCellTapPresentView() {
         // given
         let spy = ImagesListViewDataSourceSpy()
+        let errorPresenter = ErrorPresenterDummy()
         let sut = ImagesListViewPresenter(deps: .init(
             dataSource: spy,
-            errorPresenter: ErrorPresenter(),
-            singleImageVCDep: .init(fileManager: .default, errorPresenter: ErrorPresenter())
+            errorPresenter: errorPresenter,
+            singleImageVCDep: .init(fileManager: .default, errorPresenter: errorPresenter)
         ))
-        let view = ImagesListViewController(presenter: sut)
+        let view = ImagesListViewControllerDummy()
         sut.view = view
 
         // when

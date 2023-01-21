@@ -21,14 +21,13 @@ extension ErrorPresenting {
     func displayAlert(
         over viewController: UIViewController,
         title: String,
-        message: String? = nil,
         actionTitle: String,
         onDismiss: @escaping () -> Void = { }
     ) {
         displayAlert(
             over: viewController,
             title: title,
-            message: message,
+            message: nil,
             actionTitle: actionTitle,
             onDismiss: onDismiss
         )

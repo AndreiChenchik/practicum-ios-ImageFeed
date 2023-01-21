@@ -1,11 +1,23 @@
 @testable import ImageFeed
 import XCTest
 
+final class OAuthCodeViewControllerDelegateDummy: OAuthCodeViewControllerDelegate {
+    func oauthCodeViewController(
+        _ oauthCodeVC: ImageFeed.OAuthCodeViewController,
+        didAuthenticateWithCode code: String
+    ) {}
+
+    func oauthCodeViewControllerDidCancel(_ oauthCodeVC: ImageFeed.OAuthCodeViewController) {}
+}
+
 final class OAuthCodeViewTests: XCTestCase {
     func testVCCallsViewDidLoad() {
         // given
         let presenter = OAuthCodePresenterSpy()
-        let viewController = OAuthCodeViewController(presenter: presenter)
+        let viewController = OAuthCodeViewController(
+            presenter: presenter,
+            delegate: OAuthCodeViewControllerDelegateDummy()
+        )
         presenter.view = viewController
 
         // when
