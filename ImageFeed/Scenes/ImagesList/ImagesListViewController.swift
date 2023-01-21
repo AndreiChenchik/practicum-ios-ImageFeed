@@ -3,11 +3,10 @@ import Kingfisher
 
 protocol ImagesListViewControllerProtocol: UIViewController {
     var tableView: UITableView { get }
-    var presenter: ImagesListViewPresenterProtocol { get }
 }
 
 final class ImagesListViewController: UIViewController, ImagesListViewControllerProtocol {
-    var presenter: ImagesListViewPresenterProtocol
+    private var presenter: ImagesListViewPresenterProtocol
 
     init(presenter: ImagesListViewPresenterProtocol) {
         self.presenter = presenter
