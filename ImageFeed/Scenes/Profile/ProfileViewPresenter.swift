@@ -9,11 +9,11 @@ protocol ProfileViewPresenterProtocol {
 }
 
 final class ProfileViewPresenter: ProfileViewPresenterProtocol {
-    private var dep: Dependencies
+    private var deps: Dependencies
     private var profileAvatarObserver: NSObjectProtocol?
 
-    init(dep: Dependencies) {
-        self.dep = dep
+    init(deps: Dependencies) {
+        self.deps = deps
     }
 
     deinit {
@@ -25,8 +25,8 @@ final class ProfileViewPresenter: ProfileViewPresenterProtocol {
     var userProfile: UserProfile?
 
     func logout() {
-        dep.logoutHelper.logout()
-        dep.tokenStorage.token = nil
+        deps.logoutHelper.logout()
+        deps.tokenStorage.token = nil
         view?.dismiss()
     }
 
@@ -44,8 +44,8 @@ final class ProfileViewPresenter: ProfileViewPresenterProtocol {
 
 extension ProfileViewPresenter {
     private func observeAvatarChanges() {
-        profileAvatarObserver = dep.notificationCenter.addObserver(
-            forName: dep.profileImageLoader.didChangeNotification,
+        profileAvatarObserver = deps.notificationCenter.addObserver(
+            forName: deps.profileImageLoader.didChangeNotification,
             object: nil,
             queue: .main
         ) { [weak self] _ in
@@ -55,13 +55,13 @@ extension ProfileViewPresenter {
 
     private func stopObservingAvatarChanges() {
         if let profileAvatarObserver {
-            dep.notificationCenter.removeObserver(profileAvatarObserver)
+            deps.notificationCenter.removeObserver(profileAvatarObserver)
         }
     }
 
     private func updateAvatar() {
         guard
-            let avatarURLString = dep.profileImageLoader.avatarURLString,
+            let avatarURLString = deps.profileImageLoader.avatarURLString,
             let avatarURL = URL(string: avatarURLString)
         else { return }
 

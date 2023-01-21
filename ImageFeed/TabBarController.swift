@@ -7,11 +7,11 @@ class TabBarController: UITabBarController {
     }
 
     private let userProfile: UserProfile
-    private let dep: Dependencies
+    private let deps: Dependencies
 
-    init(userProfile: UserProfile, dep: Dependencies) {
+    init(userProfile: UserProfile, deps: Dependencies) {
         self.userProfile = userProfile
-        self.dep = dep
+        self.deps = deps
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -27,14 +27,14 @@ class TabBarController: UITabBarController {
     }
 
     private func setupTabs() {
-        let profileViewController = ProfileViewController(presenter: dep.profileViewPresenter)
-        dep.profileViewPresenter.view = profileViewController
-        dep.profileViewPresenter.userProfile = userProfile
+        let profileViewController = ProfileViewController(presenter: deps.profileViewPresenter)
+        deps.profileViewPresenter.view = profileViewController
+        deps.profileViewPresenter.userProfile = userProfile
 
         let imagesListViewController = ImagesListViewController(
-            presenter: dep.imagesListViewPresenter
+            presenter: deps.imagesListViewPresenter
         )
-        dep.imagesListViewPresenter.view = imagesListViewController
+        deps.imagesListViewPresenter.view = imagesListViewController
 
         viewControllers = [
             imagesListViewController,

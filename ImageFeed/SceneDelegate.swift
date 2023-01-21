@@ -61,7 +61,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         )
 
         let logoutHelper = LogoutHelper()
-        let profileViewPresenter = ProfileViewPresenter(dep: .init(
+        let profileViewPresenter = ProfileViewPresenter(deps: .init(
             notificationCenter: notificateionCenter,
             profileImageLoader: profileImageService,
             tokenStorage: oauthTokenStorage,
@@ -110,7 +110,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             authVCDep: authVCDep
         )
 
-        return SplashViewController(dep: splashViewDep)
+        return SplashViewController(deps: splashViewDep)
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

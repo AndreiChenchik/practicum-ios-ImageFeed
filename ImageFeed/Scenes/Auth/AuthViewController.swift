@@ -8,10 +8,10 @@ final class AuthViewController: UIViewController {
         var oAuthCodePresenter: OAuthCodeViewPresenterProtocol
     }
 
-    private var dep: Dependencies
+    private var deps: Dependencies
 
-    init(dep: Dependencies) {
-        self.dep = dep
+    init(deps: Dependencies) {
+        self.deps = deps
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -102,8 +102,8 @@ extension AuthViewController {
     }
 
     @objc private func loginPressed() {
-        let oAuthCodeVC = OAuthCodeViewController(presenter: dep.oAuthCodePresenter, delegate: self)
-        dep.oAuthCodePresenter.view = oAuthCodeVC
+        let oAuthCodeVC = OAuthCodeViewController(presenter: deps.oAuthCodePresenter, delegate: self)
+        deps.oAuthCodePresenter.view = oAuthCodeVC
 
         let navigationController = UINavigationController(
             rootViewController: oAuthCodeVC)
@@ -123,7 +123,7 @@ extension AuthViewController: OAuthCodeViewControllerDelegate {
         UIBlockingProgressHUD.show()
 
         oauthCodeVC.dismiss(animated: true)
-        dep.oauth2TokenExtractor.fetchAuthToken(
+        deps.oauth2TokenExtractor.fetchAuthToken(
             authCode: code
         ) { [weak self] result in
             guard let self else { return }
@@ -133,7 +133,7 @@ extension AuthViewController: OAuthCodeViewControllerDelegate {
 
                 switch result {
                 case let .success(token):
-                    self.dep.oauthTokenStorage.token = token
+                    self.deps.oauthTokenStorage.token = token
                     self.dismiss(animated: true)
                 case let .failure(error):
                     print(

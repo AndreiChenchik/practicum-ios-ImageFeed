@@ -19,7 +19,7 @@ final class ProfileViewTests: XCTestCase {
 
     func testPresenterSetsProfileOnLoad() {
         // given
-        let presenter = ProfileViewPresenter(dep: .init(
+        let presenter = ProfileViewPresenter(deps: .init(
             notificationCenter: .default,
             profileImageLoader: ProfileImageLoaderMock(),
             tokenStorage: OAuth2TokenStoringMock(),
@@ -44,7 +44,7 @@ final class ProfileViewTests: XCTestCase {
 
     func testPresenterSetsAvatarOnLoad() {
         // given
-        let presenter = ProfileViewPresenter(dep: .init(
+        let presenter = ProfileViewPresenter(deps: .init(
             notificationCenter: .default,
             profileImageLoader: ProfileImageLoaderMock(),
             tokenStorage: OAuth2TokenStoringMock(),
@@ -63,7 +63,7 @@ final class ProfileViewTests: XCTestCase {
     func testPresenterUpdatesAvatarOnNewImageLoaded() {
         // given
         let imageLoader = ProfileImageLoaderMock()
-        let presenter = ProfileViewPresenter(dep: .init(
+        let presenter = ProfileViewPresenter(deps: .init(
             notificationCenter: .default,
             profileImageLoader: imageLoader,
             tokenStorage: OAuth2TokenStoringMock(),
@@ -82,7 +82,7 @@ final class ProfileViewTests: XCTestCase {
 
     func testPresenterCallsDismissOnLogout() {
         // given
-        let presenter = ProfileViewPresenter(dep: .init(
+        let presenter = ProfileViewPresenter(deps: .init(
             notificationCenter: .default,
             profileImageLoader: ProfileImageLoaderMock(),
             tokenStorage: OAuth2TokenStoringMock(),
@@ -101,7 +101,7 @@ final class ProfileViewTests: XCTestCase {
     func testPresenterClearsTokenOnLogout() {
         // given
         let tokenStorage = OAuth2TokenStoringMock()
-        let presenter = ProfileViewPresenter(dep: .init(
+        let presenter = ProfileViewPresenter(deps: .init(
             notificationCenter: .default,
             profileImageLoader: ProfileImageLoaderMock(),
             tokenStorage: tokenStorage,
@@ -119,7 +119,7 @@ final class ProfileViewTests: XCTestCase {
     func testPresenterCallsLogoutHelperOnLogout() {
         // given
         let logoutHelper = LogoutHelperSpy()
-        let presenter = ProfileViewPresenter(dep: .init(
+        let presenter = ProfileViewPresenter(deps: .init(
             notificationCenter: .default,
             profileImageLoader: ProfileImageLoaderMock(),
             tokenStorage: OAuth2TokenStoringMock(),

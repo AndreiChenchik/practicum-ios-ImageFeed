@@ -13,10 +13,10 @@ final class SplashViewController: UIViewController {
         let authVCDep: AuthViewController.Dependencies
     }
 
-    private let dep: Dependencies
+    private let deps: Dependencies
 
-    init(dep: Dependencies) {
-        self.dep = dep
+    init(deps: Dependencies) {
+        self.deps = deps
 
         super.init(nibName: nil, bundle: nil)
     }
@@ -35,7 +35,7 @@ final class SplashViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        if let userToken = dep.oauthTokenStorage.token {
+        if let userToken = deps.oauthTokenStorage.token {
             loadApp(with: userToken)
         } else {
             startAuthentification()
@@ -60,9 +60,9 @@ extension SplashViewController {
     private func loadApp(with token: String) {
         UIBlockingProgressHUD.show()
 
-        dep.imagesListService.authorize(with: token)
+        deps.imagesListService.authorize(with: token)
 
-        dep.profileLoader.fetchProfile(
+        deps.profileLoader.fetchProfile(
             bearerToken: token
         ) { [weak self] result in
             guard let self else { return }
@@ -75,7 +75,7 @@ extension SplashViewController {
                     self.navigateToApp(userProfile: userProfile)
 
                     DispatchQueue.global(qos: .userInteractive).async {
-                        self.dep.profileImageLoader.fetchProfileImageURL(
+                        self.deps.profileImageLoader.fetchProfileImageURL(
                             username: userProfile.username,
                             bearerToken: token
                         ) { _ in }
@@ -90,7 +90,7 @@ extension SplashViewController {
     private func displayLoadError(error: Error) {
         let errorMessage = error.localizedDescription
 
-        dep.errorPresenter.displayAlert(
+        deps.errorPresenter.displayAlert(
             over: self,
             title: "Error!!",
             message: "Something went wrong: \(errorMessage)",
@@ -105,7 +105,7 @@ extension SplashViewController {
 
 extension SplashViewController {
     private func startAuthentification() {
-        let authVC = AuthViewController(dep: dep.authVCDep)
+        let authVC = AuthViewController(deps: deps.authVCDep)
         authVC.modalPresentationStyle = .fullScreen
         present(authVC, animated: true)
     }
@@ -113,7 +113,7 @@ extension SplashViewController {
     private func navigateToApp(userProfile: UserProfile) {
         let appVC = TabBarController(
             userProfile: userProfile,
-            dep: dep.tabBarDep
+            deps: deps.tabBarDep
         )
 
         appVC.modalPresentationStyle = .fullScreen
